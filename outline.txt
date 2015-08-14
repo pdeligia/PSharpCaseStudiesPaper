@@ -1,0 +1,22 @@
+	Introduction
+		Well-publicized failures of well-known systems
+			See TLA experience article?
+		Value of testing the same code used in production **
+			Test / production implementations of interfaces (same as in traditional automated testing)
+		Remind people that the bug-finding scheduler produces a sequential trace across machines.
+	Motivate the class of bugs in fault-tolerant distributed storage systems that our technique aims to find
+		Cheng's bug.  Easy to think you can do better until it happens to you. [Pantazis to draft]
+		(Cite existing papers?)
+	Each case study.  Briefly what the system does and the modeling approach.
+		Cheng's case (master only)
+		Cheng's case (chain replication with async code), if ready
+		Matt's case (Matt's custom async implementation) [Matt to draft]
+	Evaluation
+		Evidence that we can find a certain class of bugs.
+			Cheng's case (master only): actual bug
+			Matt's case: migrator stream bug (assuming we can fix the verification to find it) [Matt TODO]
+		Compare traditional "stress test" to P# bug-finding scheduler in terms of (1) time to hit a bug and (2) trace length the developer has to look at.
+			John to put together an appropriate "stress test" for the migration case study?
+	Best practice recommendations for modeling?
+	"Wait for event" a useful addition to the programming model.  (So you can test what you want to execute.)  Does it fit in paper?
+		Tax on understandability of traces?
