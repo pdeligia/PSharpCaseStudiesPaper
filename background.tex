@@ -1,0 +1,16 @@
+Easy to think you can do better until it happens to you :-)
+
+\subsection{Programming and testing with \psharp}
+\label{bg:psharp}
+
+The \psharp~\cite{deligiannis2015psharp} project provides an \emph{event-driven asynchronous programming} language and a \emph{concurrency unit testing} framework for developing highly-reliable distributed systems.
+
+The \psharp language is an extension of \csharp that enables asynchronous programming using communicating state-machines. \psharp machines can interact asynchronously by sending and receiving events, an approach commonly used to develop distributed systems. This programming model is similar to actor-based approaches provided by other asynchronous programming languages (e.g. Scala~\cite{odersky2008programming} and Erlang~\cite{armstrong1996erlang}).
+
+A \psharp machine consists of an input queue for received events, states, state transitions, event handlers, fields and methods. Machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking an appropriate event handler. This handler might update a field, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the message is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it.
+
+Because \psharp is built on top of \csharp, the programmer can blend \psharp and \csharp code; this not only lowers the overhead of learning a new language, but also allows \psharp to easily integrate with legacy code. Another advantage is that the programmer can use the familiar programming and debugging environment of Visual Studio.
+
+The second core component of the \psharp project is a concurrency unit testing framework that is embedded in the \psharp runtime. This framework allows the event schedulings of a \psharp program to be explored in a controlled manner, facilitating deterministic replay of bugs.
+
+\psharp is available as open-source\footnote{\url{https://github.com/p-org/PSharp}} and is currently used by various teams in Microsoft to develop and test distributed protocols and systems.
