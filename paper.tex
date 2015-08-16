@@ -47,6 +47,11 @@
 
 \documentclass{sig-alternate}
 
+\usepackage{xspace}
+
+\newcommand{\psharp}{P\#\xspace}
+\newcommand{\csharp}{C\#\xspace}
+
 \begin{document}
 %
 % --- Author Metadata here ---
@@ -55,15 +60,7 @@
 %\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
 
-\title{Alternate {\ttlit ACM} SIG Proceedings Paper in LaTeX
-Format\titlenote{(Produces the permission block, and
-copyright information). For use with
-SIG-ALTERNATE.CLS. Supported by ACM.}}
-\subtitle{[Extended Abstract]
-\titlenote{A full version of this paper is available as
-\textit{Author's Guide to Preparing ACM SIG Proceedings Using
-\LaTeX$2_\epsilon$\ and BibTeX} at
-\texttt{www.acm.org/eaddress.htm}}}
+\title{Uncovering Distributed System Bugs\\ during Testing (not Production!) -- draft title}
 %
 % You need the command \numberofauthors to handle the 'placement
 % and alignment' of the authors beneath the title.
@@ -89,7 +86,7 @@ SIG-ALTERNATE.CLS. Supported by ACM.}}
 % without further effort on your part as the last section in
 % the body of your article BEFORE References or any Appendices.
 
-\numberofauthors{8} %  in this sample file, there are a *total*
+\numberofauthors{5} %  in this sample file, there are a *total*
 % of EIGHT authors. SIX appear on the 'first-page' (for formatting
 % reasons) and the remaining two appear in the \additionalauthors section.
 %
@@ -139,49 +136,19 @@ one who did all the really hard work.}\\
        \affaddr{Moffett Field}\\
        \affaddr{California 94035}\\
        \email{fogartys@amesres.org}
-% 6th. author
-\alignauthor Charles Palmer\\
-       \affaddr{Palmer Research Laboratories}\\
-       \affaddr{8600 Datapoint Drive}\\
-       \affaddr{San Antonio, Texas 78229}\\
-       \email{cpalmer@prl.com}
 }
-% There's nothing stopping you putting the seventh, eighth, etc.
-% author on the opening page (as the 'third row') but we ask,
-% for aesthetic reasons that you place these 'additional authors'
-% in the \additional authors block, viz.
-\additionalauthors{Additional authors: John Smith (The Th{\o}rv{\"a}ld Group,
-email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
-(The Kumquat Consortium, email: {\texttt{jpkumquat@consortium.net}}).}
-\date{30 July 1999}
+
+\date{15 August 2015}
 % Just remember to make sure that the TOTAL number of authors
 % is the number that will appear on the first page PLUS the
 % number that will appear in the \additionalauthors section.
 
 \maketitle
 \begin{abstract}
-This paper provides a sample of a \LaTeX\ document which conforms,
-somewhat loosely, to the formatting guidelines for
-ACM SIG Proceedings. It is an {\em alternate} style which produces
-a {\em tighter-looking} paper and was designed in response to
-concerns expressed, by authors, over page-budgets.
-It complements the document \textit{Author's (Alternate) Guide to
-Preparing ACM SIG Proceedings Using \LaTeX$2_\epsilon$\ and Bib\TeX}.
-This source file has been written with the intention of being
-compiled under \LaTeX$2_\epsilon$\ and BibTeX.
+Distributed systems are notoriously hard to test. This is due to many well-known sources of nondeterminism: races in the asynchronous interaction between system components; the use of multithreaded code inside individual components; unexpected node failures; message losses; and interaction with a complex external environment. Stress testing techniques that are commonly used in industry are unable to effectively capture and control all these sources of nondeterminism, which causes many tricky bugs to be missed during testing and only get exposed after a system has been put in production.
 
-The developers have tried to include every imaginable sort
-of ``bells and whistles", such as a subtitle, footnotes on
-title, subtitle and authors, as well as in the text, and
-every optional component (e.g. Acknowledgments, Additional
-Authors, Appendices), not to mention examples of
-equations, theorems, tables and figures.
+We present a new methodology for testing distributed systems, and uncovering bugs before these systems are released in the wild. Our approach involves the use of \psharp, an asynchronous programming language and concurrency unit testing framework, to model the environment of a distributed system, and then capture and systematically explore all sources of nondeterminism. We present two case studies of using \psharp to test production distributed systems inside Microsoft: a distributed storage management system for Windows Azure, and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it and nail down the culprit. \psharp uncovered the problem in a very small setting, which made it easy to examine traces and identify the problem.
 
-To make best use of this sample document, run it through \LaTeX\
-and BibTeX, and compare this source code with the printed
-output produced by the dvi file. A compiled PDF version
-is available on the web page to help you with the
-`look and feel'.
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -401,19 +368,6 @@ This sample document contains examples of \textbf{.eps}
 and \textbf{.ps} files to be displayable with \LaTeX.  More
 details on each of these is found in the \textit{Author's Guide}.
 
-\begin{figure}
-\centering
-\epsfig{file=fly.eps}
-\caption{A sample black and white graphic (.eps format).}
-\end{figure}
-
-\begin{figure}
-\centering
-\epsfig{file=fly.eps, height=1in, width=1in}
-\caption{A sample black and white graphic (.eps format)
-that has been resized with the \texttt{epsfig} command.}
-\end{figure}
-
 
 As was the case with tables, you may want a figure
 that spans two columns.  To do this, and still to
@@ -422,25 +376,10 @@ ensure proper ``floating'' placement of tables, use the environment
 and don't forget to end the environment with
 {figure*}, not {figure}!
 
-\begin{figure*}
-\centering
-\epsfig{file=flies.eps}
-\caption{A sample black and white graphic (.eps format)
-that needs to span two columns of text.}
-\end{figure*}
-
 Note that either {\textbf{.ps}} or {\textbf{.eps}} formats are
 used; use
 the \texttt{{\char'134}epsfig} or \texttt{{\char'134}psfig}
 commands as appropriate for the different file types.
-
-\begin{figure}
-\centering
-\psfig{file=rosette.ps, height=1in, width=1in,}
-\caption{A sample black and white graphic (.ps format) that has
-been resized with the \texttt{psfig} command.}
-\vskip -6pt
-\end{figure}
 
 \subsection{Theorem-like Constructs}
 Other common constructs that may occur in your article are
