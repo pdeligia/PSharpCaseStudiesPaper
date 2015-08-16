@@ -55,7 +55,7 @@
 \begin{document}
 %
 % --- Author Metadata here ---
-%\conferenceinfo{WOODSTOCK}{'97 El Paso, Texas USA}
+\conferenceinfo{WOODSTOCK}{'97 El Paso, Texas USA}
 %\CopyrightYear{2007} % Allows default copyright year (20XX) to be over-ridden - IF NEED BE.
 %\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
@@ -133,7 +133,7 @@
 \begin{abstract}
 Distributed systems are notoriously hard to test. This is due to many well-known sources of nondeterminism: races in the asynchronous interaction between system components; the use of multithreaded code inside individual components; unexpected node failures; message losses; and interaction with a complex external environment. Stress testing techniques that are commonly used in industry are unable to effectively capture and control all these sources of nondeterminism, which causes many tricky bugs to be missed during testing and only get exposed after a system has been put in production.
 
-We present a new methodology for testing distributed systems, and uncovering bugs before these systems are released in the wild. Our approach involves the use of \psharp, an asynchronous programming language and concurrency unit testing framework, to model the environment of a distributed system, and then capture and systematically explore all sources of nondeterminism. We present two case studies of using \psharp to test production distributed systems inside Microsoft: a distributed storage management system for Windows Azure, and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it and nail down the culprit. \psharp uncovered the problem in a very small setting, which made it easy to examine traces and identify the problem.
+We present a new methodology for testing distributed systems, and uncovering bugs before these systems are released in the wild. Our approach involves the use of \psharp, an asynchronous programming language and concurrency unit testing framework, which provides capabilities for modeling the environment of a distributed system, and then captures and systematically explores all sources of nondeterminism. We present two case studies of using \psharp to test production distributed systems inside Microsoft: a distributed storage management system for Windows Azure, and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it and nail down the culprit. \psharp uncovered the problem in a very small setting, which made it easy to examine traces and identify the problem.
 
 \end{abstract}
 
@@ -145,20 +145,22 @@ We present a new methodology for testing distributed systems, and uncovering bug
 \section{Introduction}
 \label{sec:intro}
 
-Draft
+Distributed systems are notoriously hard to test. This is due to many well-known sources of nondeterminism: races in the asynchronous interaction between system components; the use of multithreaded code inside individual components; unexpected node failures; message losses; and interaction with a complex external environment. Stress testing techniques that are commonly used in industry are unable to effectively capture and control all these sources of nondeterminism, which causes many tricky bugs to be missed during testing and only get exposed after a system has been put in production.
+
+We present a new methodology for testing distributed systems, and uncovering bugs before these systems are released in the wild. Our approach involves the use of \psharp, an asynchronous programming language and concurrency unit testing framework, which provides capabilities for modeling the environment of a distributed system, and then captures and systematically explores all sources of nondeterminism. We present two case studies of using \psharp to test production distributed systems inside Microsoft: a distributed storage management system for Windows Azure, and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it and nail down the culprit. \psharp uncovered the problem in a very small setting, which made it easy to examine traces and identify the problem.
 
 \section{Background}
 \label{sec:bg}
+
+Easy to think you can do better until it happens to you :-)
+
+\section{Case studies}
+\label{sec:cases}
 
 Draft
 
 \section{Evaluation}
 \label{sec:eval}
-
-Draft
-
-\section{Case studies}
-\label{sec:cases}
 
 Draft
 
