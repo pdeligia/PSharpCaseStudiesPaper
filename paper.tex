@@ -134,7 +134,7 @@
 \begin{abstract}
 Distributed systems are notoriously hard to test. This is due to many well-known sources of nondeterminism: races in the asynchronous interaction between system components; the use of multithreaded code inside individual components; unexpected node failures; message losses; and interaction with a complex external environment. Stress testing techniques, commonly used in industry today, are unable to capture and control all these sources of nondeterminism. This results in many tricky bugs be missed during testing and only get exposed after a system has been put in production.
 
-We present a new methodology for testing distributed systems, and uncovering bugs before these systems are released in the wild. Our approach involves the use of \psharp, an asynchronous programming language and concurrency unit testing framework, which provides capabilities for modeling the environment of a distributed system, and then captures and systematically explores all sources of nondeterminism. We present two case studies of using \psharp to test production distributed systems inside Microsoft: a distributed storage management system for Windows Azure, and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it and nail down the culprit. \psharp uncovered the problem in a very small setting, which made it easy to examine traces and identify the problem.
+We present a new methodology for programming, modeling and testing distributed systems, and uncovering bugs before these systems are released in the wild. Our approach involves the use of \psharp, an asynchronous programming language and concurrency unit testing framework, which provides capabilities for modeling the environment of a distributed system, and then captures and systematically explores all sources of nondeterminism. We present two case studies of using \psharp to test production distributed systems inside Microsoft: a distributed storage management system for Windows Azure, and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it and nail down the culprit. \psharp uncovered the problem in a very small setting, which made it easy to examine traces and identify the problem.
 
 \end{abstract}
 
@@ -156,7 +156,11 @@ We present a new methodology for testing distributed systems, and uncovering bug
 \section{Case studies}
 \label{sec:cases}
 
-Draft
+\subsection{Distributed Extent Management System}
+
+We used \psharp to test the \emph{distributed extent management} component of the Windows Azure vNext distributed storage system. This component is responsible for managing the partitioned extent metadata and works as follows.
+
+There are multiple \emph{extent managers} (EMgrs) that are in charge of managing a subset of the extents. Each EMgr communicates asynchronously (via remote procedure calls) with a number of \emph{extent nodes} (ENs) that store the extents. Each EN sends: (i) a \emph{heartbeat} every 5 seconds, to notify the EMgr that it is still available; and (ii) a \emph{sync report} every 5 minutes, to synchronize its extent with the rest of the nodes. The EMgr contains two data structures: an \emph{extent center} (ECtr), which is updated every time an EN syncs; and an EN map, which is updated every time it receives a heartbeat from an EN. The EN map runs an EN expiration loop that is responsible for removing ENs that have expired from the EN map and also delete them from the ECtr. Finally, the EMgr runs an extent repair loop, which examines all contents of all extents in the ECtr and schedules repairs of extents if they are out-of-date (via a repair request).
 
 \section{Evaluation}
 \label{sec:eval}
