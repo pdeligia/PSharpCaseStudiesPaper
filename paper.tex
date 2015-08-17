@@ -166,9 +166,9 @@ We present a new methodology for programming, modeling and testing distributed s
 \section{Overview}
 \label{sec:overview}
 
-How cheng was testing his code before and how after
+How cheng was testing his code before and how after -- high level, pretty picture
 
-\input{overview}
+%\input{overview}
 
 \section{Background}
 \label{sec:bg}
@@ -177,9 +177,18 @@ How cheng was testing his code before and how after
 
 Dependency injection pattern
 
+
+\section{Methodology}
+\label{sec:methodology}
+
+%\input{methodology}
+
+Very simple running example (maybe some master and some worker nodes) and describe how its environment is modeled and its tested.
+
 \section{Case studies}
 \label{sec:cases}
 
+% cheng to review
 \subsection{Distributed Extent Management System}
 
 We used \psharp to test the \emph{distributed extent management} component of the Windows Azure vNext distributed storage system. This component is responsible for managing the partitioned extent metadata and works as follows.
@@ -203,7 +212,27 @@ TODO
 \section{Evaluation}
 \label{sec:eval}
 
-Draft
+Paragraph that says what will be discussed in evaluation and what are the results (very short)
+
+\subsection{Experimental Setup}
+
+\subsection{Benchmarks}
+
+Benchmarks that are not production code (e.g. multipaxos) that can be used to evaluate testing
+
+Cheng's case study with the actual bug
+
+Matt's case study with injected bugs
+
+\subsection{Stressing testing vs Systematic testing}
+
+Comparison of traditional stress testing VS what we do with \psharp
+
+How long you had to run the test to find the bug (if you can find it) and how long are the traces
+
+How easy it is to pinpoint the error using the \psharp traces, comparing to traditional stress testing
+
+Effort required to use the system
 
 \section{Related Work}
 \label{sec:rw}

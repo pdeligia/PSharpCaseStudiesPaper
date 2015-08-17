@@ -24,7 +24,7 @@
 
 
 
-Envrionment can be modelled using the message passing language
+Environment can be modelled using the message passing language
 Connection between environment and code to be tested through dynamic dispatch and interfaces
 
 Contributions:
