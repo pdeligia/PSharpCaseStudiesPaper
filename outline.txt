@@ -20,3 +20,25 @@
 	Best practice recommendations for modeling?
 	"Wait for event" a useful addition to the programming model.  (So you can test what you want to execute.)  Does it fit in paper?
 		Tax on understandability of traces?
+
+
+
+
+Envrionment can be modelled using the message passing language
+Connection between environment and code to be tested through dynamic dispatch and interfaces
+
+Contributions:
+
+The state of the art is TLA+ but there you have environmental model and the model of the system, and you test them, but what you test is the model and not the code that actually executes (the TLA+ models are "thrown away").
+
+We can test/verify C# which is a mainstream language
+
+Env Model (box) + Code uner test (box)
+
+What we do is concurrency unit testing / modist is doing full system testing --> there is a tradeoff, increasing responsibility of modelling but can make stuff simpler, can find bugs in simpler situations (traces)
+
+We can use any combination of real + fake components
+
+Vs Chess ->>> chess did not provide modelling capability, had no real functionality to isolate components and achieve real concurrency unit testing
+
+now we have systematic concurrency testing (systematic cause we control the scheduler)
