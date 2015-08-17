@@ -177,6 +177,20 @@ We used \psharp to test the \emph{distributed extent management} component of th
 
 There are multiple \emph{extent managers} (EMgrs) that are in charge of managing a subset of the extents. Each EMgr communicates asynchronously (via remote procedure calls) with a number of \emph{extent nodes} (ENs) that store the extents. Each EN sends: (i) a \emph{heartbeat} every 5 seconds, to notify the EMgr that it is still available; and (ii) a \emph{sync report} every 5 minutes, to synchronize its extent with the rest of the nodes. The EMgr contains two data structures: an \emph{extent center} (ECtr), which is updated every time an EN syncs; and an EN map, which is updated every time it receives a heartbeat from an EN. The EN map runs an EN expiration loop that is responsible for removing ENs that have expired from the EN map and also delete them from the ECtr. Finally, the EMgr runs an extent repair loop, which examines all contents of all extents in the ECtr and schedules repairs of extents if they are out-of-date (via a repair request).
 
+\subsection{Live Azure Table Migration}
+
+We also used \psharp to test the MigratingTable library, which can be integrated into an application that accesses data using the Windows Azure table storage service and is capable of migrating the data from one underlying Azure table to another, transparent to the application.  MigratingTable provides a ``virtual table'' with an API similar to that of an ordinary Azure table.  Each read and write on the virtual table is translated to a sequence of reads and writes on the underlying tables according to a protocol we designed, which guarantees linearizability of operations on the virtual table across multiple application processes assuming that the underlying tables respect their own linearizability guarantees.
+
+% N.B. Artifact Services is mentioned at http://research.microsoft.com/en-us/people/schulte/.  Hopefully it's OK to reveal that it was the system in this case study. ~ Matt 2015-08-17
+The initial motivation for MigratingTable was to solve a scaling problem for Artifact Services, an internal Microsoft system with a data set that is sharded across tables in different Azure storage accounts because of the limit on traffic supported by a single Azure storage account.  As the traffic continues to grow over time, we will need to reshard the data set across a greater number of Azure storage accounts without interrupting service.  During such a resharding, our sharding manager will identify each key range that should migrate to a different table, and we will use a separate MigratingTable instance for each such key range to actually perform the migration.  MigratingTable may also be useful to migrate data to a table with different values of configuration parameters that Azure does not support changing on an existing table, such as geographic location.
+
+Since we were designing a new concurrent protocol that we expected to become increasingly complex over time as we add optimizations, we planned from the beginning to maintain a \psharp test harness along with the protocol to maintain confidence in its correctness.
+
+\subsubsection{Modeling approach}
+% TBD where this goes ends up in the paper ~ Matt 2015-08-17
+
+TODO
+
 \section{Evaluation}
 \label{sec:eval}
 
