@@ -1,3 +1,7 @@
+
+
+Nondeterminism in distributed systems makes bugs really challenging to detect, reproduce and fix. There are many well-known sources of such nondeterminism:
+
 Distributed systems are notoriously hard to test. This is due to many well-known sources of nondeterminism: races in the asynchronous interaction between system components; the use of multithreaded code inside individual components; unexpected node failures; message losses; and interaction with a complex external environment. Stress testing techniques that are commonly used in industry are unable to effectively capture and control all these sources of nondeterminism, which causes many tricky bugs to be missed during testing and only get exposed after a system has been put in production.
 
 Amazon is using TLA+ to prevent serious distributed bugs from reaching production~\cite{newcombe2015aws}.
