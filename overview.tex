@@ -2,7 +2,7 @@ Distributed systems typically consist of two or more components that communicate
 
 As an example of a distributed system, Figure~\ref{fig:azurestore} shows the top-level components of Azure Storage vNext, a distributed extent management system for Windows Azure that is used in production inside Microsoft. Azure Storage vNext consists of multiple extent managers, extent nodes and a remote procedure call (RPC) communication engine. Each extent manager is responsible for managing a subset of the extent nodes. Each extent node is responsible for storing its corresponding extent in a local storage. Finally, the RPC engine is responsible for sending messages across the network, and enqueuing any received messages in the inbox queue of the corresponding node. This system is described in more details in Section~\ref{sec:cases:azurestore}.
 
-\subsection{Testing distributed systems}
+\subsection{Bugs in distributed systems}
 \label{sec:overview:bugs}
 
 In a distributed system, message handlers can interleave in arbitrary order, because of the asynchronous nature of message-based communication. To complicate matters further, unexpected failures are the norm in production: nodes in a cluster might fail at any moment, and thus programmers have to implement sophisticated mechanisms that can deal with these failures and recover the state of the system. Moreover, with multicore machines having become a commodity, individual components of a distributed system are commonly implemented using multithreaded code, which adds another source of nondeterminism.
@@ -18,12 +18,21 @@ All these sources of nondeterminism (as well as nondeterminism due to timeouts, 
 %
 The ideal testing tool should be able to work on unmodified systems, capture and control all possible sources of nondeterminism, systematically inject faults in the right places, and explore all feasible execution paths. However, this is easier said than done when testing production systems.
 
-\subsection{Bugs in distributed systems}
-\label{sec:overview:bugs}
+There are two types of bugs that developers of distributed systems are mostly interested in finding: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
 
-There are two types of properties that developers of distributed systems are mostly interested in testing: \emph{safety} and \emph{liveness} properties. A safety property holds if it is \emph{always} satisfied, i.e. holds invariantly in every program state during execution. Likewise, a liveness property holds if it becomes \emph{eventually} satisfied, i.e. it will hold at some program state during execution. A safety or liveness property violation means that there is a bug that should be fixed.
 
-Examples ...
+\begin{description}
+\item[Safety] A safety property checks that an erroneous program state is \emph{never} reached, and is satisfied if it \emph{always} holds in each possible program execution.
+
+\item[Liveness] A liveness property checks that some progress \emph{will} happen, and is satisfied if it \emph{always eventually} holds in each possible program execution.
+\end{description}
+
+\noindent
+A safety property can be specified using an \emph{assertion} that fails if the property gets violated in some program state. As an example, in Azure Storage vNext we assert that whenever a message gets dequeued there must be an action that can handle the received message. Note that this safety property is not specific to Azure Storage vNext, and can be used in any system based on message passing.
+
+Example of liveness bug in Azure Storage vNext.
+
+Liveness properties are much harder to specify and check since they apply over entire program executions and not just individual program states. Normally, liveness checking requires the identification of an infinite fair execution that never satisfies the liveness property~\cite{schuppan2004efficient, musuvathi2008fair}. Prior work~\cite{schuppan2004efficient} has proposed that assuming a program with finite state space, a liveness property can be converted into a safety property. Other researchers proposed the use of heuristics and exploring finite executions of an infinite state space system using random walks to identify if a liveness property is satisfied~\cite{killian2007life}.
 
 How cheng was testing his code before and how after -- high level, pretty picture
 
