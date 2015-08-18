@@ -135,7 +135,7 @@
        \email{schulte@microsoft.com}
 }
 
-\date{15 August 2015}
+\date{17 August 2015}
 % Just remember to make sure that the TOTAL number of authors
 % is the number that will appear on the first page PLUS the
 % number that will appear in the \additionalauthors section.
@@ -161,9 +161,7 @@ We present a new methodology for systematically testing unmodified distributed s
 \section{Overview}
 \label{sec:overview}
 
-How cheng was testing his code before and how after -- high level, pretty picture
-
-%\input{overview}
+\input{overview}
 
 \section{Background}
 \label{sec:bg}
@@ -171,7 +169,6 @@ How cheng was testing his code before and how after -- high level, pretty pictur
 \input{background}
 
 Dependency injection pattern
-
 
 \section{Methodology}
 \label{sec:methodology}
@@ -185,6 +182,7 @@ Very simple running example (maybe some master and some worker nodes) and descri
 
 % cheng to review
 \subsection{Distributed Extent Management System}
+\label{sec:cases:azurestore}
 
 We used \psharp to test the \emph{distributed extent management} component of the Windows Azure vNext distributed storage system. This component is responsible for managing the partitioned extent metadata and works as follows.
 
