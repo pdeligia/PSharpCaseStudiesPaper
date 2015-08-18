@@ -1,4 +1,4 @@
-Distributed systems typically consist of two or more components that communicate \emph{asynchronously} by sending and receiving messages through a network layer. When a component receives a message, it responds by executing a predefined \emph{message handler}. This handler consists of a sequence of program statements that might update the internal state of the component, send a message to another component in the system, or even create an entirely new component.
+Distributed systems typically consist of two or more components that communicate \emph{asynchronously} by sending and receiving messages through a network layer~\cite{lamport1978time}. When a component receives a message, it responds by executing a predefined \emph{message handler}. This handler consists of a sequence of program statements that might update the internal state of the component, send a message to another component in the system, or even create an entirely new component.
 
 As an example of a distributed system, Figure~\ref{fig:azurestore} shows the top-level components of Azure Storage vNext, a distributed extent management system for Windows Azure that is used in production inside Microsoft. Azure Storage vNext consists of multiple extent managers, extent nodes and a remote procedure call (RPC) communication engine. Each extent manager is responsible for managing a subset of the extent nodes. Each extent node is responsible for storing its corresponding extent in a local storage. Finally, the RPC engine is responsible for sending messages across the network, and enqueuing any received messages in the inbox queue of the corresponding node. This system is described in more details in Section~\ref{sec:cases:azurestore}.
 
@@ -14,12 +14,7 @@ In a distributed system, message handlers can interleave in arbitrary order, bec
 \label{fig:azurestore}
 \end{figure}
 
-All these sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{heisenbugs}~\cite{musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix, without using advanced \emph{asynchrony-aware} testing techniques.
-%
-The ideal testing tool should be able to work on unmodified systems, capture and control all possible sources of nondeterminism, systematically inject faults in the right places, and explore all feasible execution paths. However, this is easier said than done when testing production systems.
-
-There are two types of bugs that developers of distributed systems are mostly interested in finding: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
-
+All these sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix. The majority of bugs in distributed systems can be classified in two categories: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
 
 \begin{description}
 \item[Safety] A safety property checks that an erroneous program state is \emph{never} reached, and is satisfied if it \emph{always} holds in each possible program execution.
@@ -34,17 +29,21 @@ Liveness properties are much harder to specify and check since they apply over e
 
 Normally, liveness checking requires the identification of an infinite fair execution that never satisfies the liveness property~\cite{schuppan2004efficient, musuvathi2008fair}. Prior work~\cite{schuppan2004efficient} has proposed that assuming a program with finite state space, a liveness property can be converted into a safety property. Other researchers proposed the use of heuristics and only exploring finite executions of an infinite state space system using random walks to identify if a liveness property is violated~\cite{killian2007life}.
 
-TODO: Quickly say how we found Cheng's bug?
+\PDComment{Quickly say how we found Cheng's bug?}
 
-\subsection{Distributed systems testing today}
+\subsection{Testing distributed systems today}
 \label{sec:overview:testing}
 
-How cheng was testing his code before and how after -- high level, pretty picture
+A significant amount of research has been conducted during the past few decades on how to test distributed systems~\cite{lamport1977proving, lamport1994temporal, schuppan2004efficient, killian2007life, gupta2008diecast, yang2009modist}, but it is still not clear how to successfully apply all these research techniques in a real production environment, which can be full of complications~\cite{cavage2013there, maddox2015test}.
+
+Product groups today rely on techniques such as unit testing, integration testing and stress testing, which although can catch many bugs, are unable to catch the most tricky ones, which can be caught only by using advanced \emph{asynchrony-aware} testing techniques. The ideal testing tool should be able to work on unmodified distributed systems, capture and control all possible sources of nondeterminism, systematically inject faults in the right places, and explore all feasible execution paths. However, this is easier said than done when testing production systems.
+
+\PDComment{How cheng was testing his code before and how after -- high level, pretty picture}
 
 \subsection{The \psharp approach}
 \label{sec:overview:psharp}
 
-Insert fancy \psharp picture
+\PDComment{Insert fancy \psharp picture}
 
 The \psharp~\cite{deligiannis2015psharp} project provides an \emph{event-driven asynchronous programming} language and a \emph{concurrency unit testing} framework for developing highly-reliable distributed systems.
 
@@ -60,4 +59,4 @@ The second core component of the \psharp project is a concurrency unit testing f
 
 %The \psharp language belongs to the same family of languages as P~\cite{desai2013p}.
 
-mention dependency injection pattern?
+\PDComment{mention dependency injection pattern?}
