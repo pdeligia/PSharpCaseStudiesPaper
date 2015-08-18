@@ -61,7 +61,7 @@
 %\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
 
-\title{Uncovering Distributed System Bugs\\ during Testing (not Production!) -- draft title}
+\title{Uncovering Distributed System Bugs\\ during Testing (not Production!)}
 %
 % You need the command \numberofauthors to handle the 'placement
 % and alignment' of the authors beneath the title.
@@ -103,41 +103,36 @@
 % e-mail address with \email.
 %
 % 1st. author
-\alignauthor Nikolaj Bjorner\\
-       \affaddr{Microsoft Research}\\
-       \affaddr{Redmond, WA, USA}\\
-       \email{nbjorner@microsoft.com}
-% 2nd. author
 \alignauthor Pantazis Deligiannis\\
        \affaddr{Imperial College London}\\
        \affaddr{London, UK}\\
        \email{p.deligiannis@imperial.ac.uk}
-% 3th. author
+% 2nd. author
 \alignauthor John Erickson\\
        \affaddr{Microsoft}\\
        \affaddr{Redmond, WA, USA}\\
        \email{jerick@microsoft.com}
-% 4th. author
+% 3rd. author
 \alignauthor Cheng Huang\\
        \affaddr{Microsoft Research}\\
        \affaddr{Redmond, WA, USA}\\
        \email{cheng.huang@microsoft.com}
 \and  % use '\and' if you need 'another row' of author names
-% 5rd. author
+% 4th. author
 \alignauthor Matt McCutchen\\
        \affaddr{MIT}\\
        \affaddr{Cambridge, MA, USA}\\
        \email{rmccutch@mit.edu}
+% 5th. author
+\alignauthor Shaz Qadeer\\
+       \affaddr{Microsoft Research}\\
+       \affaddr{Redmond, WA, USA}\\
+       \email{qadeer@microsoft.com}
 % 6th. author
 \alignauthor Wolfram Schulte\\
        \affaddr{Microsoft}\\
        \affaddr{Redmond, WA, USA}\\
        \email{schulte@microsoft.com}
-% 7th. author
-\alignauthor Shaz Qadeer\\
-       \affaddr{Microsoft Research}\\
-       \affaddr{Redmond, WA, USA}\\
-       \email{qadeer@microsoft.com}
 }
 
 \date{15 August 2015}
@@ -147,9 +142,9 @@
 
 \maketitle
 \begin{abstract}
-Distributed systems are notoriously hard to test. This is due to many well-known sources of nondeterminism: races in the asynchronous interaction between system components; the use of multithreaded code inside individual components; unexpected node failures; message losses; and interaction with a complex external environment. Stress testing techniques, commonly used in industry today, are unable to capture and control all these sources of nondeterminism. This results in many tricky bugs be missed during testing and only get exposed after a system has been put in production.
+Testing distributed systems is very challenging due to many sources of nondeterminism, such as races in the asynchronous communication between components of a system, and unexpected failures. Stress testing techniques, commonly used in industry today, are unable to capture and control all these sources of nondeterminism, which results in many bugs being missed during testing and only getting exposed in production.
 
-We present a new methodology for programming, modeling and testing distributed systems, and uncovering bugs before these systems are released in the wild. Our approach involves the use of \psharp, an asynchronous programming language and concurrency unit testing framework, which provides capabilities for modeling the environment of a distributed system, and then captures and systematically explores all sources of nondeterminism. We present two case studies of using \psharp to test production distributed systems inside Microsoft: a distributed storage management system for Windows Azure, and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it and nail down the culprit. \psharp uncovered the problem in a very small setting, which made it easy to examine traces and identify the problem.
+We present a new methodology for systematically testing unmodified distributed systems. Our approach involves the use of \psharp, an extension of \csharp that combines a flexible environmental modeling approach with a concurrency testing framework, which can capture and systematically explore all sources of nondeterminism. We present two case studies of using \psharp to test production distributed systems inside Microsoft. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it. \psharp uncovered the bug in a very small setting, which made it easy to examine traces, identify and fix the problem.
 
 \end{abstract}
 
