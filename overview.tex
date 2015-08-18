@@ -20,7 +20,6 @@ The ideal testing tool should be able to work on unmodified systems, capture and
 
 There are two types of bugs that developers of distributed systems are mostly interested in finding: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
 
-
 \begin{description}
 \item[Safety] A safety property checks that an erroneous program state is \emph{never} reached, and is satisfied if it \emph{always} holds in each possible program execution.
 
@@ -39,9 +38,9 @@ Normally, liveness checking requires the identification of an infinite fair exec
 \subsection{Testing distributed systems today}
 \label{sec:overview:testing}
 
-Although a significant amount of research has been conducting during the past few decades on how to test distributed systems,
+Although a significant amount of research has been conducted during the past few decades on how to test distributed systems~\cite{lamport1977proving, lamport1994temporal, schuppan2004efficient, killian2007life, yang2009modist}, it is still not clear how to successfully apply all these promising research techniques in a complex production environment.
 
-only a small amount of this research was successful enough to be picked up by industry.
+Product groups are still using techniques such as unit testing, integration testing and stress testing, which although can catch many bugs, they are not able to catch the most tricky ones.
 
 \PDComment{How cheng was testing his code before and how after -- high level, pretty picture}
 
