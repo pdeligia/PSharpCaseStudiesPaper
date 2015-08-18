@@ -1,4 +1,4 @@
-Distributed systems typically consist of two or more components that communicate \emph{asynchronously} by sending and receiving messages through a network layer. When a component receives a message, it responds by executing a predefined \emph{message handler}. This handler consists of a sequence of program statements that might update the internal state of the component, send a message to another component in the system, or even create an entirely new component.
+Distributed systems typically consist of two or more components that communicate \emph{asynchronously} by sending and receiving messages through a network layer~\cite{lamport1978time}. When a component receives a message, it responds by executing a predefined \emph{message handler}. This handler consists of a sequence of program statements that might update the internal state of the component, send a message to another component in the system, or even create an entirely new component.
 
 As an example of a distributed system, Figure~\ref{fig:azurestore} shows the top-level components of Azure Storage vNext, a distributed extent management system for Windows Azure that is used in production inside Microsoft. Azure Storage vNext consists of multiple extent managers, extent nodes and a remote procedure call (RPC) communication engine. Each extent manager is responsible for managing a subset of the extent nodes. Each extent node is responsible for storing its corresponding extent in a local storage. Finally, the RPC engine is responsible for sending messages across the network, and enqueuing any received messages in the inbox queue of the corresponding node. This system is described in more details in Section~\ref{sec:cases:azurestore}.
 
@@ -34,17 +34,21 @@ Liveness properties are much harder to specify and check since they apply over e
 
 Normally, liveness checking requires the identification of an infinite fair execution that never satisfies the liveness property~\cite{schuppan2004efficient, musuvathi2008fair}. Prior work~\cite{schuppan2004efficient} has proposed that assuming a program with finite state space, a liveness property can be converted into a safety property. Other researchers proposed the use of heuristics and only exploring finite executions of an infinite state space system using random walks to identify if a liveness property is violated~\cite{killian2007life}.
 
-TODO: Quickly say how we found Cheng's bug?
+\PDComment{Quickly say how we found Cheng's bug?}
 
-\subsection{Distributed systems testing today}
+\subsection{Testing distributed systems today}
 \label{sec:overview:testing}
 
-How cheng was testing his code before and how after -- high level, pretty picture
+Although a significant amount of research has been conducting during the past few decades on how to test distributed systems,
+
+only a small amount of this research was successful enough to be picked up by industry.
+
+\PDComment{How cheng was testing his code before and how after -- high level, pretty picture}
 
 \subsection{The \psharp approach}
 \label{sec:overview:psharp}
 
-Insert fancy \psharp picture
+\PDComment{Insert fancy \psharp picture}
 
 The \psharp~\cite{deligiannis2015psharp} project provides an \emph{event-driven asynchronous programming} language and a \emph{concurrency unit testing} framework for developing highly-reliable distributed systems.
 
@@ -60,4 +64,4 @@ The second core component of the \psharp project is a concurrency unit testing f
 
 %The \psharp language belongs to the same family of languages as P~\cite{desai2013p}.
 
-mention dependency injection pattern?
+\PDComment{mention dependency injection pattern?}
