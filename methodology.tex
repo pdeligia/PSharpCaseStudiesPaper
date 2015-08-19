@@ -1,6 +1,8 @@
-In previous work~\cite{deligiannis2015psharp}, we approached the problem of testing legacy distributed systems as follows. First, we ported the system to \psharp, we then modeled its environment as \psharp state machines, and then we tested the ported system and its environmental model using the \psharp systematic concurrency testing engine. The limitation of this approach is that it does not allow us to directly test a legacy system, as it has to be re-implemented first in \psharp. However, such endeavor is very costly and time consuming, and thus is not realistic for testing an existing production system, such as the Azure Storage vNext.
+In previous work~\cite{deligiannis2015psharp}, we approached the problem of testing legacy distributed systems as follows. First, we ported the system to \psharp, then we modeled its environment as \psharp state machines, and finally we tested the ported system and its environmental model using the \psharp systematic concurrency testing engine. The limitation of this approach is that it does not allow us to directly test a legacy system, as it has to be re-implemented first in \psharp. However, such endeavor is very costly and time consuming, and thus is not realistic for testing an existing production system, such as the Azure Storage vNext. Also, unless the code under test is the one that will actually execute, there is no guarantee that the real system will be bug-free.
 
-In order to solve this problem, and allow \psharp to be used for testing \emph{unmodified} legacy distributed systems, we decided to take a radically different modeling approach. Our approach is \emph{flexible}, involves the use of \emph{simple language features} that developers already use for testing their systems, and can be applied to production code.
+In order to solve this problem, and allow \psharp to be used for testing \emph{unmodified} legacy distributed systems, we decided to take a radically different modeling approach. We provide the capability to model the environment of a system using \psharp, and then allow the developer to take advantage of existing language features, such as \emph{method dispatch}, to connect the system under test with the environmental model, and finally test it using the \psharp systematic concurrency testing engine.
+
+We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test more complicated use cases (see Section~\ref{}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes, which makes this method approachable to product groups.
 
 \begin{figure}[t]
 \centering
@@ -9,25 +11,18 @@ In order to solve this problem, and allow \psharp to be used for testing \emph{u
 \label{fig:azurestoremodel}
 \end{figure}
 
-\subsection{Dynamic dispatch for modeling}
+\subsection{Modeling the environment}
+\label{sec:method:model}
+
+Draft
+
+\subsection{Using method dispatch for modeling}
 \label{sec:method:dd}
 
-We only model the environment of the program that we would like to test, and then allow the developer to connect the original system with the environmental model using \emph{dynamic dispatch}, which is provided by the \csharp runtime.
+Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
+
+Using method dispatch for modeling is straightforward. The system under test exposes a set of APIs as \emph{virtual methods}. The developer can then \emph{override} these APIs and replace them with \emph{mocks} that will execute instead of the original implementations during systematic testing with \psharp.
 
 We now give an example of using dynamic dispatch to model the network engine of the extent manager in the Azure Storage vNext case study.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{img/models_old}
-\caption{Draft.}
-\label{fig:oldapproach}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{img/models_new}
-\caption{Draft.}
-\label{fig:newapproach}
-\end{figure}
 
 \PDComment{mention dependency injection pattern?}
