@@ -48,19 +48,20 @@ A completely different approach for reasoning about the correctness of distribut
 
 Our goal in this work instead is to \emph{test what is actually being executed}. To achieve this we developed a new software engineering methodology for testing distributed systems, implemented on top of the \psharp framework. The original \psharp framework is explain in Section~\ref{sec:overview:psharp}, while the new approach is explained in Section~\ref{}.
 
-\subsection{The \psharp approach}
+\subsection{The \psharp framework}
 \label{sec:overview:psharp}
 
-The \psharp~\cite{deligiannis2015psharp} framework provides an \emph{event-driven asynchronous programming} language and a \emph{concurrency unit testing} engine for developing highly-reliable distributed systems.
+\psharp~\cite{deligiannis2015psharp} provides an \emph{event-driven asynchronous programming} language and a \emph{systematic concurrency testing} engine for developing highly-reliable distributed systems.
 
-The \psharp language is an extension of \csharp that enables asynchronous programming using communicating state-machines. \psharp machines can interact asynchronously by sending and receiving events, an approach commonly used to develop distributed systems. This programming model is similar to actor-based approaches provided by other asynchronous programming languages (e.g. Scala~\cite{odersky2008programming} and Erlang~\cite{armstrong1996erlang}).
+The \psharp language is an extension of \csharp, built on top of Microsoft's Roslyn\footnote{\url{https://github.com/dotnet/roslyn}} compiler, that enables asynchronous programming using communicating state-machines. \psharp machines can interact asynchronously by sending and receiving events,\footnote{We use the word ``event'' and ``message'' interchangeably.} an approach commonly used to develop distributed systems. This programming model is similar to actor-based approaches provided by other asynchronous programming languages (e.g. Scala~\cite{odersky2008programming} and Erlang~\cite{armstrong1996erlang}).
 
-A \psharp machine consists of an input queue for received events, states, state transitions, event handlers, fields and methods. Machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking an appropriate event handler. This handler might update a field, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the message is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it.
+A \psharp machine consists of an input event queue, states, state transitions, event handlers, fields and methods. Machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking an appropriate event handler. This handler might update a field, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the message is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it. All this functionality is provided in a lightweight runtime library, build on top of Microsoft's Task Parallel Library~\cite{leijen2009tpl}.
 
 Because \psharp is built on top of \csharp, the programmer can blend \psharp and \csharp code; this not only lowers the overhead of learning a new language, but also allows \psharp to easily integrate with legacy code. Another advantage is that the programmer can use the familiar programming and debugging environment of Visual Studio.
 
-The second core component of the \psharp project is a concurrency unit testing engine that is embedded in the \psharp runtime. This engine allows the event schedulings of a \psharp program to be explored in a controlled manner, facilitating deterministic replay of bugs.
+A key capability of the \psharp runtime is that it can run in \emph{bug-finding mode}, where a embedded systematic testing engine captures and takes control of all sources of nondeterminism (such as event handler interleavings, failures, and client requests) in a \psharp program, and then systematically explores all possible executions to discover bugs.
 
 \psharp is available as open-source\footnote{\url{https://github.com/p-org/PSharp}} and is currently used by various teams in Microsoft to develop and test distributed protocols and systems.
 
+\PDComment{Do we want to actually mention (and compare with) P in this paper?}
 %The \psharp language belongs to the same family of languages as P~\cite{desai2013p}.
