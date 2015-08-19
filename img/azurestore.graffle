@@ -953,8 +953,8 @@
 			<integer>589</integer>
 			<key>Points</key>
 			<array>
-				<string>{527.47001821464983, 202.91141510009766}</string>
-				<string>{505, 125.98497009277344}</string>
+				<string>{527.47001821464983, 204.91141510009766}</string>
+				<string>{505, 127.98497009277344}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -985,8 +985,8 @@
 			<integer>567</integer>
 			<key>Points</key>
 			<array>
-				<string>{486.05996357070035, 104.05323791503906}</string>
-				<string>{508.52998178535017, 180.97968292236328}</string>
+				<string>{486.05996357070035, 103.05323791503906}</string>
+				<string>{508.52998178535017, 179.97968292236328}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1005,226 +1005,195 @@
 		</dict>
 		<dict>
 			<key>Class</key>
-			<string>Group</string>
-			<key>Graphics</key>
-			<array>
-				<dict>
-					<key>Class</key>
-					<string>LineGraphic</string>
-					<key>FontInfo</key>
-					<dict>
-						<key>Font</key>
-						<string>CMUSerif-Roman</string>
-						<key>Size</key>
-						<real>20</real>
-					</dict>
-					<key>ID</key>
-					<integer>593</integer>
-					<key>Points</key>
-					<array>
-						<string>{350.8428133196303, 203.45284271240234}</string>
-						<string>{328.37279510498047, 126.52639770507812}</string>
-					</array>
-					<key>Style</key>
-					<dict>
-						<key>stroke</key>
-						<dict>
-							<key>HeadArrow</key>
-							<string>SharpArrow</string>
-							<key>Legacy</key>
-							<true/>
-							<key>Pattern</key>
-							<integer>1</integer>
-							<key>TailArrow</key>
-							<string>0</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Class</key>
-					<string>LineGraphic</string>
-					<key>FontInfo</key>
-					<dict>
-						<key>Font</key>
-						<string>CMUSerif-Roman</string>
-						<key>Size</key>
-						<real>20</real>
-					</dict>
-					<key>ID</key>
-					<integer>594</integer>
-					<key>Points</key>
-					<array>
-						<string>{309.43275867568082, 104.59466552734375}</string>
-						<string>{331.90277689033064, 181.52111053466797}</string>
-					</array>
-					<key>Style</key>
-					<dict>
-						<key>stroke</key>
-						<dict>
-							<key>HeadArrow</key>
-							<string>SharpArrow</string>
-							<key>Legacy</key>
-							<true/>
-							<key>Pattern</key>
-							<integer>1</integer>
-							<key>TailArrow</key>
-							<string>0</string>
-						</dict>
-					</dict>
-				</dict>
-			</array>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
 			<key>ID</key>
-			<integer>592</integer>
+			<integer>593</integer>
+			<key>Points</key>
+			<array>
+				<string>{350.8428133196303, 204.45284271240234}</string>
+				<string>{328.37279510498047, 127.52639770507812}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>SharpArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>Pattern</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
 		</dict>
 		<dict>
 			<key>Class</key>
-			<string>Group</string>
-			<key>Graphics</key>
-			<array>
-				<dict>
-					<key>Class</key>
-					<string>LineGraphic</string>
-					<key>FontInfo</key>
-					<dict>
-						<key>Font</key>
-						<string>CMUSerif-Roman</string>
-						<key>Size</key>
-						<real>20</real>
-					</dict>
-					<key>ID</key>
-					<integer>598</integer>
-					<key>Points</key>
-					<array>
-						<string>{215, 203.45284271240234}</string>
-						<string>{237.47001821464983, 126.52639770507812}</string>
-					</array>
-					<key>Style</key>
-					<dict>
-						<key>stroke</key>
-						<dict>
-							<key>HeadArrow</key>
-							<string>SharpArrow</string>
-							<key>Legacy</key>
-							<true/>
-							<key>Pattern</key>
-							<integer>1</integer>
-							<key>TailArrow</key>
-							<string>0</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Class</key>
-					<string>LineGraphic</string>
-					<key>FontInfo</key>
-					<dict>
-						<key>Font</key>
-						<string>CMUSerif-Roman</string>
-						<key>Size</key>
-						<real>20</real>
-					</dict>
-					<key>ID</key>
-					<integer>599</integer>
-					<key>Points</key>
-					<array>
-						<string>{256.41005464394948, 104.59466552734375}</string>
-						<string>{233.94003642929965, 181.52111053466797}</string>
-					</array>
-					<key>Style</key>
-					<dict>
-						<key>stroke</key>
-						<dict>
-							<key>HeadArrow</key>
-							<string>SharpArrow</string>
-							<key>Legacy</key>
-							<true/>
-							<key>Pattern</key>
-							<integer>1</integer>
-							<key>TailArrow</key>
-							<string>0</string>
-						</dict>
-					</dict>
-				</dict>
-			</array>
-			<key>HFlip</key>
-			<string>YES</string>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
 			<key>ID</key>
-			<integer>597</integer>
+			<integer>594</integer>
+			<key>Points</key>
+			<array>
+				<string>{309.43275867568082, 102.59466552734375}</string>
+				<string>{331.90277689033064, 179.52111053466797}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>SharpArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>Pattern</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
 		</dict>
 		<dict>
 			<key>Class</key>
-			<string>Group</string>
-			<key>Graphics</key>
-			<array>
-				<dict>
-					<key>Class</key>
-					<string>LineGraphic</string>
-					<key>FontInfo</key>
-					<dict>
-						<key>Font</key>
-						<string>CMUSerif-Roman</string>
-						<key>Size</key>
-						<real>20</real>
-					</dict>
-					<key>ID</key>
-					<integer>601</integer>
-					<key>Points</key>
-					<array>
-						<string>{68.018478393554688, 203.91141510009766}</string>
-						<string>{90.488496608204514, 126.98497009277344}</string>
-					</array>
-					<key>Style</key>
-					<dict>
-						<key>stroke</key>
-						<dict>
-							<key>HeadArrow</key>
-							<string>SharpArrow</string>
-							<key>Legacy</key>
-							<true/>
-							<key>Pattern</key>
-							<integer>1</integer>
-							<key>TailArrow</key>
-							<string>0</string>
-						</dict>
-					</dict>
-				</dict>
-				<dict>
-					<key>Class</key>
-					<string>LineGraphic</string>
-					<key>FontInfo</key>
-					<dict>
-						<key>Font</key>
-						<string>CMUSerif-Roman</string>
-						<key>Size</key>
-						<real>20</real>
-					</dict>
-					<key>ID</key>
-					<integer>602</integer>
-					<key>Points</key>
-					<array>
-						<string>{109.42853303750417, 105.05323791503906}</string>
-						<string>{86.95851482285434, 181.97968292236328}</string>
-					</array>
-					<key>Style</key>
-					<dict>
-						<key>stroke</key>
-						<dict>
-							<key>HeadArrow</key>
-							<string>SharpArrow</string>
-							<key>Legacy</key>
-							<true/>
-							<key>Pattern</key>
-							<integer>1</integer>
-							<key>TailArrow</key>
-							<string>0</string>
-						</dict>
-					</dict>
-				</dict>
-			</array>
-			<key>HFlip</key>
-			<string>YES</string>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
 			<key>ID</key>
-			<integer>600</integer>
+			<integer>598</integer>
+			<key>Points</key>
+			<array>
+				<string>{215, 204.45284271240234}</string>
+				<string>{237.47001821464983, 127.52639770507812}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>SharpArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>Pattern</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
+			<key>ID</key>
+			<integer>599</integer>
+			<key>Points</key>
+			<array>
+				<string>{256.41005464394948, 102.59466552734375}</string>
+				<string>{233.94003642929965, 179.52111053466797}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>SharpArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>Pattern</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
+			<key>ID</key>
+			<integer>601</integer>
+			<key>Points</key>
+			<array>
+				<string>{68.018478393554688, 204.91141510009766}</string>
+				<string>{90.488496608204514, 127.98497009277344}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>SharpArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>Pattern</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
+			<key>ID</key>
+			<integer>602</integer>
+			<key>Points</key>
+			<array>
+				<string>{109.42853303750417, 103.05323791503906}</string>
+				<string>{86.95851482285434, 179.97968292236328}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>SharpArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>Pattern</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
 		</dict>
 	</array>
 	<key>GridInfo</key>
@@ -1274,7 +1243,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-08-19 02:13:26 +0000</string>
+	<string>2015-08-19 02:16:43 +0000</string>
 	<key>Modifier</key>
 	<string>Pantazis Deligiannis</string>
 	<key>NotesVisible</key>
@@ -1305,7 +1274,7 @@
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>2C9CBD3E-45EA-4682-BC62-9B2DD1A51904</string>
+			<string>FC066013-FCB8-4720-B0DC-999F24C1B10E</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>

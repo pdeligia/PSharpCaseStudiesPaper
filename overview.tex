@@ -16,7 +16,9 @@ Azure Storage vNext consists of multiple extent managers, extent nodes, and netw
 
 In a distributed system, message handlers can interleave in arbitrary order, because of the asynchronous nature of message-based communication. To complicate matters further, unexpected failures are the norm in production: nodes in a cluster might fail at any moment, and thus programmers have to implement sophisticated mechanisms that can deal with these failures and recover the state of the system. Moreover, with multicore machines having become a commodity, individual components of a distributed system are commonly implemented using multithreaded code, which adds another source of nondeterminism.
 
-All the above sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix. Bugs in distributed systems can be largely classified in two categories: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
+All the above sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix, without using advanced \emph{asynchrony-aware} testing techniques.
+
+We can classify most distributed system bugs in two categories: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
 
 \begin{description}
 \item[Safety] A safety property checks that an erroneous program state is \emph{never} reached, and is satisfied if it \emph{always} holds in each possible program execution.
@@ -36,22 +38,20 @@ Normally, liveness checking requires the identification of an infinite fair exec
 \subsection{Testing production systems}
 \label{sec:overview:testing}
 
-A significant amount of research has been conducted during the past few decades on how to test distributed systems~\cite{lamport1977proving, lamport1994temporal, schuppan2004efficient, killian2007life, gupta2008diecast, yang2009modist}, but it is still not clear how to apply all these research techniques in a real production environment, which can be full of complications~\cite{cavage2013there, maddox2015test}.
+Techniques such as unit testing, integration testing and stress testing are heavily used in industry today for finding bugs in production code. However, these techniques are not effective for testing distributed systems, which have many sources of nondeterminism.
 
-Product groups today rely on techniques such as unit testing, integration testing and stress testing, which although can catch many bugs, are unable to catch the most tricky ones, which can be caught only by using advanced \emph{asynchrony-aware} testing techniques.
+As an example, all the unit test and integration test suites of the Azure Storage vNext project successfully pass every single time. However, the developers found that the stress test suite, which constantly kills and launches extent nodes, could fail from time to time after very long executions. The observed failure was that the liveness property described in Section~\ref{sec:overview:bugs} would not get satisfied. The developers had no way to deterministically reproduce this bug or be able to detect what is the culprit, as the traces they were getting were very long and hard to parse.
 
-without using advanced \emph{asynchrony-aware} testing techniques
+The ideal testing technique should be able to work on unmodified distributed systems, capture and control all possible sources of nondeterminism, systematically inject faults in the right places, and explore all feasible execution paths. However, this is easier said than done when testing production systems.
 
-The ideal testing tool should be able to work on unmodified distributed systems, capture and control all possible sources of nondeterminism, systematically inject faults in the right places, and explore all feasible execution paths. However, this is easier said than done when testing production systems.
+A completely different approach for reasoning about the correctness of distributed systems is to use formal methods.  A notable example is TLA+~\cite{lamport1994temporal}, a formal specification language that can be used to design and verify concurrent programs via model checking. Amazon recently published an article describing their use of TLA+ in Amazon Web Services to verify distributed protocols~\cite{newcombe2015aws}. A limitation of TLA+, as well as other similar specification languages, is that they are applied on a model of the system and not the actual system. Even if the model is verified, there is no guarantee that the code that will actually execute is free of bugs.
 
-\PDComment{How cheng was testing his code before and how after -- high level, pretty picture}
+Our goal in this work instead is to \emph{test what is actually being executed}. To achieve this we developed a new software engineering methodology for testing distributed systems, implemented on top of the \psharp framework. The original \psharp framework is explain in Section~\ref{sec:overview:psharp}, while the new approach is explained in Section~\ref{}.
 
 \subsection{The \psharp approach}
 \label{sec:overview:psharp}
 
-\PDComment{Insert fancy \psharp picture}
-
-The \psharp~\cite{deligiannis2015psharp} project provides an \emph{event-driven asynchronous programming} language and a \emph{concurrency unit testing} framework for developing highly-reliable distributed systems.
+The \psharp~\cite{deligiannis2015psharp} framework provides an \emph{event-driven asynchronous programming} language and a \emph{concurrency unit testing} engine for developing highly-reliable distributed systems.
 
 The \psharp language is an extension of \csharp that enables asynchronous programming using communicating state-machines. \psharp machines can interact asynchronously by sending and receiving events, an approach commonly used to develop distributed systems. This programming model is similar to actor-based approaches provided by other asynchronous programming languages (e.g. Scala~\cite{odersky2008programming} and Erlang~\cite{armstrong1996erlang}).
 
@@ -59,10 +59,8 @@ A \psharp machine consists of an input queue for received events, states, state 
 
 Because \psharp is built on top of \csharp, the programmer can blend \psharp and \csharp code; this not only lowers the overhead of learning a new language, but also allows \psharp to easily integrate with legacy code. Another advantage is that the programmer can use the familiar programming and debugging environment of Visual Studio.
 
-The second core component of the \psharp project is a concurrency unit testing framework that is embedded in the \psharp runtime. This framework allows the event schedulings of a \psharp program to be explored in a controlled manner, facilitating deterministic replay of bugs.
+The second core component of the \psharp project is a concurrency unit testing engine that is embedded in the \psharp runtime. This engine allows the event schedulings of a \psharp program to be explored in a controlled manner, facilitating deterministic replay of bugs.
 
 \psharp is available as open-source\footnote{\url{https://github.com/p-org/PSharp}} and is currently used by various teams in Microsoft to develop and test distributed protocols and systems.
 
 %The \psharp language belongs to the same family of languages as P~\cite{desai2013p}.
-
-\PDComment{mention dependency injection pattern?}
