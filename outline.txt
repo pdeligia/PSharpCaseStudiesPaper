@@ -42,3 +42,10 @@ We can use any combination of real + fake components
 Vs Chess ->>> chess did not provide modelling capability, had no real functionality to isolate components and achieve real concurrency unit testing
 
 now we have systematic concurrency testing (systematic cause we control the scheduler)
+
+
+What to say about intra-machine concurrency (Matt & Pantazis 2015-08-19):
+- If there is none, then P# finds all behaviors out of the box (theorem).
+- If there is, then it's the programmer's responsibility to implement the concurrency mechanism in terms of P# message passing.  At a minimum, need to avoid deadlock somehow.  Beyond that, better implementations will allow P# to find more behaviors.
+  - In general, one can change the code to use an interface that has different production and P#-testing implementations.  This has some cost (Matt: we shouldn't claim it's unreasonable to hope that future work might avoid this cost, but only that our work compares favorably to previous work overall).  There's some precedent for this in using a mock clock for programs that sleep in production.
+  - For the migration case study, it's relatively easy because TPL lets us substitute a custom task scheduler.  There are some behaviors this won't find (certain interleavings of table operations and configuration pushes), but it still worked well in evaluation and did find one bug involving an interleaving between table operations and configuration pushes.  A similar approach may work for other programs.
