@@ -2,6 +2,16 @@ In previous work~\cite{deligiannis2015psharp}, we approached the problem of test
 
 In order to solve this problem, and allow \psharp to be used for testing \emph{unmodified} legacy distributed systems, we decided to take a radically different modeling approach. Our approach is \emph{flexible}, involves the use of \emph{simple language features} that developers already use for testing their systems, and can be applied to production code.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{img/azurestore_model}
+\caption{Draft.}
+\label{fig:azurestoremodel}
+\end{figure}
+
+\subsection{Dynamic dispatch for modeling}
+\label{sec:method:dd}
+
 We only model the environment of the program that we would like to test, and then allow the developer to connect the original system with the environmental model using \emph{dynamic dispatch}, which is provided by the \csharp runtime.
 
 We now give an example of using dynamic dispatch to model the network engine of the extent manager in the Azure Storage vNext case study.
@@ -18,13 +28,6 @@ We now give an example of using dynamic dispatch to model the network engine of 
 \includegraphics[width=\linewidth]{img/models_new}
 \caption{Draft.}
 \label{fig:newapproach}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{img/azurestore_model}
-\caption{Draft.}
-\label{fig:azurestoremodel}
 \end{figure}
 
 \PDComment{mention dependency injection pattern?}
