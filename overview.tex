@@ -1,11 +1,8 @@
-Distributed systems typically consist of two or more components that communicate \emph{asynchronously} by sending and receiving messages through a network layer~\cite{lamport1978time}. When a component receives a message, it responds by executing a predefined \emph{message handler}. This handler consists of a sequence of program statements that might update the internal state of the component, send a message to another component in the system, or even create an entirely new component.
+Distributed systems typically consist of two or more components that communicate \emph{asynchronously} by sending and receiving messages through a network layer~\cite{lamport1978time}. Each component has its own input message queue, and when a message arrives, the component responds by executing an appropriate \emph{message handler}. Such a handler consists of a sequence of program statements that might update the internal state of the component, send a message to another component in the system, or even create an entirely new component.
 
-As an example of a distributed system, Figure~\ref{fig:azurestore} shows the top-level components of Azure Storage vNext, a distributed extent management system for Windows Azure that is used in production inside Microsoft. Azure Storage vNext consists of multiple extent managers, extent nodes and a remote procedure call (RPC) communication engine. Each extent manager is responsible for managing a subset of the extent nodes. Each extent node is responsible for storing its corresponding extent in a local storage. Finally, the RPC engine is responsible for sending messages across the network, and enqueuing any received messages in the inbox queue of the corresponding node. This system is described in more details in Section~\ref{sec:cases:azurestore}.
+As an example of a distributed system, Figure~\ref{fig:azurestore} shows the top-level components of Azure Storage vNext, a distributed extent management system for Windows Azure that is used in production inside Microsoft. We will use this system as the main running example in this paper. The system is described in more details in Section~\ref{sec:cases:azurestore}, together with another case study from Microsoft.
 
-\subsection{Bugs in distributed systems}
-\label{sec:overview:bugs}
-
-In a distributed system, message handlers can interleave in arbitrary order, because of the asynchronous nature of message-based communication. To complicate matters further, unexpected failures are the norm in production: nodes in a cluster might fail at any moment, and thus programmers have to implement sophisticated mechanisms that can deal with these failures and recover the state of the system. Moreover, with multicore machines having become a commodity, individual components of a distributed system are commonly implemented using multithreaded code, which adds another source of nondeterminism.
+Azure Storage vNext consists of multiple extent managers, extent nodes, and network engines that are able to send messages across the network, and enqueue any received messages in the input queue of the corresponding node. Each extent manager is responsible for managing a subset of the extent nodes. Each extent node stores its corresponding extent in a local storage, and sends periodical heartbeats and synchronization messages to the extent manager. When the extent manager receives a synchronization message it is responsible to update extent nodes with the latest extent.
 
 \begin{figure}[t]
 \centering
@@ -14,7 +11,12 @@ In a distributed system, message handlers can interleave in arbitrary order, bec
 \label{fig:azurestore}
 \end{figure}
 
-All these sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix. The majority of bugs in distributed systems can be classified in two categories: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
+\subsection{Bugs in distributed systems}
+\label{sec:overview:bugs}
+
+In a distributed system, message handlers can interleave in arbitrary order, because of the asynchronous nature of message-based communication. To complicate matters further, unexpected failures are the norm in production: nodes in a cluster might fail at any moment, and thus programmers have to implement sophisticated mechanisms that can deal with these failures and recover the state of the system. Moreover, with multicore machines having become a commodity, individual components of a distributed system are commonly implemented using multithreaded code, which adds another source of nondeterminism.
+
+All the above sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix. Bugs in distributed systems can be largely classified in two categories: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
 
 \begin{description}
 \item[Safety] A safety property checks that an erroneous program state is \emph{never} reached, and is satisfied if it \emph{always} holds in each possible program execution.
@@ -31,12 +33,16 @@ Normally, liveness checking requires the identification of an infinite fair exec
 
 \PDComment{Quickly say how we found Cheng's bug?}
 
-\subsection{Testing distributed systems today}
+\subsection{Testing production systems}
 \label{sec:overview:testing}
 
-A significant amount of research has been conducted during the past few decades on how to test distributed systems~\cite{lamport1977proving, lamport1994temporal, schuppan2004efficient, killian2007life, gupta2008diecast, yang2009modist}, but it is still not clear how to successfully apply all these research techniques in a real production environment, which can be full of complications~\cite{cavage2013there, maddox2015test}.
+A significant amount of research has been conducted during the past few decades on how to test distributed systems~\cite{lamport1977proving, lamport1994temporal, schuppan2004efficient, killian2007life, gupta2008diecast, yang2009modist}, but it is still not clear how to apply all these research techniques in a real production environment, which can be full of complications~\cite{cavage2013there, maddox2015test}.
 
-Product groups today rely on techniques such as unit testing, integration testing and stress testing, which although can catch many bugs, are unable to catch the most tricky ones, which can be caught only by using advanced \emph{asynchrony-aware} testing techniques. The ideal testing tool should be able to work on unmodified distributed systems, capture and control all possible sources of nondeterminism, systematically inject faults in the right places, and explore all feasible execution paths. However, this is easier said than done when testing production systems.
+Product groups today rely on techniques such as unit testing, integration testing and stress testing, which although can catch many bugs, are unable to catch the most tricky ones, which can be caught only by using advanced \emph{asynchrony-aware} testing techniques.
+
+without using advanced \emph{asynchrony-aware} testing techniques
+
+The ideal testing tool should be able to work on unmodified distributed systems, capture and control all possible sources of nondeterminism, systematically inject faults in the right places, and explore all feasible execution paths. However, this is easier said than done when testing production systems.
 
 \PDComment{How cheng was testing his code before and how after -- high level, pretty picture}
 
