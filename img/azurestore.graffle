@@ -14,7 +14,7 @@
 	<key>BackgroundGraphic</key>
 	<dict>
 		<key>Bounds</key>
-		<string>{{0, 0}, {595.27557373046875, 340.157470703125}}</string>
+		<string>{{0, 0}, {595.27557373046875, 325.9842529296875}}</string>
 		<key>Class</key>
 		<string>SolidGraphic</string>
 		<key>FontInfo</key>
@@ -61,7 +61,7 @@
 	<key>CanvasOrigin</key>
 	<string>{0, 0}</string>
 	<key>CanvasSize</key>
-	<string>{595.27557373046875, 340.157470703125}</string>
+	<string>{595.27557373046875, 325.9842529296875}</string>
 	<key>ColumnAlign</key>
 	<integer>1</integer>
 	<key>ColumnSpacing</key>
@@ -78,7 +78,7 @@
 	<array>
 		<dict>
 			<key>Bounds</key>
-			<string>{{408.27557373046875, 92.984971046447754}, {172.66899108886719, 33}}</string>
+			<string>{{408.27557373046875, 83.673249244689941}, {172.66899108886719, 33}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -95,7 +95,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>18</real>
 			</dict>
 			<key>ID</key>
 			<integer>561</integer>
@@ -131,14 +131,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\b\fs38 \cf1 Network Engine}</string>
+\f0\b\fs36 \cf1 Network Engine}</string>
 			</dict>
 			<key>TextPlacement</key>
 			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{408.27557373046875, 5.230377197265625}, {172.66899108886719, 79.769622802734375}}</string>
+			<string>{{408.27557373046875, 11.295951843261719}, {172.66899108886719, 64.392326354980469}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -146,7 +146,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>20</real>
 			</dict>
 			<key>ID</key>
 			<integer>560</integer>
@@ -180,16 +180,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
 
-\f0\b\fs48 \cf0 Extent Manager N}</string>
+\f0\b\fs40 \cf0 Extent Manager N}</string>
 				<key>VerticalPad</key>
 				<integer>10</integer>
 			</dict>
-			<key>TextPlacement</key>
-			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{199, 93.377297401428223}, {172.66899108886719, 33}}</string>
+			<string>{{199, 84.06557559967041}, {172.66899108886719, 33}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -206,7 +204,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>18</real>
 			</dict>
 			<key>ID</key>
 			<integer>557</integer>
@@ -242,14 +240,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\b\fs38 \cf1 Network Engine}</string>
+\f0\b\fs36 \cf1 Network Engine}</string>
 			</dict>
 			<key>TextPlacement</key>
 			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{199, 5.6227035522460938}, {172.66899108886719, 79.769622802734375}}</string>
+			<string>{{199, 11.688278198242188}, {172.66899108886719, 64.392326354980469}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -257,7 +255,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>20</real>
 			</dict>
 			<key>ID</key>
 			<integer>556</integer>
@@ -291,16 +289,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
 
-\f0\b\fs48 \cf0 Extent Manager 2}</string>
+\f0\b\fs40 \cf0 Extent Manager 2}</string>
 				<key>VerticalPad</key>
 				<integer>10</integer>
 			</dict>
-			<key>TextPlacement</key>
-			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{14.331009851561589, 92.984971046447754}, {172.66899108886719, 33}}</string>
+			<string>{{14.331009851561589, 83.673249244689941}, {172.66899108886719, 33}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -317,7 +313,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>18</real>
 			</dict>
 			<key>ID</key>
 			<integer>553</integer>
@@ -353,14 +349,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
 
-\f0\b\fs38 \cf1 Network Engine}</string>
+\f0\b\fs36 \cf1 Network Engine}</string>
 			</dict>
 			<key>TextPlacement</key>
 			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{469.16376731071875, 268}, {101.49159005012125, 56.896800994873054}}</string>
+			<string>{{469.16376731071875, 246.68827819824219}, {101.49159005012125, 56.896800994873054}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -368,7 +364,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>20</real>
+				<real>18</real>
 			</dict>
 			<key>ID</key>
 			<integer>551</integer>
@@ -409,14 +405,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs40 \cf0 Storage}</string>
+\f0\b\fs36 \cf0 Storage}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{300.76035391035606, 268}, {101.49159005012125, 56.896800994873054}}</string>
+			<string>{{300.76035391035606, 246.68827819824219}, {101.49159005012125, 56.896800994873054}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -424,7 +420,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>20</real>
+				<real>18</real>
 			</dict>
 			<key>ID</key>
 			<integer>550</integer>
@@ -465,14 +461,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs40 \cf0 Storage}</string>
+\f0\b\fs36 \cf0 Storage}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{162.69030684792315, 268}, {101.49159005012125, 56.896800994873054}}</string>
+			<string>{{162.69030684792315, 246.68827819824219}, {101.49159005012125, 56.896800994873054}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -480,7 +476,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>20</real>
+				<real>18</real>
 			</dict>
 			<key>ID</key>
 			<integer>549</integer>
@@ -521,14 +517,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs40 \cf0 Storage}</string>
+\f0\b\fs36 \cf0 Storage}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{24.620231628417919, 268}, {101.49159005012125, 56.896800994873054}}</string>
+			<string>{{24.620231628417919, 246.68827819824219}, {101.49159005012125, 56.896800994873054}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -536,7 +532,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>20</real>
+				<real>18</real>
 			</dict>
 			<key>ID</key>
 			<integer>10</integer>
@@ -577,14 +573,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs40 \cf0 Storage}</string>
+\f0\b\fs36 \cf0 Storage}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{367.58948820167097, 47}, {46.333328247070312, 38}}</string>
+			<string>{{367.58948820167097, 24.492115020751953}, {46.333328247070312, 38}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -635,7 +631,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{458.87451093726668, 181.89703679084801}, {122.070068359375, 153.03004455566406}}</string>
+			<string>{{458.87451093726668, 172.58531498909019}, {122.070068359375, 142.10270690917969}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -643,7 +639,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>20</real>
 			</dict>
 			<key>ID</key>
 			<integer>547</integer>
@@ -677,7 +673,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
 
-\f0\b\fs48 \cf0 Extent Node M}</string>
+\f0\b\fs40 \cf0 Extent Node M}</string>
 				<key>VerticalPad</key>
 				<integer>13</integer>
 			</dict>
@@ -686,7 +682,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{152.40106123023543, 181.89729046821617}, {122.070068359375, 153.03004455566406}}</string>
+			<string>{{152.40106123023543, 172.58556866645836}, {122.070068359375, 142.10270690917969}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -694,7 +690,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>20</real>
 			</dict>
 			<key>ID</key>
 			<integer>544</integer>
@@ -728,7 +724,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
 
-\f0\b\fs48 \cf0 Extent Node 2}</string>
+\f0\b\fs40 \cf0 Extent Node 2}</string>
 				<key>VerticalPad</key>
 				<integer>13</integer>
 			</dict>
@@ -737,7 +733,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{14.331009851561589, 5.230377197265625}, {172.66899108886719, 79.769622802734375}}</string>
+			<string>{{14.331009851561589, 11.688278198242188}, {172.66899108886719, 64}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -745,7 +741,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>20</real>
 			</dict>
 			<key>ID</key>
 			<integer>538</integer>
@@ -779,16 +775,14 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
 
-\f0\b\fs48 \cf0 Extent Manager 1}</string>
+\f0\b\fs40 \cf0 Extent Manager 1}</string>
 				<key>VerticalPad</key>
 				<integer>10</integer>
 			</dict>
-			<key>TextPlacement</key>
-			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{412.54116821289062, 245.0451891024918}, {46.333328247070312, 38}}</string>
+			<string>{{412.54116821289062, 224.68827819824219}, {46.333328247070312, 38}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -839,7 +833,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{14.33099365234375, 181.89729046821617}, {122.070068359375, 153.02978515625}}</string>
+			<string>{{14.33099365234375, 172.58556866645836}, {122.070068359375, 142.10270690917969}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -847,7 +841,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>20</real>
 			</dict>
 			<key>ID</key>
 			<integer>528</integer>
@@ -881,7 +875,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
 
-\f0\b\fs48 \cf0 Extent Node 1}</string>
+\f0\b\fs40 \cf0 Extent Node 1}</string>
 				<key>VerticalPad</key>
 				<integer>13</integer>
 			</dict>
@@ -890,7 +884,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{290.47111337714705, 181.8970425128939}, {122.070068359375, 153.03004455566406}}</string>
+			<string>{{290.47111337714705, 172.58532071113609}, {122.070068359375, 142.10296630859375}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -898,7 +892,7 @@
 				<key>Font</key>
 				<string>CMUSerif-Bold</string>
 				<key>Size</key>
-				<real>24</real>
+				<real>20</real>
 			</dict>
 			<key>ID</key>
 			<integer>546</integer>
@@ -932,7 +926,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
 
-\f0\b\fs48 \cf0 Extent Node 3}</string>
+\f0\b\fs40 \cf0 Extent Node 3}</string>
 				<key>VerticalPad</key>
 				<integer>13</integer>
 			</dict>
@@ -953,8 +947,8 @@
 			<integer>589</integer>
 			<key>Points</key>
 			<array>
-				<string>{527.47001821464983, 204.91141510009766}</string>
-				<string>{505, 127.98497009277344}</string>
+				<string>{527.47001821464983, 195.59969329833984}</string>
+				<string>{505, 118.67324829101562}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -985,8 +979,8 @@
 			<integer>567</integer>
 			<key>Points</key>
 			<array>
-				<string>{486.05996357070035, 103.05323791503906}</string>
-				<string>{508.52998178535017, 179.97968292236328}</string>
+				<string>{486.05996357070035, 93.74151611328125}</string>
+				<string>{508.52998178535017, 170.66796112060547}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1017,8 +1011,8 @@
 			<integer>593</integer>
 			<key>Points</key>
 			<array>
-				<string>{350.8428133196303, 204.45284271240234}</string>
-				<string>{328.37279510498047, 127.52639770507812}</string>
+				<string>{350.8428133196303, 195.14112091064453}</string>
+				<string>{328.37279510498047, 118.21467590332031}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1049,8 +1043,8 @@
 			<integer>594</integer>
 			<key>Points</key>
 			<array>
-				<string>{309.43275867568082, 102.59466552734375}</string>
-				<string>{331.90277689033064, 179.52111053466797}</string>
+				<string>{309.43275867568082, 93.282943725585938}</string>
+				<string>{331.90277689033064, 170.20938873291016}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1081,8 +1075,8 @@
 			<integer>598</integer>
 			<key>Points</key>
 			<array>
-				<string>{215, 204.45284271240234}</string>
-				<string>{237.47001821464983, 127.52639770507812}</string>
+				<string>{215, 195.14112091064453}</string>
+				<string>{237.47001821464983, 118.21467590332031}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1113,8 +1107,8 @@
 			<integer>599</integer>
 			<key>Points</key>
 			<array>
-				<string>{256.41005464394948, 102.59466552734375}</string>
-				<string>{233.94003642929965, 179.52111053466797}</string>
+				<string>{256.41005464394948, 93.282943725585938}</string>
+				<string>{233.94003642929965, 170.20938873291016}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1145,8 +1139,8 @@
 			<integer>601</integer>
 			<key>Points</key>
 			<array>
-				<string>{68.018478393554688, 204.91141510009766}</string>
-				<string>{90.488496608204514, 127.98497009277344}</string>
+				<string>{68.018478393554688, 195.59969329833984}</string>
+				<string>{90.488496608204514, 118.67324829101562}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1177,8 +1171,8 @@
 			<integer>602</integer>
 			<key>Points</key>
 			<array>
-				<string>{109.42853303750417, 103.05323791503906}</string>
-				<string>{86.95851482285434, 179.97968292236328}</string>
+				<string>{109.42853303750417, 93.74151611328125}</string>
+				<string>{86.95851482285434, 170.66796112060547}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1243,7 +1237,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-08-19 02:16:43 +0000</string>
+	<string>2015-08-19 21:04:46 +0000</string>
 	<key>Modifier</key>
 	<string>Pantazis Deligiannis</string>
 	<key>NotesVisible</key>
@@ -1274,7 +1268,7 @@
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>FC066013-FCB8-4720-B0DC-999F24C1B10E</string>
+			<string>3B91C869-4815-4F28-A43E-F64A6D7A4907</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
@@ -1329,7 +1323,7 @@
 			</dict>
 		</array>
 		<key>Frame</key>
-		<string>{{51, 87}, {1134, 790}}</string>
+		<string>{{67, 82}, {1134, 790}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -1343,7 +1337,7 @@
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-202, -153}, {999, 648}}</string>
+		<string>{{-202, -161}, {999, 648}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>
@@ -1351,7 +1345,7 @@
 			<array>
 				<string>Canvas 1</string>
 				<real>1</real>
-				<real>0.60000002384185791</real>
+				<real>2</real>
 			</array>
 		</array>
 	</dict>
