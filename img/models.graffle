@@ -1641,7 +1641,7 @@ in C#}</string>
 			<key>Print</key>
 			<string>YES</string>
 			<key>View</key>
-			<string>YES</string>
+			<string>NO</string>
 		</dict>
 		<dict>
 			<key>Lock</key>
@@ -1651,7 +1651,7 @@ in C#}</string>
 			<key>Print</key>
 			<string>YES</string>
 			<key>View</key>
-			<string>NO</string>
+			<string>YES</string>
 		</dict>
 	</array>
 	<key>LayoutInfo</key>
@@ -1676,7 +1676,7 @@ in C#}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-08-19 05:38:06 +0000</string>
+	<string>2015-08-19 17:51:12 +0000</string>
 	<key>Modifier</key>
 	<string>Pantazis Deligiannis</string>
 	<key>NotesVisible</key>
@@ -1707,7 +1707,7 @@ in C#}</string>
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>251C626F-F65A-4367-B85C-5C8D23E46481</string>
+			<string>09C9C7B0-24AC-4310-B67C-82E23D7B55DB</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
