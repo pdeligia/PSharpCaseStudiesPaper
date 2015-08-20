@@ -54,8 +54,10 @@
 \newcommand{\csharp}{C\#\xspace}
 
 \usepackage{color}
-\newcommand{\Comment}[1]{\textcolor{cyan}{#1}}
-\newcommand{\PDComment}[1]{\Comment{Pantazis: #1}}
+\newcommand{\SQComment}[1]{\textcolor{red}{Shaz: #1}}
+\newcommand{\PDComment}[1]{\textcolor{blue}{Pantazis: #1}}
+\newcommand{\MMComment}[1]{\textcolor{cyan}{Matt: #1}}
+
 
 \begin{document}
 %
@@ -214,33 +216,7 @@ We had to arrange for the continuations to execute within the context of a singl
 \section{Evaluation}
 \label{sec:eval}
 
-We compared the bug-finding effectiveness of \psharp systematic concurrency testing to traditional ``stress testing'' without systematic concurrency control on several benchmark bugs, described below.  We report the length of time it took for the test to fail and remark on the effort needed to diagnose the bug from the test output. \Comment{Overview of actual results?}
-
-\subsection{Experimental Setup}
-
-All experiments were run on \Comment{insert MSR machine, or perhaps CloudDevR1S04 if John/Matt are able to grant access to the rest of the collaborators}. \Comment{specs}
-
-\subsection{Benchmarks}
-
-Benchmarks that are not production code (e.g. multipaxos) that can be used to evaluate testing
-
-Cheng's case study with the actual bug
-
-After fixing all the bugs we found in MigratingTable, we added an option to conditionally reintroduce each of the following bugs:
-\begin{enumerate}
-\item Filtering on a user-defined property did not retrieve non-matching rows from the new table that might shadow a matching row from the old table.
-\item ...
-\end{enumerate}
-
-\subsection{Stressing testing vs Systematic testing}
-
-Comparison of traditional stress testing VS what we do with \psharp
-
-How long you had to run the test to find the bug (if you can find it) and how long are the traces
-
-How easy it is to pinpoint the error using the \psharp traces, comparing to traditional stress testing
-
-Effort required to use the system
+\input{evaluation}
 
 \section{Related Work}
 \label{sec:rw}
