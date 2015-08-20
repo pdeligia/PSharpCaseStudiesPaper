@@ -33,7 +33,7 @@ Liveness properties are much harder to specify and check since they apply over e
 
 Normally, liveness checking requires the identification of an infinite fair execution that never satisfies the liveness property~\cite{schuppan2004efficient, musuvathi2008fair}. Prior work~\cite{schuppan2004efficient} has proposed that assuming a program with finite state space, a liveness property can be converted into a safety property. Other researchers proposed the use of heuristics and only exploring finite executions of an infinite state space system using random walks to identify if a liveness property is violated~\cite{killian2007life}.
 
-\subsection{Testing production systems}
+\subsection{How testing is done today}
 \label{sec:overview:testing}
 
 Techniques such as unit testing, integration testing and stress testing are heavily used in industry today for finding bugs in production code. However, these techniques are not effective for testing distributed systems, which have many sources of nondeterminism.
