@@ -6,7 +6,21 @@ All experiments were run on \MMComment{insert MSR machine, or perhaps CloudDevR1
 
 \subsection{Benchmarks}
 
-Benchmarks that are not production code (e.g. multipaxos) that can be used to evaluate testing
+\newcommand{\colspacing}{\hspace{1.8em}}
+\begin{table}[t]
+\small
+\centering
+\setlength{\tabcolsep}{0.3em}
+\label{tab:stats}
+\begin{tabular}{l rrrrr rr}
+\centering
+\input{experiments/tables/statistics.tex}
+\end{tabular}
+\caption{Statistics.}
+%\vspace{-3mm}
+\end{table}
+
+\PDComment{We probably do not need this now that we have many bugs from the case studies -- benchmarks that are not production code (e.g. multipaxos) that can be used to evaluate testing}
 
 Cheng's case study with the actual bug
 
@@ -16,7 +30,7 @@ After fixing all the bugs we found in MigratingTable, we added an option to cond
 \item ...
 \end{enumerate}
 
-\subsection{Stressing testing vs Systematic testing}
+\subsection{Stress testing vs \psharp testing}
 
 Comparison of traditional stress testing VS what we do with \psharp
 
