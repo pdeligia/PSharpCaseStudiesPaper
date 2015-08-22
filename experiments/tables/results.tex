@@ -1,19 +1,22 @@
 & \multicolumn{2}{c}{\textbf{Stress Testing}}
-& \multicolumn{4}{c}{\textbf{\psharp Testing (Random)}}\\
+& \multicolumn{5}{c}{\textbf{\psharp Testing (Random Scheduler)}}\\
 \cmidrule(lr){2-3}
-\cmidrule(lr){4-7}
+\cmidrule(lr){4-8}
 
 
 &
 & \multirow{1}{*}{\textbf{Bug}}
-& & &
+& \multirow{1}{*}{\textbf{Time to}}
+& \multirow{1}{*}{\textbf{Total}}
+& &
 & \multirow{1}{*}{\textbf{Bug}} \\
 
 \textbf{Bugs}
-& \multicolumn{1}{r}{\textbf{Time}}
+& \multicolumn{1}{r}{\textbf{Time (s)}}
 & \multicolumn{1}{r}{\textbf{found?}}
 
-& \multicolumn{1}{r}{\textbf{Time}}
+& \multicolumn{1}{r}{\textbf{Bug (s)}}
+& \multicolumn{1}{r}{\textbf{Time (s)}}
 & \multicolumn{1}{r}{\textbf{\#SP}}
 & \multicolumn{1}{r}{\textbf{\%Buggy}}
 & \multicolumn{1}{r}{\textbf{found?}}\\[0.3em]
@@ -26,8 +29,9 @@ vNext Liveness Bug
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{6\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{6\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryAtomicFilterShadowing
@@ -35,9 +39,10 @@ QueryAtomicFilterShadowing
 & \multicolumn{1}{r}{0}
 & \multicolumn{1}{r}{\xmark}
 
+& \multicolumn{1}{r}{9.17}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{188}
 & \multicolumn{1}{r}{x\%}
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryStreamedFilterShadowing
@@ -46,8 +51,9 @@ QueryStreamedFilterShadowing
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryStreamedLock
@@ -56,8 +62,9 @@ QueryStreamedLock
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryStreamedBackUpNewStream
@@ -66,8 +73,9 @@ QueryStreamedBackUpNewStream
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryStreamedSaveNewConfig
@@ -76,8 +84,9 @@ QueryStreamedSaveNewConfig
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 DeleteNoLeaveTombstonesEtag
@@ -86,8 +95,9 @@ DeleteNoLeaveTombstonesEtag
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 DeletePrimaryKey
@@ -96,8 +106,9 @@ DeletePrimaryKey
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 EnsurePartitionSwitchedFromPopulated
@@ -106,8 +117,9 @@ EnsurePartitionSwitchedFromPopulated
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 TombstoneOutputETag
@@ -116,8 +128,9 @@ TombstoneOutputETag
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 MigrateSkipPreferOld
@@ -126,8 +139,9 @@ MigrateSkipPreferOld
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 MigrateSkipUseNewWithTombstones
@@ -136,8 +150,9 @@ MigrateSkipUseNewWithTombstones
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 InsertBehindMigrator
@@ -146,6 +161,7 @@ InsertBehindMigrator
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\[0.1em]

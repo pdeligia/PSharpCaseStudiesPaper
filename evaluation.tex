@@ -36,7 +36,7 @@ After fixing all the bugs we found in MigratingTable, we added an option to cond
 \begin{table*}[t]
 \small
 \centering
-\begin{tabular}{l rr rrrr}
+\begin{tabular}{l rr rrrrr}
 \centering
 \input{experiments/tables/results.tex}
 \end{tabular}
@@ -51,3 +51,5 @@ How long you had to run the test to find the bug (if you can find it) and how lo
 How easy it is to pinpoint the error using the \psharp traces, comparing to traditional stress testing
 
 Effort required to use the system
+
+Controlled random scheduling has proven to be efficient for finding concurrency bugs~\cite{thomson2014sct, deligiannis2015psharp}.
