@@ -1,13 +1,12 @@
 & \multicolumn{2}{c}{\textbf{Stress Testing}}
-& \multicolumn{5}{c}{\textbf{\psharp Testing (Random Scheduler)}}\\
+& \multicolumn{4}{c}{\textbf{\psharp Testing (Random Scheduler)}}\\
 \cmidrule(lr){2-3}
-\cmidrule(lr){4-8}
+\cmidrule(lr){4-7}
 
 
 &
 & \multirow{1}{*}{\textbf{Bug}}
 & \multirow{1}{*}{\textbf{Time to}}
-& \multirow{1}{*}{\textbf{Total}}
 & &
 & \multirow{1}{*}{\textbf{Bug}} \\
 
@@ -16,22 +15,20 @@
 & \multicolumn{1}{r}{\textbf{found?}}
 
 & \multicolumn{1}{r}{\textbf{Bug (s)}}
-& \multicolumn{1}{r}{\textbf{Time (s)}}
 & \multicolumn{1}{r}{\textbf{\#SP}}
 & \multicolumn{1}{r}{\textbf{\%Buggy}}
 & \multicolumn{1}{r}{\textbf{found?}}\\[0.3em]
 
 \toprule
 
-vNext Liveness Bug
+ExtentNodeLivenessViolation
 
 & \multicolumn{1}{r}{0}
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{6\%}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryAtomicFilterShadowing
@@ -40,9 +37,8 @@ QueryAtomicFilterShadowing
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{9.17}
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{188}
-& \multicolumn{1}{r}{x\%}
+& \multicolumn{1}{r}{0.023\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryStreamedFilterShadowing
@@ -50,10 +46,9 @@ QueryStreamedFilterShadowing
 & \multicolumn{1}{r}{0}
 & \multicolumn{1}{r}{\xmark}
 
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
+& \multicolumn{1}{r}{0.49}
+& \multicolumn{1}{r}{79}
+& \multicolumn{1}{r}{24.908\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryStreamedLock
@@ -61,10 +56,9 @@ QueryStreamedLock
 & \multicolumn{1}{r}{0}
 & \multicolumn{1}{r}{\xmark}
 
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
+& \multicolumn{1}{r}{2094.09}
+& \multicolumn{1}{r}{181}
+& \multicolumn{1}{r}{0.001\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 QueryStreamedBackUpNewStream
@@ -72,18 +66,6 @@ QueryStreamedBackUpNewStream
 & \multicolumn{1}{r}{0}
 & \multicolumn{1}{r}{\xmark}
 
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
-& \multicolumn{1}{r}{\cmark}\\
-
-QueryStreamedSaveNewConfig
-
-& \multicolumn{1}{r}{0}
-& \multicolumn{1}{r}{\xmark}
-
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{x\%}
@@ -96,7 +78,6 @@ DeleteNoLeaveTombstonesEtag
 
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -105,7 +86,6 @@ DeletePrimaryKey
 & \multicolumn{1}{r}{0}
 & \multicolumn{1}{r}{\xmark}
 
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{x\%}
@@ -118,7 +98,6 @@ EnsurePartitionSwitchedFromPopulated
 
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -127,7 +106,6 @@ TombstoneOutputETag
 & \multicolumn{1}{r}{0}
 & \multicolumn{1}{r}{\xmark}
 
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{x\%}
@@ -140,7 +118,6 @@ MigrateSkipPreferOld
 
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -151,7 +128,6 @@ MigrateSkipUseNewWithTombstones
 
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -160,7 +136,6 @@ InsertBehindMigrator
 & \multicolumn{1}{r}{0}
 & \multicolumn{1}{r}{\xmark}
 
-& \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{x\%}
