@@ -34,4 +34,54 @@ The initial motivation for MigratingTable was to solve a scaling problem for Art
 \subsection{Azure Service Fabric}
 \label{sec:cases:fabric}
 
-Draft.
+\emph{Azure Service Faric} (or \emph{Fabric} for short)
+is a platform and API for creating reliable services
+that execute on a cluster of machines.
+The developer writes a service that receives requests (e.g.\ from some client program via HTTP)
+and mutates its state based on these requests.
+In order to make the service \emph{reliable},
+Fabric launches several copies (\emph{replicas}) of the service,
+where each copy runs as a separate process
+on different nodes in the cluster.
+One replica is selected to be the \emph{primary}
+which serves client requests; the rest are \emph{secondaries}.
+The primary replicates state changes to the secondaries
+so that all replicas eventually have the same state.
+If the primary fails (e.g.\ if the node on which the primary is running crashes),
+Fabric elects one of the secondaries to be the new primary
+and launches another secondary;
+the new secondary will receive a full or partial copy (depending on whether persistent storage is used) 
+of the state of the new primary in order to ``catch up'' with the other secondaries. 
+Fabric provides a name-resolution service so that clients can always find the current primary.
+Fabric exposes several different APIs that developers can use to write services.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
