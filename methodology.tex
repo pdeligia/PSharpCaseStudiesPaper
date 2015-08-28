@@ -15,11 +15,10 @@ A key capability of the \psharp runtime is that it can run in \emph{bug-finding 
 
 \psharp is available as open-source\footnote{\url{https://github.com/p-org/PSharp}} and is currently used by various teams in Microsoft to develop and test distributed protocols and systems.
 
-\PDComment{Do we want to actually mention (and compare with) P in this paper?}
 %The \psharp language belongs to the same family of languages as P~\cite{desai2013p}.
 
-\subsection{Methodology}
-\label{sec:method:new}
+\subsection{Modeling the environment}
+\label{sec:method:model}
 
 In previous work~\cite{deligiannis2015psharp}, we approached the problem of testing legacy distributed systems as follows. First, we ported the system to \psharp, then we modeled its environment as \psharp state machines, and finally we tested the ported system and its environmental model using the \psharp systematic concurrency testing engine. The limitation of this approach is that it does not allow us to directly test a legacy system, as it has to be re-implemented first in \psharp. However, such endeavor is very costly and time consuming, and thus is not realistic for testing an existing production system, such as the Azure Storage vNext. Also, unless the code under test is the one that will actually execute, there is no guarantee that the real system will be bug-free.
 
@@ -33,11 +32,6 @@ We argue that our approach is \emph{flexible} since it allows the user to model 
 \caption{The real environment of the Extent Manager is replaced with a mocked version for testing.}
 \label{fig:azurestoremodel}
 \end{figure}
-
-\subsection{Modeling the environment}
-\label{sec:method:model}
-
-Draft.
 
 \subsection{Using method dispatch for modeling}
 \label{sec:method:dd}
@@ -54,8 +48,8 @@ For mocking the receive operation, we take advantage of the implicit receive of 
 \begin{lstlisting}
 // Public interface of the real network engine
 class NetworkEngine {
-  public virtual void SendMessage();
-  public virtual void EnqueueMessage();
+  public virtual void SendMessage(Socket s, Message msg);
+  public virtual void EnqueueMessage(Message msg);
 }
 
 // The mocked network engine used during testing
@@ -85,12 +79,85 @@ class MockedNetEngine : NetworkEngine {
 
 Another important operation that we had to model in order to capture the nondeterminism in  the Azure Storage vNext system, and be able to detect the liveness violation, was to model the timer operation that sends a heartbeat every 5 seconds and a sync message every 5 minutes.
 
-\subsection{Extensibility of the \psharp framework}
-\label{sec:method:extend}
+\subsection{Abstracting timers}
+\label{sec:method:timers}
+
+Distributed systems are often using timers to determine when an event should be fired. For example, in the Azure Storage vNext system, each Extent Node is associated with a timer that fires of a synchronization message every 5 minutes and a heartbeat every 5 seconds. However, when testing to find bugs, these timers should be abstracted away and be triggered nondeterministically.
+
+Figure~\ref{fig:timer} shows how we modeled timers in Azure Storage vNext. Each ExtentNode in the harness is associated with a unique \texttt{Timer} machine. Each \texttt{Timer}, when transitions to the \texttt{Active} state, loops infinitely and nondeterministically sends a \texttt{TimerTickEvent} to \texttt{this.Target}.
+
+\begin{figure}[t]
+\begin{lstlisting}
+internal class Timer : Machine
+{
+  MachineId Target;
+  string Info;
+
+  [Start]
+  [OnEntry(nameof(InitOnEntryAction))]
+  [OnEventGotoState(typeof(Unit), typeof(Active))]
+  class Init : MachineState { }
+
+  void InitOnEntryAction()
+  {
+    this.Target = (MachineId)(this.Payload as object[])[0];
+    this.Info = (string)(this.Payload as object[])[1];
+    this.Raise(new Unit());
+  }
+
+  [OnEntry(nameof(ProcessTickEvent))]
+  [OnEventGotoState(typeof(Unit), typeof(Active))]
+  class Active : MachineState { }
+
+  void ProcessTickEvent()
+  {
+    if (this.Nondet())
+    {
+      this.Send(this.Target, new TimerTickEvent());
+    }
+
+    this.Raise(new Unit());
+  }
+}
+\end{lstlisting}
+\vspace{-2mm}
+\caption{Timers in Azure Storage vNext are modeled as a nondeterministic \psharp machines.}
+\label{fig:timer}
+%\vspace{-2mm}
+\end{figure}
+
+\subsection{Abstracting node expiration}
+\label{sec:method:timers}
+
+Node expiration
+
+\begin{figure}[t]
+\begin{lstlisting}
+public virtual bool IsNodeExpired(string node_id, DateTime expiration)
+{
+  return DateTime.Compare(expiration, DateTime.Now) <= 0;
+}
+
+public override bool IsNodeExpired(string node_id, DateTime expiration)
+{
+  return deletedNodes.Contains(node_id);
+}
+\end{lstlisting}
+\vspace{-2mm}
+\caption{draft}
+\label{fig:expiration}
+%\vspace{-2mm}
+\end{figure}
+
+\subsection{Handling intra-machine concurrency}
+\label{sec:method:async}
 
 Async/Await
 
 custom schedulers, etc
+
+\subsection{Other}
+\label{sec:method:other}
 
 Logs/traces -> user can extend them?
 
