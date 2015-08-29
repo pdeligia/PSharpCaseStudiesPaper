@@ -29,6 +29,8 @@ We argue that our approach is \emph{flexible} since it allows the user to model 
 
 The environment of a distributed system might consist of other distributed systems and services, clients, operating system timers, as well as libraries for networking or other purposes. To be able to systematically test a distributed system, this environment must be modeled and all the interactions between the environment and the system, as well as all the nondeterminism, must be captured and controlled by the \psharp runtime.
 
+In the following subsections, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp. In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool. We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{img/mocked_engine}
@@ -123,7 +125,7 @@ internal class Timer : Machine
 }
 \end{lstlisting}
 \vspace{-2mm}
-\caption{Timers in Azure Storage vNext are modeled as a nondeterministic \psharp machines.}
+\caption{Timers in Azure Storage vNext are modeled as nondeterministic \psharp machines.}
 \label{fig:timer}
 %\vspace{-2mm}
 \end{figure}
