@@ -43,10 +43,6 @@ Method dispatch is the process of selecting which method, from a set of availabl
 
 Using method dispatch for modeling is straightforward. The system under test exposes a set of APIs as \emph{virtual methods}. The developer can then \emph{override} these APIs and replace them with \emph{mocks} that will execute instead of the original implementations during systematic testing with \psharp.
 
-We now give an example of using dynamic dispatch to model the network engine of an extent manager in the Azure Storage vNext case study (see Figure~\ref{fig:enginecode}). The network engine is responsible for sending to and receiving messages from the various components of the system. During real execution, the network engine uses a custom remote procedure call (RPC) .NET library for communication. For testing, though, it is desirable to replace all calls to this RPC library with \psharp send and receive operations, which can be captured and systematically interleaved to find bugs. We easily achieved this by exposing the original send message operation of the network engine as a virtual method, and then overriding it for testing. In the overridden method, we created a \psharp event and then we wrapped the original message in this event's payload. Then, instead of invoking the RPC library, we invoke the \texttt{PSharpRuntime.Send(...)} method, which asynchronously sends the event (containing the original message) to the target extent node machine.
-
-For mocking the receive operation, we take advantage of the implicit receive of events in \psharp machines. When a extent node machine receives an event, an appropriate event handler is invoked, which extracts the original message from the payload and then handles it accordingly.
-
 \begin{figure}[t]
 \begin{lstlisting}
 // Public interface of the real network engine
@@ -80,14 +76,20 @@ class MockedNetEngine : NetworkEngine {
 %\vspace{-2mm}
 \end{figure}
 
-Another important operation that we had to model in order to capture the nondeterminism in  the Azure Storage vNext system, and be able to detect the liveness violation, was to model the timer operation that sends a heartbeat every 5 seconds and a sync message every 5 minutes.
+We now give an example of using dynamic dispatch to model the network engine of an extent manager in the Azure Storage vNext case study (see Figure~\ref{fig:enginecode}). The network engine is responsible for sending to and receiving messages from the various components of the system. During real execution, the network engine uses a custom remote procedure call (RPC) .NET library for communication. For testing, though, it is desirable to replace all calls to this RPC library with \psharp send and receive operations, which can be captured and systematically interleaved to find bugs. We easily achieved this by exposing the original send message operation of the network engine as a virtual method, and then overriding it for testing. In the overridden method, we created a \psharp event and then we wrapped the original message in this event's payload. Then, instead of invoking the RPC library, we invoke the \texttt{PSharpRuntime.Send(...)} method, which asynchronously sends the event (containing the original message) to the target extent node machine.
+
+For mocking the receive operation, we take advantage of the implicit receive of events in \psharp machines. When a extent node machine receives an event, an appropriate event handler is invoked, which extracts the original message from the payload and then handles it accordingly.
 
 \subsubsection{Abstracting timers}
 \label{sec:method:model:timers}
 
+Distributed systems are often using timers to determine when an event should be send from one component to another. For example, in the Azure Storage vNext system, each Extent Node is associated with a timer that fires of a synchronization message every 5 minutes and a heartbeat every 5 seconds. However, when testing to find bugs, these timers should be abstracted away and be triggered nondeterministically.
+
+
 Abstract timers away so all timing events become message passing: why and how
 
-Distributed systems are often using timers to determine when an event should be send from one component to another. For example, in the Azure Storage vNext system, each Extent Node is associated with a timer that fires of a synchronization message every 5 minutes and a heartbeat every 5 seconds. However, when testing to find bugs, these timers should be abstracted away and be triggered nondeterministically.
+Another important operation that we had to model in order to capture the nondeterminism in  the Azure Storage vNext system, and be able to detect the liveness violation, was to model the timer operation that sends a heartbeat every 5 seconds and a sync message every 5 minutes.
+
 
 Figure~\ref{fig:timer} shows how we modeled timers in Azure Storage vNext. Each ExtentNode in the harness is associated with a unique \texttt{Timer} machine. Each \texttt{Timer}, when transitions to the \texttt{Active} state, loops infinitely and nondeterministically sends a \texttt{TimerTickEvent} to \texttt{this.Target}.
 
