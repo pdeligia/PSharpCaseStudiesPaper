@@ -128,28 +128,32 @@ internal class Timer : Machine
 %\vspace{-2mm}
 \end{figure}
 
-\subsubsection{Abstracting node expiration}
-\label{sec:method:model:timers}
+\subsubsection{Modeling and injecting failures}
+\label{sec:method:model:failures}
 
-Node expiration
+In production, each Extent Node of the Azure Storage vNext system periodically (every 5 seconds) sends a heartbeat to the Extent Manager which notifies that the Extent Node is alive. Because we want to model failures and systematically inject them using \psharp, we abstract away the heartbeat mechanism in our harness. However, the Extent Manager logic relies on time intervals to detect node failures (see Figure~\ref{fig:expiration}). The way to abstract this time-related logic and connect the real code with the modeled code is to use virtual dispatch and override the virtual \texttt{IsNodeExpired} method with a mocked version.
 
 \begin{figure}[t]
 \begin{lstlisting}
+// Real code for detecting node expiration
 public virtual bool IsNodeExpired(string node_id, DateTime expiration)
 {
   return DateTime.Compare(expiration, DateTime.Now) <= 0;
 }
 
+// Mocked code for detecting node expiration
 public override bool IsNodeExpired(string node_id, DateTime expiration)
 {
-  return deletedNodes.Contains(node_id);
+  return this.DeletedNodes.Contains(node_id);
 }
 \end{lstlisting}
 \vspace{-2mm}
-\caption{draft}
+\caption{Abstracting the node expiration logic in the Extent Manager component of Azure Storage vNext.}
 \label{fig:expiration}
 %\vspace{-2mm}
 \end{figure}
+
+Figure~\ref{fig:expiration} presents how we mocked the node expiration detection method. Instead of comparing the time interval as in the original code, we now check if the set \texttt{DeletedNodes} contains the id of the Extent Node that we are checking for expiration. If it contains the id, then it means that the node has failed. The \texttt{Environment} machine that we have created as part of our testing \psharp harness, will nondeterministically choose a node to kill, then send the id of this killed node to the Extent Manager wrapper machine, who will in turn add it to the \texttt{DeletedNodes} set.
 
 \subsection{Handling intra-machine concurrency}
 \label{sec:method:async}
