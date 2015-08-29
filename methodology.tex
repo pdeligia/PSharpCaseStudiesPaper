@@ -20,16 +20,57 @@ A key capability of the \psharp runtime is that it can run in \emph{bug-finding 
 
 In previous work~\cite{deligiannis2015psharp}, we approached the problem of testing legacy distributed systems as follows. First, we ported the system to \psharp, then we modeled its environment as \psharp state machines, and finally we tested the ported system and its environmental model using the \psharp systematic concurrency testing engine. The limitation of this approach is that it does not allow us to directly test a legacy system, as it has to be re-implemented first in \psharp. However, such endeavor is very costly and time consuming, and thus is not realistic for testing an existing production system, such as the Azure Storage vNext. Also, unless the code under test is the one that will actually execute, there is no guarantee that the real system will be bug-free.
 
-To solve this problem, and allow \psharp to be used for testing legacy distributed systems, we decided to take a radically different approach. We provide the capability to model the environment of a system using \psharp, and then allow the developer to take advantage of existing language features, such as \emph{method dispatch}, to connect the system under test with the environmental model, and finally test it using the \psharp systematic concurrency testing engine.
+To solve this problem, and allow \psharp to be used for testing legacy distributed systems, we decided to take a different approach. Our approach of testing existing distributed systems using \psharp requires three key steps:
 
-We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test more complicated use cases (see Section~\ref{}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes, which makes this method approachable to product groups.
+\begin{enumerate}
+\item \psharp operates in the level of communicating state machines, and thus the environment of the system-under-test must be modeled using \psharp machines, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
+
+\item The top level asynchrony due to message passing, has to be exposed as event sending using the \psharp runtime API. If the communication layer is not based on message passing, then additional effort must be spend into refactoring the system to use message passing. This step allows the \psharp runtime to capture and control the message passing interleavings during systematic testing.
+
+\item Any source of nondeterminism in the system or the environment (e.g. failures and timers), must be modeled using the \psharp \texttt{Nondet()} method. This method returns a nondeterministic boolean value that is controlled by the \psharp runtime and can be used to systematically inject ``nondeterministic'' events and for bug reproduction.
+\end{enumerate}
+
+\PDComment{Step 1 and 3 are related and thus could combine, also in the following subsections I present 1 and 3 together as the process of ``modeling of environment''}
 
 \subsection{Modeling the environment}
 \label{sec:method:model}
 
 The environment of a distributed system might consist of other distributed systems and services, clients, operating system timers, as well as libraries for networking or other purposes. To be able to systematically test a distributed system, this environment must be modeled and all the interactions between the environment and the system, as well as all the nondeterminism, must be captured and controlled by the \psharp runtime.
 
+We provide the capability to model the environment of a system using \psharp, and then allow the developer to take advantage of existing language features, such as \emph{method dispatch}, to connect the system under test with the environmental model, and finally test it using the \psharp systematic concurrency testing engine.
+
+We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test more complicated use cases (see Section~\ref{}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes, which makes this method approachable to product groups.
+
 In the following subsections, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp. In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool. We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
+
+\subsubsection{Test harness as \psharp state machines}
+\label{sec:method:model:harness}
+
+Draft
+
+\subsubsection{Entry point to a \psharp test harness}
+\label{sec:method:model:entrypoint}
+
+A developer can specify the entry point of a \psharp test harness similar to how unit tests are typically written. Figure~\ref{fig:entrypoint} shows the source code of the entry point for the Azure Storage vNext \psharp test harness. The programmer can declare an entry point method using the \texttt{Microsoft.PSharp.Test} attribute. When the \psharp systematic testing engine is invoked, it will scan the binary and attempt to find a static method declared with this attribute. When such a method is found (in our example the \texttt{Execute()} method), the testing engine will invoke it and start testing the program. The systematic engine can optionally run multiple iterations of the test harness, each one potentially exploring a different schedule. In each iteration, the program state will be reset (any static fields must be explicitly reset by the programmer) and the entry point will be re-invoked.
+
+\begin{figure}[t]
+\begin{lstlisting}
+[Microsoft.PSharp.Test]
+public static void Execute()
+{
+  PSharpRuntime.CreateMachine(typeof(Environment));
+}
+\end{lstlisting}
+\vspace{-2mm}
+\caption{Static \csharp method acting as the entry point to the Azure Storage vNext \psharp test harness.}
+\label{fig:entrypoint}
+%\vspace{-2mm}
+\end{figure}
+
+\subsubsection{Using method dispatch for modeling}
+\label{sec:method:model:dispath}
+
+Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
 
 \begin{figure}[t]
 \centering
@@ -37,11 +78,6 @@ In the following subsections, we will use the Azure Storage vNext case study as 
 \caption{The real environment of the Extent Manager is replaced with a mocked version for testing.}
 \label{fig:azurestoremodel}
 \end{figure}
-
-\subsubsection{Using method dispatch for modeling}
-\label{sec:method:model:dd}
-
-Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
 
 Using method dispatch for modeling is straightforward. The system under test exposes a set of APIs as \emph{virtual methods}. The developer can then \emph{override} these APIs and replace them with \emph{mocks} that will execute instead of the original implementations during systematic testing with \psharp.
 
@@ -138,15 +174,15 @@ In production, each Extent Node of the Azure Storage vNext system periodically (
 \begin{figure}[t]
 \begin{lstlisting}
 // Real code for detecting node expiration
-public virtual bool IsNodeExpired(string node_id, DateTime expiration)
+public virtual bool IsNodeExpired(string id, DateTime time)
 {
-  return DateTime.Compare(expiration, DateTime.Now) <= 0;
+  return DateTime.Compare(time, DateTime.Now) <= 0;
 }
 
 // Mocked code for detecting node expiration
-public override bool IsNodeExpired(string node_id, DateTime expiration)
+public override bool IsNodeExpired(string id, DateTime time)
 {
-  return this.DeletedNodes.Contains(node_id);
+  return this.DeletedNodes.Contains(id);
 }
 \end{lstlisting}
 \vspace{-2mm}
