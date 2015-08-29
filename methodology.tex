@@ -20,7 +20,7 @@ A key capability of the \psharp runtime is that it can run in \emph{bug-finding 
 
 In previous work~\cite{deligiannis2015psharp}, we approached the problem of testing legacy distributed systems as follows. First, we ported the system to \psharp, then we modeled its environment as \psharp state machines, and finally we tested the ported system and its environmental model using the \psharp systematic concurrency testing engine. The limitation of this approach is that it does not allow us to directly test a legacy system, as it has to be re-implemented first in \psharp. However, such endeavor is very costly and time consuming, and thus is not realistic for testing an existing production system, such as the Azure Storage vNext. Also, unless the code under test is the one that will actually execute, there is no guarantee that the real system will be bug-free.
 
-To solve this problem, and allow \psharp to be used for testing legacy distributed systems, we decided to take a different approach. Our approach of testing existing distributed systems using \psharp requires three key steps:
+To solve this problem, and allow \psharp to be used for testing legacy distributed systems, we decided to take a different approach. Our approach of testing existing distributed systems using \psharp requires the developer to perform three key modeling tasks:
 
 \begin{enumerate}
 \item \psharp operates in the level of communicating state machines, and thus the environment of the system-under-test must be modeled using \psharp machines, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
@@ -30,7 +30,11 @@ To solve this problem, and allow \psharp to be used for testing legacy distribut
 \item Any source of nondeterminism in the system or the environment (e.g. failures and timers), must be modeled using the \psharp \texttt{Nondet()} method. This method returns a nondeterministic boolean value that is controlled by the \psharp runtime and can be used to systematically inject ``nondeterministic'' events and for bug reproduction.
 \end{enumerate}
 
-\PDComment{Step 1 and 3 are related and thus could combine, also in the following subsections I present 1 and 3 together as the process of ``modeling of environment''}
+In the remaining of this section, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp. In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool. We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
+
+We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test more complicated use cases (see Section~\ref{}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes, which makes this method approachable to product groups.
+
+In Section~\ref{sec:psharp} we will present more specifics of how the \psharp bug-finding runtime works and extensions that we did since the original work~\cite{deligiannis2015psharp} to be able to use \psharp to systematically test production code.
 
 \subsection{Modeling the environment}
 \label{sec:method:model}
@@ -38,10 +42,6 @@ To solve this problem, and allow \psharp to be used for testing legacy distribut
 The environment of a distributed system might consist of other distributed systems and services, clients, operating system timers, as well as libraries for networking or other purposes. To be able to systematically test a distributed system, this environment must be modeled and all the interactions between the environment and the system, as well as all the nondeterminism, must be captured and controlled by the \psharp runtime.
 
 We provide the capability to model the environment of a system using \psharp, and then allow the developer to take advantage of existing language features, such as \emph{method dispatch}, to connect the system under test with the environmental model, and finally test it using the \psharp systematic concurrency testing engine.
-
-We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test more complicated use cases (see Section~\ref{}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes, which makes this method approachable to product groups.
-
-In the following subsections, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp. In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool. We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
 
 \subsubsection{Test harness as \psharp state machines}
 \label{sec:method:model:harness}
@@ -192,17 +192,3 @@ public override bool IsNodeExpired(string id, DateTime time)
 \end{figure}
 
 Figure~\ref{fig:expiration} presents how we mocked the node expiration detection method. Instead of comparing the time interval as in the original code, we now check if the set \texttt{DeletedNodes} contains the id of the Extent Node that we are checking for expiration. If it contains the id, then it means that the node has failed. The \texttt{Environment} machine that we have created as part of our testing \psharp harness, will nondeterministically choose a node to kill, then send the id of this killed node to the Extent Manager wrapper machine, who will in turn add it to the \texttt{DeletedNodes} set.
-
-\subsection{Handling intra-machine concurrency}
-\label{sec:method:async}
-
-Async/Await
-
-custom schedulers, etc
-
-\subsection{Other}
-\label{sec:method:other}
-
-Logs/traces -> user can extend them?
-
-\PDComment{mention dependency injection pattern?}
