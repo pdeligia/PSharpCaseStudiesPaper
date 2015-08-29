@@ -34,7 +34,7 @@ To solve this problem, and allow \psharp to be used for testing legacy distribut
 
 In the remaining of this section, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp. In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool. We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
 
-We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test more complicated use cases (see Section~\ref{}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes, which makes this method approachable to product groups.
+We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test more complicated use cases (see Section~\ref{}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes (e.g. \emph{virtual method dispatch}), which significantly lowers the bar for product groups to embrace \psharp for testing.
 
 In Section~\ref{sec:psharp} we will present more specifics of how the \psharp bug-finding runtime works and extensions that we did since the original work~\cite{deligiannis2015psharp} to be able to use \psharp to systematically test production code.
 
@@ -42,8 +42,6 @@ In Section~\ref{sec:psharp} we will present more specifics of how the \psharp bu
 \label{sec:method:model}
 
 The environment of a distributed system might consist of other distributed systems and services, clients, operating system timers, as well as libraries for networking or other purposes. To be able to systematically test a distributed system, this environment must be modeled and all the interactions between the environment and the system, as well as all the nondeterminism, must be captured and controlled by the \psharp runtime.
-
-We provide the capability to model the environment of a system using \psharp, and then allow the developer to take advantage of existing language features, such as \emph{method dispatch}, to connect the system under test with the environmental model, and finally test it using the \psharp systematic concurrency testing engine.
 
 \subsubsection{Test harness as \psharp state machines}
 \label{sec:method:model:harness}
