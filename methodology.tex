@@ -83,22 +83,17 @@ For mocking the receive operation, we take advantage of the implicit receive of 
 \subsubsection{Abstracting timers}
 \label{sec:method:model:timers}
 
-Distributed systems are often using timers to determine when an event should be send from one component to another. For example, in the Azure Storage vNext system, each Extent Node is associated with a timer that fires of a synchronization message every 5 minutes and a heartbeat every 5 seconds. However, when testing to find bugs, these timers should be abstracted away and be triggered nondeterministically.
+Distributed systems are often using timers to determine when an event should be send from one component to another. For example, in the Azure Storage vNext system, each Extent Node is associated with a timer that fires of a synchronization message every 5 minutes and a heartbeat every 5 seconds. This timer is related to the liveness bug that we discovered: the synchronization message that gets fired every 5 minutes can potentially race with an Extent Node failure; if it arrives after the node failed, then the bug would manifest. Traditional testing techniques cannot easily find such a bug, due to the very infrequent occurrence of this race due to the timer. 
 
+Our methodology in \psharp to systematically test distributed systems that rely on timers, is to abstract timers away, model them using message passing communication and introduce nondeterminism in their firing.
 
-Abstract timers away so all timing events become message passing: why and how
-
-Another important operation that we had to model in order to capture the nondeterminism in  the Azure Storage vNext system, and be able to detect the liveness violation, was to model the timer operation that sends a heartbeat every 5 seconds and a sync message every 5 minutes.
-
-
-Figure~\ref{fig:timer} shows how we modeled timers in Azure Storage vNext. Each ExtentNode in the harness is associated with a unique \texttt{Timer} machine. Each \texttt{Timer}, when transitions to the \texttt{Active} state, loops infinitely and nondeterministically sends a \texttt{TimerTickEvent} to \texttt{this.Target}.
+Figure~\ref{fig:timer} shows how we modeled a generic timer in the Azure Storage vNext case study. The Extend Manager, as well as each Extent Node in the harness, is associated with a unique \texttt{Timer} machine. When creating this machine, we pass as a payload the id of the machine that owns this timer. When the \texttt{Timer} machine is created, it stores this id in the \texttt{Owner} field and then transitions to the \texttt{Active} state. In this state, the \texttt{Timer} loops infinitely and nondeterministically sends a \texttt{TimerTickEvent} to \texttt{this.Owner}. When the Extent Node owner receives this event, it handles it by generating a synchronization message that is being send to the Extent Manager. Similarly, when the Extent Manager receives a \texttt{TimerTickEvent} from its own \texttt{Timer}, it handles it by nondeterministically invoking repair-related methods in the Extent Repair Center data structure. 
 
 \begin{figure}[t]
 \begin{lstlisting}
 internal class Timer : Machine
 {
-  MachineId Target;
-  string Info;
+  MachineId Owner; // Id of the owner machine
 
   [Start]
   [OnEntry(nameof(InitOnEntryAction))]
@@ -107,8 +102,8 @@ internal class Timer : Machine
 
   void InitOnEntryAction()
   {
-    this.Target = (MachineId)(this.Payload as object[])[0];
-    this.Info = (string)(this.Payload as object[])[1];
+    this.Owner = (MachineId)this.Payload;
+    // triggers state transition to Active
     this.Raise(new Unit());
   }
 
@@ -118,11 +113,11 @@ internal class Timer : Machine
 
   void ProcessTickEvent()
   {
+    // Nondeterministic boolean choice controlled by P#
     if (this.Nondet())
-    {
-      this.Send(this.Target, new TimerTickEvent());
-    }
-
+      // sends a timer tick event to the owner machine
+      this.Send(this.Owner, new TimerTickEvent());
+    // triggers state transition to Active
     this.Raise(new Unit());
   }
 }
