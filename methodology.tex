@@ -43,10 +43,27 @@ In Section~\ref{sec:psharp} we will present more specifics of how the \psharp bu
 
 The environment of a distributed system might consist of other distributed systems and services, clients, operating system timers, as well as libraries for networking or other purposes. To be able to systematically test a distributed system, this environment must be modeled and all the interactions between the environment and the system, as well as all the nondeterminism, must be captured and controlled by the \psharp runtime.
 
-\subsubsection{Test harness as \psharp state machines}
+\subsubsection{Creating a test harness using \psharp}
 \label{sec:method:model:harness}
 
-Draft
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{img/mocked_engine}
+\caption{The real environment of the Extent Manager is replaced with a mocked version for testing.}
+\label{fig:azurestoremodel}
+\end{figure}
+
+Before being able to use \psharp to test an existing distributed system, the environment of the components that the developer wants to test have to be modeled using the \psharp state machine APIs.  This involves creating mock classes that inherit from the \texttt{Machine} abstract class. The \texttt{Machine} class exposes methods for declaring a state machine (e.g. machine states and state transitions) as well as methods for sending events to other machines, declaring event handlers for received events, and accessing the payload from the latest received event.
+
+In the Azure Storage vNext case study, we created the following \psharp machines: \texttt{Environment}, \texttt{ExtentNode}, \texttt{ExtentManager}, and \texttt{Timer}.
+
+The \texttt{Environment} is essentially a ``god'' machine: it is the very first machine that is created; has a handle to all other machines in the harness; and includes the logic based on which the test harness will execute (e.g. how many nodes should be created, how many failures should occur, etc).
+
+The \texttt{ExtentNode} machine is a model (less than 150 lines of code) of the real Extent Node and is responsible for generating synchronization events and sending them to the \texttt{ExtentManager} to test the extent manager's repair logic.
+
+The \texttt{ExtentManager} is a wrapper machine and is used to connect the \psharp modeled code with the legacy \csharp code. A typical wrapper machine contains a handle (as a field) to the system component that is being wrapped (in our case the real Extent Manager object) and the event handlers are responsible for translating any received events to method calls in the real code that is being tested. The \texttt{ExtentManager} is accompanied by a mocked version of the real Network Engine class. The real Extent Manager is communicating with the outside world via remote procedure calls, but in \psharp harness we want to capture this communicating and expose it as calls to \psharp communicating primitives. This is discussed in detail in Section~\ref{sec:method:model:dispath}.
+
+Finally, the \texttt{Timer} machine models the operating system timer and is responsible for triggering events related to the Azure Storage vNext logic (e.g. synchronization messages, heartbeats and repair logic loops). This is discussed in detail in Section~\ref{sec:method:model:timers}.
 
 \subsubsection{Entry point to a \psharp test harness}
 \label{sec:method:model:entrypoint}
@@ -71,13 +88,6 @@ public static void Execute()
 \label{sec:method:model:dispath}
 
 Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{img/mocked_engine}
-\caption{The real environment of the Extent Manager is replaced with a mocked version for testing.}
-\label{fig:azurestoremodel}
-\end{figure}
 
 Using method dispatch for modeling is straightforward. The system under test exposes a set of APIs as \emph{virtual methods}. The developer can then \emph{override} these APIs and replace them with \emph{mocks} that will execute instead of the original implementations during systematic testing with \psharp.
 
