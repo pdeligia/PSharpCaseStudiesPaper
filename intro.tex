@@ -10,7 +10,7 @@ Amazon recently published an article~\cite{newcombe2015aws} that describes their
 
 In this work, our goal is to \emph{test what is being executed}. We present a new methodology for testing legacy distributed systems and uncovering bugs before these systems are released in the wild. We achieve this using \psharp~\cite{deligiannis2015psharp}, an extension of the mainstream language \csharp that provides two key capabilities: (i) a flexible way of modeling the environment using simple language features; and (ii) a systematic concurrency testing framework that is able to capture and take control of all the nondeterminism in a real system (together with its modeled environment) and systematically explore execution paths to discover bugs.
 
-We present three case studies of using \psharp to test production distributed systems for Windows Azure inside Microsoft: a distributed storage management system and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time as they did not have an effective way to reproduce the bug and nail down the culprit. \psharp uncovered this bug in a very small setting, which made it easy to examine traces, identify and eventually fix the problem.
+We present three case studies of using \psharp to test production distributed systems for Windows Azure inside Microsoft: a distributed storage management system and a live migration protocol. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time as they did not have an effective way to reproduce the bug and nail down the culprit. \psharp uncovered this bug in a very small setting, which made it easy to examine traces, identify and eventually fix the problem. We show that bugs in production do not need a large setting to be reproduced; they can be reproduced in small settings with easy to understand traces.
 
 To summarize, our contributions are as follows:
 
@@ -18,5 +18,5 @@ To summarize, our contributions are as follows:
 \item We present a methodology that allows flexible modeling of the environment of a distributed system using simple language mechanisms.
 \item Our infrastructure can test production code written in \csharp, which is a mainstream language.
 \item We present three case studies of using \psharp to test production distributed systems, finding bugs that could not be found with traditional testing techniques.
-\item ...
+\item We show that we can reproduce bugs in production systems in a small setting with easy to understand traces.
 \end{itemize}
