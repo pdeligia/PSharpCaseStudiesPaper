@@ -29,13 +29,16 @@ One can imagine a liveness monitor as a \emph{thermometer}: as the program execu
 \subsection{Handling intra-machine concurrency}
 \label{sec:psharp:async}
 
-Async/Await
+Vanilla \psharp is able to capture and take control of the \emph{inter-machine concurrency} due to message passing, but is unable to systematically explore any interleavings due to \emph{intra-machine concurrency} (e.g. async/await or TPL). This is problematic as nowadays, with multicore machines being a commodity, programmers tend to write multithreaded code to exploit shared memory architectures and increase the performance of individual components of a distributed system.
 
-custom schedulers, etc
+As an example, the Live Azure Migration system uses the \texttt{async} and \texttt{await} \csharp \PDComment{version} language primitives. Asynchronous code using async/await is more readable because it looks like traditional procedural code, but it is translated by the compiler to an event-driven state machine that is built on top of TPL to achieve performance.
 
-\subsection{Other}
-\label{sec:psharp:other}
+\PDComment{small example of how async/await actually works with continuations}
 
-Logs/traces -> user can extend them?
+Developing a fully automatic and universal approach to handle intra-machine concurrency in .NET is very challenging, because there are many APIs that can be used for concurrency and synchronization (e.g. \texttt{System.Threading}, TPL, async/await, locks, semaphores) and each one has its own complexities. Although developers are willing to model the top-level message passing communication using \psharp, they are resistant in modeling the low-level threading and synchronization methods as this would be a very invasive procedure and such refactoring is unlikely to scale for legacy code.
 
-\PDComment{mention dependency injection pattern?}
+To test our case studies, we decided to focus our efforts in handling async/await as providing a robust solution for a subset of the .NET threading APIs is more feasible than trying to handle arbitrary threading and synchronization. Our solution involves using a custom \texttt{TaskScheduler} instead of the default TPL task scheduler. The \texttt{TaskScheduler} class \PDComment{write some stuff}.
+
+Our approach works as follows. We start the task of the \emph{root} \psharp machine in our custom task scheduler. As long as any child tasks spawned by the root machine task do not explicitly start in another scheduler (including the default TPL scheduler), then they will be scheduled for execution in our custom task scheduler. Our custom scheduler intercepts the call to enqueue a task, creates a special machine called \texttt{TaskMachine} and \emph{wraps} the enqueued task inside this machine. The constructor of a \texttt{TaskMachine} takes as an argument a TPL task and stores it in an field. The \texttt{TaskMachine} has only a single state and when it is scheduled for execution by the \psharp systematic testing scheduler it will start executing the wrapped task and then immediately wait on its completion. This forces the lifetime of the task to become the lifetime of the machine and vice versa. Thus, when the \psharp systematic testing scheduler schedules the \texttt{TaskMachine}, it will also schedule the corresponding task. This means that when a \psharp program makes a call to an \texttt{async} method, then the task created in the backend will be automatically wrapped and scheduled.
+
+For \texttt{await}, no special treatment is required because \texttt{await} statements are compiled into a continuation. The task associated with the continuation will also be wrapped and scheduled accordingly.
