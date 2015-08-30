@@ -15,12 +15,16 @@ We designed the bug-finding mode of the \psharp runtime to enable easy debugging
 Safety property specifications can be encoded in \psharp by using the provided \texttt{Assert(...)} method. This method takes as argument a predicate, which if evaluates to false denotes a safety property violation. The programmer is also free to use other custom assertion APIs (as \psharp executes actual code), but to enable \psharp to recognize such APIs, the suggested approach is to override them to call the \psharp \texttt{Assert(...)} method.
 
 \psharp also provides a way to specify global assertions by using \emph{monitors}, special state machines that
-can only receive events, but not send. A \texttt{Machine} does not need to have a reference to a \texttt{Monitor} to send an event to it, as long as a \texttt{Monitor} has been created, any \texttt{Machine} can invoke it by calling \texttt{Monitor<M>(...)}, where \texttt{M} is the identifier name of the \texttt{Monitor}, and the parameter is event and an optional payload. This call is also synchronous, in contrast to the regular asynchronous \texttt{Send(...)} method calls.
+can only receive events, but not send. A \texttt{Machine} does not need to have a reference to a \texttt{Monitor} to send an event to it, as long as a \texttt{Monitor} has been created, any \texttt{Machine} can invoke it by calling \texttt{Monitor<M>(...)}, where \texttt{M} is the identifier name of the \texttt{Monitor}, and the parameter is event and an optional payload. This call is also synchronous, in contrast to the regular asynchronous \texttt{Send(...)} method calls, as the monitor has to be called deterministically (and not be interleaved).
 
 \subsection{Checking liveness specifications}
 \label{sec:psharp:liveness}
 
-Liveness property specifications are in principle harder to encode since they apply over entire program executions instead of individual program states. The \psharp developer can write liveness properties using a \emph{liveness monitor}, which is a special type of monitor that can contain three types of states: regular ones; \emph{hot} states; and \emph{cold} states.
+Liveness property specifications are in principle harder to encode since they apply over entire program executions instead of individual program states. The \psharp developer can write liveness properties using a \emph{liveness monitor}, which is a special type of monitor that can contain three types of states: regular ones; \emph{hot} states; and \emph{cold} states. A state annotated with the \texttt{Hot} attribute denotes a state where the liveness property is not satisfied (e.g. a node has failed but a new one has not come up yet). A state annotated with the \texttt{Cold} attribute denotes a state where the liveness property is satisfied.
+
+One can imagine a liveness monitor as a \emph{thermometer}: as the program executes and the liveness property is not satisfied, the liveness monitor stays in the hot state, which infinitely raises the temperature. If the liveness property is ever satisfied, and thus the liveness monitor transitions to a cold state, the temperature is instantly reduced to normal levels. Encoding liveness properties using hot and cold states enables the programmer to specify arbitrary LTL properties. The liveness monitors in \psharp are based on previous work~\cite{?}.
+
+\PDComment{Discuss the liveness checking algorithm: are we going to mention the terminating-harness random walk one? or the infinite-harness lasso one with partial caching?}
 
 \subsection{Handling intra-machine concurrency}
 \label{sec:psharp:async}
