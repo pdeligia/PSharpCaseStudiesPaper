@@ -1,7 +1,13 @@
 \subsection{Overview}
 \label{sec:psharp:overview}
 
-Draft
+The \psharp runtime is a lightweight layer build on top of the Task Parallel Library (TPL) of .NET that implements the semantics of \psharp: creating state machines, executing them concurrently using the default task scheduler of TPL, and sending events and enqueueing them in the appropriate machines. A key capability of the \psharp runtime is that it can execute in bug-finding mode for systematically testing a \psharp program to find bugs, such as assertion violations and uncaught exceptions. We now give an overview of how this works, while more details can be found in the original paper~\cite{deligiannis2015psharp}.
+
+The \psharp bug-finding runtime attempts to detect asynchronous bugs by systematically scheduling machines to execute their event handlers in a different order. This approach is based on systematic concurrency testing~\cite{godefroid1997verisoft, musuvathi2008finding, emmi2011delay} (SCT) techniques that have been previously developed for testing shared memory programs. In bug-finding mode, the \psharp runtime serializes the program execution, takes control of the synchronization and nondeterministic choice points, and at each \emph{step} of the execution it invokes a systematically chosen \psharp machine to execute its next event handler. The \psharp runtime will repeatedly execute a program from start to completion, each time exploring a potentially different set of interleavings, until it either reaches a bound (in number of iterations or time), or it hits an assertion failure. The testing is fully automatic, has no false-positives (assuming an accurate environmental model), and can reproduce found bugs by replaying buggy schedules.
+
+We have implemented multiple schedulers inside the \psharp runtime: \emph{random}, \emph{depth-first-search (DFS)}, ..., \emph{PCT}. It is easy to create a new scheduler by implementing the \texttt{ISchedulingStrategy} interface exposed by the \psharp libraries. The interface exposes callbacks that are invoked by the \psharp runtime for taking decisions regarding which machine to schedule next, and can be used for developing both generic and application-specific schedulers, although we have experimented only with generic schedulers so far. Exposing an intuititive interface for creating new schedulers is inspired by previous work~\cite{desai2015tr}.
+
+We designed the bug-finding mode of the \psharp runtime to enable easy debugging: after a bug is found, the runtime can generate a trace that represents the buggy schedule. Note that this trace (in contrast to typical logs generating during production) is sequential.
 
 \subsection{Writing specifications}
 \label{sec:psharp:specs}
