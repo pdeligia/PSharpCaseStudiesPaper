@@ -9,15 +9,18 @@ We have implemented multiple schedulers inside the \psharp runtime: \emph{random
 
 We designed the bug-finding mode of the \psharp runtime to enable easy debugging: after a bug is found, the runtime can generate a trace that represents the buggy schedule. Note that this trace (in contrast to typical logs generating during production) is sequential.
 
-\subsection{Writing specifications}
-\label{sec:psharp:specs}
+\subsection{Checking safety specifications}
+\label{sec:psharp:safety}
 
-Draft
+Safety property specifications can be encoded in \psharp by using the provided \texttt{Assert(...)} method. This method takes as argument a predicate, which if evaluates to false denotes a safety property violation. The programmer is also free to use other custom assertion APIs (as \psharp executes actual code), but to enable \psharp to recognize such APIs, the suggested approach is to override them to call the \psharp \texttt{Assert(...)} method.
 
-\subsection{Liveness checking}
+\psharp also provides a way to specify global assertions by using \emph{monitors}, special state machines that
+can only receive events, but not send. A \texttt{Machine} does not need to have a reference to a \texttt{Monitor} to send an event to it, as long as a \texttt{Monitor} has been created, any \texttt{Machine} can invoke it by calling \texttt{Monitor<M>(...)}, where \texttt{M} is the identifier name of the \texttt{Monitor}, and the parameter is event and an optional payload. This call is also synchronous, in contrast to the regular asynchronous \texttt{Send(...)} method calls.
+
+\subsection{Checking liveness specifications}
 \label{sec:psharp:liveness}
 
-Draft
+Liveness property specifications are in principle harder to encode since they apply over entire program executions instead of individual program states. The \psharp developer can write liveness properties using a \emph{liveness monitor}, which is a special type of monitor that can contain three types of states: regular ones; \emph{hot} states; and \emph{cold} states.
 
 \subsection{Handling intra-machine concurrency}
 \label{sec:psharp:async}
