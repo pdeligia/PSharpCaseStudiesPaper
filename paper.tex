@@ -50,7 +50,7 @@
 \newcommand{\SQComment}[1]{\textcolor{red}{Shaz: #1}}
 \newcommand{\PDComment}[1]{\textcolor{blue}{Pantazis: #1}}
 \newcommand{\MMComment}[1]{\textcolor{cyan}{Matt: #1}}
-\newcommand{\SCComment}[1]{\textcolor{orange}{Shuo: #1}}
+\newcommand{\SCComment}[1]{\textcolor{magenta}{Shuo: #1}}
 
 \definecolor{bluekeywords}{rgb}{0.13,0.13,1}
 \definecolor{greencomments}{rgb}{0,0.5,0}
@@ -96,14 +96,14 @@ $^4$Massachusetts Institute of Technology\\
 \subsection*{Abstract}
 Testing distributed systems is very challenging due to multiple sources of nondeterminism, such as arbitrary interleavings between event handlers and unexpected node failures. Stress testing, commonly used in industry today, is unable to deal with this kind of nondeterminism, which results in the most tricky bugs being missed during testing and only getting exposed in production.
 
-We present a new methodology for systematically testing distributed systems. Our approach involves the use of \psharp, an extension of \csharp that combines a flexible environmental modeling approach with a concurrency testing framework, which can capture and systematically explore all sources of nondeterminism\SCComment{this paper mainly focuses on the nondet due to scheduling, right? There are other sources, e.g., arbitrary input, system call behavior, clock, random number, etc. I feel that "all sources" is perhaps an overclaim}. We present two case studies of using \psharp to test production distributed systems inside Microsoft. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it. \psharp uncovered the bug in a very small setting, which made it easy to examine traces, identify and fix the problem. \PDComment{we now have many bugs in Matt's system too.}
+We present a new methodology for systematically testing distributed systems. Our approach involves the use of \psharp, an extension of \csharp that combines a flexible environmental modeling approach with a concurrency testing framework, which can capture and systematically explore all sources of nondeterminism\SCComment{this paper mainly focuses on the nondet due to scheduling, right? There are other sources, e.g., arbitrary input, system call behavior, clock, random number, etc. I feel that ``all sources'' is perhaps an overclaim}. We present two case studies of using \psharp to test production distributed systems inside Microsoft. Using \psharp, we managed to uncover a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it. \psharp uncovered the bug in a very small setting, which made it easy to examine traces, identify and fix the problem. \PDComment{we now have many bugs in Matt's system too.}
 
 \section{Introduction}
 \label{sec:intro}
 
 \input{intro}
 
-\section{Distributed Systems \SCComment{change to "Distributed System Bugs"?}
+\section{Distributed Systems \SCComment{change to "Distributed System Bugs"?}}
 \label{sec:bg}
 
 \input{overview}
