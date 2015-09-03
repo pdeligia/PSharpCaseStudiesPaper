@@ -11,7 +11,7 @@ A \psharp machine consists of an input event queue, states, state transitions, e
 
 Because \psharp is built on top of \csharp, the programmer can blend \psharp and \csharp code; this not only lowers the overhead of learning a new language, but also allows \psharp to easily integrate with legacy code. Another advantage is that the programmer can use the familiar programming and debugging environment of Visual Studio.
 
-A key capability of the \psharp runtime is that it can run in \emph{bug-finding mode}, where a embedded systematic testing engine captures and takes control of all sources of nondeterminism (such as event handler interleavings, failures, and client requests) in a \psharp program, and then systematically explores all possible executions to discover bugs.
+A key capability of the \psharp runtime is that it can run in \emph{bug-finding mode}, where an embedded systematic testing engine captures and takes control of all sources of nondeterminism (such as event handler interleavings, failures, and client requests) in a \psharp program, and then systematically explores all possible executions to discover bugs.
 
 \psharp is available as open-source\footnote{\url{https://github.com/p-org/PSharp}} and is currently used by various teams in Microsoft to develop and test distributed protocols and systems.
 
@@ -27,9 +27,9 @@ To solve this problem, and allow \psharp to be used for testing legacy distribut
 \begin{enumerate}
 \item \psharp operates in the level of communicating state machines, and thus the environment of the system-under-test must be modeled using \psharp machines, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
 
-\item The top level asynchrony due to message passing, has to be exposed as event sending using the \psharp runtime API. If the communication layer is not based on message passing, then additional effort must be spend into refactoring the system to use message passing. This step allows the \psharp runtime to capture and control the message passing interleavings during systematic testing.
+\item The top level asynchrony due to message passing, has to be exposed as event sending using the \psharp runtime API. If the communication layer is not based on message passing, then additional effort must be spent into refactoring the system to use message passing. This step allows the \psharp runtime to capture and control the message passing interleavings during systematic testing.
 
-\item Any source of nondeterminism in the system or the environment (e.g. failures and timers), must be modeled using the \psharp \texttt{Nondet()} method. This method returns a nondeterministic boolean value that is controlled by the \psharp runtime and can be used to systematically inject ``nondeterministic'' events and for bug reproduction.
+\item Any source of nondeterminism in the system or the environment (e.g. failures and timers), must be modeled using the \psharp \texttt{Nondet()} method. This method returns a nondeterministic boolean value \SCComment{why only Boolean? even a timer returns a Boolean value?} that is controlled by the \psharp runtime and can be used to systematically inject ``nondeterministic'' events and for bug reproduction.
 \end{enumerate}
 
 In the remaining of this section, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp. In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool. We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
@@ -57,7 +57,7 @@ Before being able to use \psharp to test an existing distributed system, the env
 
 In the Azure Storage vNext case study, we created the following \psharp machines: \texttt{Environment}, \texttt{ExtentNode}, \texttt{ExtentManager}, and \texttt{Timer}.
 
-The \texttt{Environment} is essentially a ``god'' machine: it is the very first machine that is created; has a handle to all other machines in the harness; and includes the logic based on which the test harness will execute (e.g. how many nodes should be created, how many failures should occur, etc).
+The \texttt{Environment} is essentially a ``god'' machine: \SCComment{it is helpful to indicate this machine clearly in Fig.3. I think it is the dashed line box} it is the very first machine that is created; has a handle to all other machines in the harness; and includes the logic based on which the test harness will execute (e.g. how many nodes should be created, how many failures should occur \SCComment{why is the failure rate limited? is there a supporting evidence for the limit we set?}, etc).
 
 The \texttt{ExtentNode} machine is a model (less than 150 lines of code) of the real Extent Node and is responsible for generating synchronization events and sending them to the \texttt{ExtentManager} to test the extent manager's repair logic.
 
