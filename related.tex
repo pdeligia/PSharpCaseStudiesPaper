@@ -1,5 +1,7 @@
 A significant amount of research has been conducted on how to analyze and test distributed systems~\cite{lamport1994temporal, schuppan2004efficient, killian2007life, gupta2008diecast, yang2009modist}, but a lot of these techniques either have significant limitations, or cannot be easily applied in a production environment, due to many complexities that are outside the scope of a research project.
 
+A completely different approach for reasoning about the correctness of distributed systems is to use formal methods.  A notable example is TLA+~\cite{lamport1994temporal}, a formal specification language that can be used to design and verify concurrent programs via model checking. Amazon recently published an article describing their use of TLA+ in Amazon Web Services to verify distributed protocols~\cite{newcombe2015aws}. A limitation of TLA+, as well as other similar specification languages, is that they are applied on a model of the system and not the actual system. Even if the model is verified, the gap between a real-world implementation and the verified model is still significant, so implementation bugs are still a realistic concern.
+
 In Verdi~\cite{wilcox2015verdi}, a distributed system is written and verified in Coq, and then OCaml code is produced for execution. Verdi cannot find liveness bugs. \psharp is also more production-friendly (works on a mainstream language). \PDComment{say few more stuff}
 
 D3S~\cite{liu2008d3s} \PDComment{should read the paper, they say they are debugging running systems}
