@@ -1,91 +1,36 @@
-Our goal in this work is to \emph{test what is being executed}. Our approach involves using \psharp~\cite{deligiannis2015psharp}, a framework that provides: (i) an \emph{event-driven asynchronous programming} language for developing and modeling distributed systems; and (ii) a \emph{systematic concurrency testing} engine that can systematically explore all interleavings between asynchronous event handlers, as well as other nondeterministic events such as failures and timeouts.
+To uncover the elusive extent repair bug in Azure Storage vNext, a testing harness is written in \psharp. The developers of vNext expect the bug more likely in Extent Manager than in Extent Node. Hence, the testing harness focuses on the real Extent Manager with mocked Extent Nodes.
 
-\subsection{The \psharp framework}
-\label{sec:method:psharp}
-
-The \psharp language is an extension of \csharp, built on top of Microsoft's Roslyn\footnote{\url{https://github.com/dotnet/roslyn}} compiler, that enables asynchronous programming using communicating state-machines. \psharp machines can interact asynchronously by sending and receiving events,\footnote{We use the word ``event'' and ``message'' interchangeably.} an approach commonly used to develop distributed systems. This programming model is similar to actor-based approaches provided by other asynchronous programming languages (e.g. Scala~\cite{odersky2008programming} and Erlang~\cite{armstrong1996erlang}).
-
-A \psharp machine consists of an input event queue, states, state transitions, event handlers, fields and methods. Machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking an appropriate event handler. This handler might update a field, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the message is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it. All this functionality is provided in a lightweight runtime library, build on top of Microsoft's Task Parallel Library~\cite{leijen2009tpl}.
-
-Because \psharp is built on top of \csharp, the programmer can blend \psharp and \csharp code; this not only lowers the overhead of learning a new language, but also allows \psharp to easily integrate with legacy code. Another advantage is that the programmer can use the familiar programming and debugging environment of Visual Studio.
-
-A key capability of the \psharp runtime is that it can run in \emph{bug-finding mode}, where an embedded systematic testing engine captures and takes control of all sources of nondeterminism (such as event handler interleavings, failures, and client requests) in a \psharp program, and then systematically explores all possible executions to discover bugs.
-
-\psharp is available as open-source\footnote{\url{https://github.com/p-org/PSharp}} and is currently used by various teams in Microsoft to develop and test distributed protocols and systems.
-
-%The \psharp language belongs to the same family of languages as P~\cite{desai2013p}.
-
-\subsection{Overview of our approach}
-\label{sec:method:model}
-
-In previous work~\cite{deligiannis2015psharp}, we approached the problem of testing legacy distributed systems as follows. First, we ported the system to \psharp, then we modeled its environment as \psharp state machines, and finally we tested the ported system and its environmental model using the \psharp systematic concurrency testing engine. The limitation of this approach is that it does not allow us to directly test a legacy system, as it has to be re-implemented first in \psharp. However, such endeavor is very costly and time consuming, and thus is not realistic for testing an existing production system, such as the Azure Storage vNext. Also, unless the code under test is the one that will actually execute, there is no guarantee that the real system will be bug-free.
-
-To solve this problem, and allow \psharp to be used for testing legacy distributed systems, we decided to take a different approach. Our approach of testing existing distributed systems using \psharp requires the developer to perform three key modeling tasks:
-
+The testing harness consists of multiple \psharp machines. 
 \begin{enumerate}
-\item \psharp operates in the level of communicating state machines, and thus the environment of the system-under-test must be modeled using \psharp machines, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
+\item There is a {\em Extent Manager} machine that is a thin wrapper for the real Extent Manager and several {\em Extent Node} machines that represent simple mocked ENs. 
 
-\item The top level asynchrony due to message passing, must be exposed as event sending using the \psharp APIs. If the communication layer is not based on message passing, then additional effort must be spent into refactoring the system to use message passing. This step allows the \psharp runtime to capture and control the nondeterminism due to message passing interleavings during systematic testing.
+\item In addition, there is a {\em Testing Driver} machine that communicates with all the machines, relays messages between Extent Manager and EN machines, and drives testing scenarios. In one testing scenario, the testing driver launches Extent Manager with three ENs, with a single extent on one of the ENs. It then waits for the extent to be repaired on all three ENs. In another testing scenario, the testing driver fails one of the ENs and launches a new EN. It then waits for the extent to be repaired on all the remaining ENs.
 
-\item Any other source of nondeterminism in the system or the environment (e.g. failures and timers), must be explicitly modeled using the available \psharp APIs. This would allow \psharp to capture the nondeterminism and control it during systematic testing.
+\item Moreover, there is a {\em Monitor} machine, which collects states from all the ENs and verifies the desired property that the extent is {\em eventually} repaired.
 \end{enumerate}
 
-In the remaining of this section, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp. In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool. We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
-
-We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test more complicated use cases (see Section~\ref{}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes (e.g. \emph{virtual method dispatch}), which significantly lowers the bar for product groups to embrace \psharp for testing.
-
-In Section~\ref{sec:psharp} we will present more specifics of how the \psharp bug-finding runtime works and extensions that we did since the original work~\cite{deligiannis2015psharp} to be able to use \psharp to systematically test production code.
-
-\subsection{Testing Target}
+\subsection{Extent Manager Machine}
 \label{sec:method:wrap_target}
 
-The testing target in this case is Extent Manager, from the real vNext codebase. It is wrapped inside a \psharp machine in the test setup.
+The testing target is the real Extent Manager in vNext, wrapped inside a \psharp machine in the testing harness.
 
-As shown in Figure~\ref{fig:wrap_target}, the \texttt{ExtentManagerMachine} is a wrapper machine and is used to connect the \psharp modeled code with the legacy \csharp code. A typical wrapper machine contains a handle (as a field) to the system component that is being wrapped (in our case the real Extent Manager object) and the event handlers are responsible for translating any received events to method calls in the real code that is being tested. The \texttt{ExtentManager} is accompanied by a mocked version of the real Network Engine class. The real Extent Manager is communicating with the outside world via remote procedure calls, but in \psharp harness we want to capture this communicating and expose it as calls to \psharp communicating primitives. This is discussed in detail in Section~\ref{sec:method:model:dispath}.
+\subsubsection{Extent Manager Internals}
 
-\begin{figure}[t]
-\begin{lstlisting}
-// Wrapping the target vNext component in P#
-class ExtentManagerMachine : Machine {
-  private ExtentManager extMgr; // target vNext component
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\linewidth]{img/extent_manager}
+\caption{Internal components of the Extent Manager in Azure Storage vNext.}
+\label{fig:extentmanager}
+\end{figure*}
 
-  void Init()
-  {
-    extMgr = new ExtentManager();
+Inside Extent Manager, there are two structures related to extent repair: an \emph{Extent Center} and an EN map. The Extent Center maintains mapping records from extents to their hosting ENs. It is updated upon every sync report from ENs. The EN map records the latest heartbeat time from every EN. It internally runs an EN expiration loop that is responsible for removing ENs that have been missing heartbeats for extended period and also cleaning up corresponding Extent Center records. In addition, Extent Manager runs an extent repair loop, which examines all the Extent Center records, identifies extents with missing replica, schedules extent repair tasks and sends the repair tasks to ENs.
 
-    extMgr.netEngine = new MockedNetEngine(); // mock network
-    extMgr.SkippingJournal = true; // skip persistence
-    extMgr.IsMockingTimer = true;	 // disable internal timer
-  }
-
-  [OnEventDoAction(typeof(MessageFromExtentNodeEvent), nameof(DeliverMessageAction))]
-	
-  private void DeliverMessageAction()
-  {
-    var msg = (CommandMessage)this.Payload;
-    // relay messages from Extent Node to Extent Manager
-    extMgr.ProcessSingleMessage(msg);
-  }
-}
-\end{lstlisting}
-\vspace{-2mm}
-\caption{Wrapping vNext Component in \psharp.}
-\label{fig:wrap_target}
-%\vspace{-2mm}
-\end{figure}
-
-\subsubsection{Relaying Inbound Messages}
-\label{sec:method:model:incoming}
-
-Messages from mocked Extent Nodes are delivered to the wrapper \psharp machine as events. The wrapper machine processes such events and relay the corresponding messages to its internal Extent Manager (\emph{extMgr.ProcessSingleMessage}). From the perspective of Extent Manager, these messages are no different from these from real Extent Nodes.
-
-%\subsubsection{Using method dispatch for modeling}
-\subsubsection{Proxying Outbound Messages}
+\subsubsection{Stubbing Network}
 \label{sec:method:model:dispath}
 
-Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
+%Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
 
-Using method dispatch for modeling is straightforward. The system under test exposes a set of APIs as \emph{virtual methods}. The developer can then \emph{override} these APIs and replace them with \emph{mocks} that will execute instead of the original implementations during systematic testing with \psharp.
+%Using method dispatch for modeling is straightforward. The system under test exposes a set of APIs as \emph{virtual methods}. The developer can then \emph{override} these APIs and replace them with \emph{mocks} that will execute instead of the original implementations during systematic testing with \psharp.
 
 %\begin{figure}[t]
 %\begin{lstlisting}
@@ -120,6 +65,8 @@ Using method dispatch for modeling is straightforward. The system under test exp
 %%\vspace{-2mm}
 %\end{figure}
 
+Extent Manager uses a network engine to send and receive messages from ENs. The testing harness mocks the original network engine in vNext and overrides the networking methods. In this way, it intercepts all outbound messages and relays to the testing driver, which is responsible for dispatching the messages to destination ENs. As shown in Figure~\ref{fig:enginecode}, the mocked network engine captures outbound messages from Extent Manager and invokes \texttt{PSharpRuntime.Send(...)} to asynchronously relay the messages to the testing driver.
+
 \begin{figure}[t]
 \begin{lstlisting}
 // network interface in vNext codebase
@@ -141,9 +88,50 @@ class MockedNetEngine : NetworkEngine {
 %\vspace{-2mm}
 \end{figure}
 
-We now give an example of using dynamic dispatch to model the network engine of an extent manager in the Azure Storage vNext case study (see Figure~\ref{fig:enginecode}). The network engine is responsible for sending to and receiving messages from the various components of the system. During real execution, the network engine uses a custom remote procedure call (RPC) .NET library for communication. For testing, though, it is desirable to replace all calls to this RPC library with \psharp send and receive operations, which can be captured and systematically interleaved to find bugs. We easily achieved this by exposing the original send message operation of the network engine as a virtual method, and then overriding it for testing. In the overridden method, we created a \psharp event and then we wrapped the original message in this event's payload. Then, instead of invoking the RPC library, we invoke the \texttt{PSharpRuntime.Send(...)} method, which asynchronously sends the event (containing the original message) to the target extent node machine.
+%We now give an example of using dynamic dispatch to model the network engine of an extent manager in the Azure Storage vNext case study (see Figure~\ref{fig:enginecode}). The network engine is responsible for sending to and receiving messages from the various components of the system. During real execution, the network engine uses a custom remote procedure call (RPC) .NET library for communication. For testing, though, it is desirable to replace all calls to this RPC library with \psharp send and receive operations, which can be captured and systematically interleaved to find bugs. We easily achieved this by exposing the original send message operation of the network engine as a virtual method, and then overriding it for testing. In the overridden method, we created a \psharp event and then we wrapped the original message in this event's payload. Then, instead of invoking the RPC library, we invoke the \texttt{PSharpRuntime.Send(...)} method, which asynchronously sends the event (containing the original message) to the target extent node machine.
 
-For mocking the receive operation, we take advantage of the implicit receive of events in \psharp machines. When a extent node machine receives an event, an appropriate event handler is invoked, which extracts the original message from the payload and then handles it accordingly.
+%For mocking the receive operation, we take advantage of the implicit receive of events in \psharp machines. When a extent node machine receives an event, an appropriate event handler is invoked, which extracts the original message from the payload and then handles it accordingly.
+
+\subsubsection{Extent Manager Machine}
+
+Figure~\ref{fig:wrap_target} shows code snippet from Extent Manager machine, as a thin wrapper of the real Extent Manager. A mocked network engine replaces the real one in Extent Manager. It captures and relays all outbound messages from Extent Manager.
+
+%A typical wrapper machine contains a handle (as a field) to the system component that is being wrapped (in our case the real Extent Manager object) and the event handlers are responsible for translating any received events to method calls in the real code that is being tested. The \texttt{ExtentManager} is accompanied by a mocked version of the real Network Engine class. The real Extent Manager is communicating with the outside world via remote procedure calls, but in \psharp harness we want to capture this communicating and expose it as calls to \psharp communicating primitives. This is discussed in detail in Section~\ref{sec:method:model:dispath}.
+
+%As shown in Figure~\ref{fig:wrap_target}, the \texttt{ExtentManagerMachine} is a wrapper machine and is used to connect the \psharp modeled code with the legacy \csharp code. A typical wrapper machine contains a handle (as a field) to the system component that is being wrapped (in our case the real Extent Manager object) and the event handlers are responsible for translating any received events to method calls in the real code that is being tested. The \texttt{ExtentManager} is accompanied by a mocked version of the real Network Engine class. The real Extent Manager is communicating with the outside world via remote procedure calls, but in \psharp harness we want to capture this communicating and expose it as calls to \psharp communicating primitives. This is discussed in detail in Section~\ref{sec:method:model:dispath}.
+
+\begin{figure}[t]
+\begin{lstlisting}
+// Wrapping the target vNext component in P#
+class ExtentManagerMachine : Machine {
+  private ExtentManager extMgr; // real vNext code
+
+  void Init()
+  {
+    extMgr = new ExtentManager();
+
+    extMgr.netEngine = new MockedNetEngine(); // mock network
+    extMgr.SkippingJournal = true; // skip persistence
+    extMgr.IsMockingTimer = true;	 // disable internal timer
+  }
+
+  [OnEventDoAction(typeof(MessageFromExtentNodeEvent), nameof(DeliverMessageAction))]
+	
+  private void DeliverMessageAction()
+  {
+    var msg = (CommandMessage)this.Payload;
+    // relay messages from Extent Node to Extent Manager
+    extMgr.ProcessSingleMessage(msg);
+  }
+}
+\end{lstlisting}
+\vspace{-2mm}
+\caption{Wrapping vNext Component in \psharp.}
+\label{fig:wrap_target}
+%\vspace{-2mm}
+\end{figure}
+
+Incoming messages from ENs are delivered to the Extent Manager machine and trigger action. The specific action here relays the messages to the internal Extent Manager by invoking \texttt{extMgr.ProcessSingleMessage}. From the Extent Manager's perspective, it is unaware of EN mocking and behaves as if it is communicating with several real ENs.
 
 \subsection{Mocking Extent Node}
 \label{sec:method:mock_en}

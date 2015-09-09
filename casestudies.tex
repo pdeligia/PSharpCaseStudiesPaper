@@ -1,29 +1,22 @@
-\CHComment{With the newly added section on exemplary case, perhaps we could re-organize this section? A couple of suggestions: 1) very briefly summarize the three cases and highlight the success stories in the introduction section; 2) move the detailed description of Table Migration and Service Fabric into the experience section.}
+%\CHComment{With the newly added section on exemplary case, perhaps we could re-organize this section? A couple of suggestions: 1) very briefly summarize the three cases and highlight the success stories in the introduction section; 2) move the detailed description of Table Migration and Service Fabric into the experience section.}
 
 \subsection{Azure Storage vNext}
 \label{sec:cases:azurestore}
 
-Azure Storage vNext is the next generation storage system for Windows Azure. Azure Storage vNext consists of multiple extent managers, extent nodes, and network engines that are able to send messages across the network, and enqueue any received messages in the input queue of the corresponding node (see Figure~\ref{fig:azurestore}). Each extent manager is responsible for managing a subset of the extent nodes. Each extent node stores its corresponding extent in a local storage, and sends periodical heartbeats and synchronization messages to the extent manager. When the extent manager receives a synchronization message it is responsible to update extent nodes with the latest extent.
+%Azure Storage vNext is the next generation storage system for Windows Azure. Azure Storage vNext consists of multiple extent managers, extent nodes, and network engines that are able to send messages across the network, and enqueue any received messages in the input queue of the corresponding node (see Figure~\ref{fig:azurestore}). Each extent manager is responsible for managing a subset of the extent nodes. Each extent node stores its corresponding extent in a local storage, and sends periodical heartbeats and synchronization messages to the extent manager. When the extent manager receives a synchronization message it is responsible to update extent nodes with the latest extent.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{img/azurestore}
-\caption{Top-level components of a distributed extent management system for Windows Azure.}
-\label{fig:azurestore}
-\end{figure}
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=\linewidth]{img/azurestore}
+%\caption{Top-level components of a distributed extent management system for Windows Azure.}
+%\label{fig:azurestore}
+%\end{figure}
 
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\linewidth]{img/extent_manager}
-\caption{Internal components of the Extent Manager in Azure Storage vNext.}
-\label{fig:extentmanager}
-\end{figure*}
+%The liveness property that must be always eventually satisfied in the Azure Storage vNext system is that a user-defined $N$ number of extent nodes must be always eventually available with the latest extent. There was an actual bug in the system, that led this property to fail for some very rare executions. Although this buggy behavior would be observed from time to time during stress testing, there was no way to reproduce the bug. We discuss later in this paper, how we are able to detect and reproduce this bug using our approach.
 
-There are multiple \emph{extent managers} (EMgrs) that are in charge of managing a subset of the extents. Each EMgr communicates asynchronously (via remote procedure calls) with a number of \emph{extent nodes} (ENs) that store the extents. Each EN sends: (i) a \emph{heartbeat} every 5 seconds, to notify the EMgr that it is still available; and (ii) a \emph{sync report} every 5 minutes, to synchronize its extent with the rest of the nodes. The EMgr contains two data structures: an \emph{extent center} (ECtr), which is updated every time an EN syncs; and an EN map, which is updated every time it receives a heartbeat from an EN. The EN map runs an EN expiration loop that is responsible for removing ENs that have expired from the EN map and also delete them from the ECtr. Finally, the EMgr runs an extent repair loop, which examines all contents of all extents in the ECtr and schedules repairs of extents if they are out-of-date (via a repair request).
+%Azure Storage vNext is very challenging to test. All the unit test and integration test suites of the Azure Storage vNext project successfully pass every single time. However, the developers found that the stress test suite, which constantly kills and launches extent nodes, could fail from time to time after very long executions. The observed failure was that the liveness property described in Section~\ref{sec:overview:bugs} would not get satisfied. The developers had no way to deterministically reproduce this bug or be able to detect what is the culprit, as the traces they were getting were very long and hard to parse.
 
-The liveness property that must be always eventually satisfied in the Azure Storage vNext system is that a user-defined $N$ number of extent nodes must be always eventually available with the latest extent. There was an actual bug in the system, that led this property to fail for some very rare executions. Although this buggy behavior would be observed from time to time during stress testing, there was no way to reproduce the bug. We discuss later in this paper, how we are able to detect and reproduce this bug using our approach.
-
-Azure Storage vNext is very challenging to test. All the unit test and integration test suites of the Azure Storage vNext project successfully pass every single time. However, the developers found that the stress test suite, which constantly kills and launches extent nodes, could fail from time to time after very long executions. The observed failure was that the liveness property described in Section~\ref{sec:overview:bugs} would not get satisfied. The developers had no way to deterministically reproduce this bug or be able to detect what is the culprit, as the traces they were getting were very long and hard to parse.
+vNext bug goes here.
 
 \subsection{Live Azure Table Migration}
 \label{sec:cases:migration}
