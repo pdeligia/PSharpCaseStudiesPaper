@@ -2,6 +2,13 @@ Microsoft Azure Storage is a cloud storage system that provides customers the ab
 
 Azure Storage vNext is the next generation storage system for Microsoft Azure, where the primary design target is to increase the scalability by 100x or more. Similar to the current system, vNext employs containers, called {\em extents}, to store data. Extents are typically several Gigabytes each, consisting of many data blocks, and replicated over multiple {\em Extent Nodes} (ENs). In contrast to the current system, which employs a Paxos-based, centralized mapping from extents to ENs, vNext achieves its scalability target by employing a completely distributed mapping. In vNext, extents are divided into partitions, with each partition managed by a light-weight {\em Extent Manager} (ExtMgr).
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{img/azurestore}
+\caption{Top-level components of a distributed extent management system for Windows Azure.}
+\label{fig:azurestore}
+\end{figure}
+
 One of the many responsibilities of ExtMgr is to ensure that every extent maintains enough replicas in the system. To achieve this, ExtMgr receives frequent periodic \emph{heartbeat} messages from every EN. Failure of EN is detected by missing heartbeats. ExtMgr also receives less frequent, but still periodic {\em synchronization reports} from every EN. The sync reports list all the extents (and associated metadata) stored on the EN. Based on these two types of messages, ExtMgr identifies which ENs have failed and which extents are affected and missing replicas. ExtMgr, then, schedules tasks to repair the affected extents and distributes the tasks to ENs. ENs repair the extents from their existing replicas in the system and lazily update ExtMgr via future sync reports.
 
 To ensure correctness, the developers of vNext have instrumented extensive, multiple levels of testing for Extent Manager:
