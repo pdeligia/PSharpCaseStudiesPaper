@@ -2,9 +2,17 @@ We compared the bug-finding effectiveness of \psharp systematic concurrency test
 
 \subsection{Experimental Setup}
 
-All experiments were run on \MMComment{insert MSR machine, or perhaps CloudDevR1S04 if John/Matt are able to grant access to the rest of the collaborators}. \MMComment{specs}
+We performed all experiments using the Windows PowerShell tool on a 2.50GHz Intel Core i5-4300U CPU with 8GB RAM running Windows 10 Pro 64-bit.
 
-\subsection{Benchmarks}
+Because we fixed all bugs that we discovered using the \psharp systematic testing engine in the case studies, for the evaluation we added an option to conditionally reintroduce each one of the bugs so that we can measure how fast and how often each bug can be discovered with the \psharp random and the PCT scheduler.
+
+Cheng's case study with the actual bug
+
+After fixing all the bugs we found in MigratingTable, we added an option to conditionally reintroduce each of the following bugs:
+\begin{enumerate}
+\item Filtering on a user-defined property did not retrieve non-matching rows from the new table that might shadow a matching row from the old table.
+\item ...
+\end{enumerate}
 
 \newcommand{\colspacing}{\hspace{1.8em}}
 \begin{table}[t]
@@ -20,19 +28,9 @@ All experiments were run on \MMComment{insert MSR machine, or perhaps CloudDevR1
 %\vspace{-3mm}
 \end{table}
 
-\PDComment{We probably do not need this now that we have many bugs from the case studies -- benchmarks that are not production code (e.g. multipaxos) that can be used to evaluate testing}
+\subsection{Systematic testing with \psharp}
 
-Cheng's case study with the actual bug
-
-After fixing all the bugs we found in MigratingTable, we added an option to conditionally reintroduce each of the following bugs:
-\begin{enumerate}
-\item Filtering on a user-defined property did not retrieve non-matching rows from the new table that might shadow a matching row from the old table.
-\item ...
-\end{enumerate}
-
-\subsection{Stress testing vs \psharp testing}
-
-%\setlength{\tabcolsep}{.42em}
+\setlength{\tabcolsep}{.52em}
 \begin{table*}[t]
 \small
 \centering
@@ -40,11 +38,11 @@ After fixing all the bugs we found in MigratingTable, we added an option to cond
 \centering
 \input{experiments/tables/results.tex}
 \end{tabular}
-\caption{Results from running the \psharp random and PCT systematic testing schedulers for 100,000 iterations.}
+\caption{Results from running the \psharp random and PCT systematic testing schedulers for 100,000 iterations. We report: time in seconds to find a bug (Time to bug); number of scheduling points when a bug was found (\#SP); percentage of buggy iterations (\%Buggy); and if a bug was found with a particular scheduler (Bug found?).}
 \label{tab:testing}
 \end{table*}
 
-Comparison of traditional stress testing VS what we do with \psharp
+Table~\ref{tab:testing} presents the results from running the \psharp systematic testing engine on each case study with an enabled bug using the random and the PCT schedulers. We configured the engine to perform 100,000 iterations. The random seed for both schedulers was generated in each iteration using the \texttt{DateTime.Now.Millisecond} API which represents the current time in milliseconds. The PCT scheduler was configured with a bug depth of 2 and a max number of scheduling steps to execute of 500. All reported times are in seconds.
 
 How long you had to run the test to find the bug (if you can find it) and how long are the traces
 
