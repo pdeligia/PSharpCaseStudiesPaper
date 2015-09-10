@@ -1,29 +1,28 @@
-& \multicolumn{4}{c}{\textbf{\psharp Systematic Testing (Random)}}
+& & \multicolumn{4}{c}{\textbf{\psharp Systematic Testing (Random)}}
 & \multicolumn{4}{c}{\textbf{\psharp Systematic Testing (PCT)}}\\
-\cmidrule(lr){2-5}
-\cmidrule(lr){6-9}
+\cmidrule(lr){3-6}
+\cmidrule(lr){7-10}
 
-
-& \multirow{1}{*}{\textbf{Time to}}
+& & \multirow{1}{*}{\textbf{Time to}}
 & &
-& \multirow{1}{*}{\textbf{Bug}}
-& \multirow{1}{*}{\textbf{Time to}}
-& &
-& \multirow{1}{*}{\textbf{Bug}}\\
+& & \multirow{1}{*}{\textbf{Time to}}
+& & &\\
 
-\textbf{Bug}
-& \multicolumn{1}{r}{\textbf{bug (sec)}}
+\textbf{CS}
+& \textbf{Bug Identifier}
+& \multicolumn{1}{r}{\textbf{Bug (s)}}
 & \multicolumn{1}{r}{\textbf{\#SP}}
 & \multicolumn{1}{r}{\textbf{\%Buggy}}
-& \multicolumn{1}{r}{\textbf{found?}}
-& \multicolumn{1}{r}{\textbf{bug (sec)}}
+& \multicolumn{1}{r}{\textbf{BF?}}
+& \multicolumn{1}{r}{\textbf{Bug (s)}}
 & \multicolumn{1}{r}{\textbf{\#SP}}
 & \multicolumn{1}{r}{\textbf{\%Buggy}}
-& \multicolumn{1}{r}{\textbf{found?}}\\[0.3em]
+& \multicolumn{1}{r}{\textbf{BF?}}\\[0.3em]
 
 \toprule
 
-ExtentNodeLivenessViolation
+1
+& ExtentNodeLivenessViolation
 
 & \multicolumn{1}{r}{}
 & \multicolumn{1}{r}{}
@@ -35,7 +34,10 @@ ExtentNodeLivenessViolation
 & \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
-QueryAtomicFilterShadowing
+\midrule
+
+2
+& QueryAtomicFilterShadowing
 
 & \multicolumn{1}{r}{157.22}
 & \multicolumn{1}{r}{165}
@@ -47,19 +49,8 @@ QueryAtomicFilterShadowing
 & \multicolumn{1}{r}{0.220\%}
 & \multicolumn{1}{r}{\cmark}\\
 
-QueryStreamedFilterShadowing
-
-& \multicolumn{1}{r}{0.55}
-& \multicolumn{1}{r}{79}
-& \multicolumn{1}{r}{24.908\%}
-& \multicolumn{1}{r}{\cmark}
-
-& \multicolumn{1}{r}{0.41}
-& \multicolumn{1}{r}{79}
-& \multicolumn{1}{r}{24.998\%}
-& \multicolumn{1}{r}{\cmark}\\
-
-QueryStreamedLock
+2
+& QueryStreamedLock
 
 & \multicolumn{1}{r}{2121.45}
 & \multicolumn{1}{r}{181}
@@ -71,7 +62,8 @@ QueryStreamedLock
 & \multicolumn{1}{r}{0.664\%}
 & \multicolumn{1}{r}{\cmark}\\
 
-QueryStreamedBackUpNewStream
+2
+& QueryStreamedBackUpNewStream
 
 & \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{-}
@@ -83,7 +75,8 @@ QueryStreamedBackUpNewStream
 & \multicolumn{1}{r}{0.458\%}
 & \multicolumn{1}{r}{\cmark}\\
 
-DeleteNoLeaveTombstonesEtag
+2
+& DeleteNoLeaveTombstonesEtag
 
 & \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{-}
@@ -95,7 +88,8 @@ DeleteNoLeaveTombstonesEtag
 & \multicolumn{1}{r}{1.187\%}
 & \multicolumn{1}{r}{\cmark}\\
 
-DeletePrimaryKey
+2
+& DeletePrimaryKey
 
 & \multicolumn{1}{r}{2.72}
 & \multicolumn{1}{r}{168}
@@ -107,7 +101,8 @@ DeletePrimaryKey
 & \multicolumn{1}{r}{4.137\%}
 & \multicolumn{1}{r}{\cmark}\\
 
-EnsurePartitionSwitchedFromPopulated
+2
+& EnsurePartitionSwitchedFromPopulated
 
 & \multicolumn{1}{r}{25.17}
 & \multicolumn{1}{r}{85}
@@ -119,7 +114,8 @@ EnsurePartitionSwitchedFromPopulated
 & \multicolumn{1}{r}{1.491\%}
 & \multicolumn{1}{r}{\cmark}\\
 
-TombstoneOutputETag
+2
+& TombstoneOutputETag
 
 & \multicolumn{1}{r}{8.25}
 & \multicolumn{1}{r}{305}
@@ -131,7 +127,8 @@ TombstoneOutputETag
 & \multicolumn{1}{r}{0.473\%}
 & \multicolumn{1}{r}{\cmark}\\
 
-DeleteIfExistsNotLinearizable
+2
+& DeleteIfExistsNotLinearizable
 
 & \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{-}
@@ -141,4 +138,32 @@ DeleteIfExistsNotLinearizable
 & \multicolumn{1}{r}{3.19}
 & \multicolumn{1}{r}{242}
 & \multicolumn{1}{r}{0.195\%}
+& \multicolumn{1}{r}{\cmark}\\
+
+\midrule
+
+*2
+& QueryStreamedFilterShadowing
+
+& \multicolumn{1}{r}{0.55}
+& \multicolumn{1}{r}{79}
+& \multicolumn{1}{r}{24.908\%}
+& \multicolumn{1}{r}{\cmark}
+
+& \multicolumn{1}{r}{0.41}
+& \multicolumn{1}{r}{79}
+& \multicolumn{1}{r}{24.998\%}
+& \multicolumn{1}{r}{\cmark}\\
+
+*2
+& MigrateSkipPreferOld
+
+& \multicolumn{1}{r}{-}
+& \multicolumn{1}{r}{-}
+& \multicolumn{1}{r}{-}
+& \multicolumn{1}{r}{\xmark}
+
+& \multicolumn{1}{r}{1.13}
+& \multicolumn{1}{r}{115}
+& \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\[0.1em]
