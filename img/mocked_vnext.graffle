@@ -132,7 +132,7 @@
 			<key>Points</key>
 			<array>
 				<string>{403, 267.17594152604772}</string>
-				<string>{455.50000845137174, 147.0787353515625}</string>
+				<string>{457.50000845137174, 151.0787353515625}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -213,7 +213,7 @@
 			<integer>647</integer>
 			<key>Points</key>
 			<array>
-				<string>{361.08543395996094, 183}</string>
+				<string>{361.08543395996094, 187}</string>
 				<string>{459.98712488225453, 224.61825893161912}</string>
 			</array>
 			<key>Style</key>
@@ -386,8 +386,8 @@
 			<integer>636</integer>
 			<key>Points</key>
 			<array>
-				<string>{361.36190981873665, 175.7062411093535}</string>
-				<string>{460.26360074103025, 134.08798217773438}</string>
+				<string>{361.36190981873665, 181.38340518711226}</string>
+				<string>{460.26360074103025, 142.76514625549316}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -458,7 +458,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{463.13711547851562, 115.55769348144533}, {150, 42.618258931619124}}</string>
+			<string>{{463.13711547851562, 124.23485755920412}, {150, 42.618258931619124}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -615,8 +615,8 @@
 			<integer>645</integer>
 			<key>Points</key>
 			<array>
-				<string>{160.00000376294719, 187.0000138795302}</string>
-				<string>{200.99999999876783, 187.0000138795302}</string>
+				<string>{160.00000376294716, 187.0000138795302}</string>
+				<string>{200.99999999876786, 187.0000138795302}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -861,7 +861,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-09-09 02:22:27 +0000</string>
+	<string>2015-09-10 07:35:05 +0000</string>
 	<key>Modifier</key>
 	<string>Pantazis Deligiannis</string>
 	<key>NotesVisible</key>
@@ -892,7 +892,7 @@
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>00D7EF84-7336-4601-BF5C-BC7DBC606022</string>
+			<string>D7E9F6E2-BD86-4A4B-B5F1-1088029334D3</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
