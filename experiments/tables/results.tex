@@ -1,21 +1,19 @@
-& & \multicolumn{4}{c}{\textbf{\psharp Systematic Testing (Random)}}
-& \multicolumn{4}{c}{\textbf{\psharp Systematic Testing (PCT)}}\\
-\cmidrule(lr){3-6}
-\cmidrule(lr){7-10}
+& & \multicolumn{3}{c}{\textbf{\psharp Random Scheduler}}
+& \multicolumn{3}{c}{\textbf{\psharp PCT Scheduler}}\\
+\cmidrule(lr){3-5}
+\cmidrule(lr){6-8}
 
 & & \multirow{1}{*}{\textbf{Time to}}
-& &
+&
 & & \multirow{1}{*}{\textbf{Time to}}
-& & &\\
+& &\\
 
 \textbf{CS}
 & \textbf{Bug Identifier}
 & \multicolumn{1}{r}{\textbf{Bug (s)}}
-& \multicolumn{1}{r}{\textbf{\#SP}}
 & \multicolumn{1}{r}{\textbf{\%Buggy}}
 & \multicolumn{1}{r}{\textbf{BF?}}
 & \multicolumn{1}{r}{\textbf{Bug (s)}}
-& \multicolumn{1}{r}{\textbf{\#SP}}
 & \multicolumn{1}{r}{\textbf{\%Buggy}}
 & \multicolumn{1}{r}{\textbf{BF?}}\\[0.3em]
 
@@ -24,13 +22,11 @@
 1
 & ExtentNodeLivenessViolation
 
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{x\%}
+& \multicolumn{1}{r}{20.87}
+& \multicolumn{1}{r}{77.000\%}
 & \multicolumn{1}{r}{\cmark}
 
-& \multicolumn{1}{r}{}
-& \multicolumn{1}{r}{}
+& \multicolumn{1}{r}{5.49}
 & \multicolumn{1}{r}{x\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -40,25 +36,21 @@
 & QueryAtomicFilterShadowing
 
 & \multicolumn{1}{r}{157.22}
-& \multicolumn{1}{r}{165}
 & \multicolumn{1}{r}{0.018\%}
 & \multicolumn{1}{r}{\cmark}
 
 & \multicolumn{1}{r}{350.46}
-& \multicolumn{1}{r}{108}
 & \multicolumn{1}{r}{0.220\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 2
 & QueryStreamedLock
 
-& \multicolumn{1}{r}{2121.45}
-& \multicolumn{1}{r}{181}
+& \multicolumn{1}{r}{2,121.45}
 & \multicolumn{1}{r}{0.001\%}
 & \multicolumn{1}{r}{\cmark}
 
 & \multicolumn{1}{r}{6.58}
-& \multicolumn{1}{r}{220}
 & \multicolumn{1}{r}{0.664\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -67,11 +59,9 @@
 
 & \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{-}
-& \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{5.95}
-& \multicolumn{1}{r}{232}
 & \multicolumn{1}{r}{0.458\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -80,11 +70,9 @@
 
 & \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{-}
-& \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{4.69}
-& \multicolumn{1}{r}{272}
 & \multicolumn{1}{r}{1.187\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -92,12 +80,10 @@
 & DeletePrimaryKey
 
 & \multicolumn{1}{r}{2.72}
-& \multicolumn{1}{r}{168}
 & \multicolumn{1}{r}{3.895\%}
 & \multicolumn{1}{r}{\cmark}
 
 & \multicolumn{1}{r}{2.37}
-& \multicolumn{1}{r}{171}
 & \multicolumn{1}{r}{4.137\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -105,12 +91,10 @@
 & EnsurePartitionSwitchedFromPopulated
 
 & \multicolumn{1}{r}{25.17}
-& \multicolumn{1}{r}{85}
 & \multicolumn{1}{r}{0.076\%}
 & \multicolumn{1}{r}{\cmark}
 
 & \multicolumn{1}{r}{1.57}
-& \multicolumn{1}{r}{136}
 & \multicolumn{1}{r}{1.491\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -118,12 +102,10 @@
 & TombstoneOutputETag
 
 & \multicolumn{1}{r}{8.25}
-& \multicolumn{1}{r}{305}
 & \multicolumn{1}{r}{0.370\%}
 & \multicolumn{1}{r}{\cmark}
 
 & \multicolumn{1}{r}{3.40}
-& \multicolumn{1}{r}{242}
 & \multicolumn{1}{r}{0.473\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -132,11 +114,9 @@
 
 & \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{-}
-& \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{3.19}
-& \multicolumn{1}{r}{242}
 & \multicolumn{1}{r}{0.195\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -146,12 +126,10 @@ $\diamond$2
 & QueryStreamedFilterShadowing
 
 & \multicolumn{1}{r}{0.55}
-& \multicolumn{1}{r}{79}
 & \multicolumn{1}{r}{24.908\%}
 & \multicolumn{1}{r}{\cmark}
 
 & \multicolumn{1}{r}{0.41}
-& \multicolumn{1}{r}{79}
 & \multicolumn{1}{r}{24.998\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -160,11 +138,9 @@ $\diamond$2
 
 & \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{-}
-& \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{1.13}
-& \multicolumn{1}{r}{115}
 & \multicolumn{1}{r}{25.043\%}
 & \multicolumn{1}{r}{\cmark}\\
 
@@ -173,23 +149,19 @@ $\diamond$2
 
 & \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{-}
-& \multicolumn{1}{r}{-}
 & \multicolumn{1}{r}{\xmark}
 
 & \multicolumn{1}{r}{1.16}
-& \multicolumn{1}{r}{120}
-& \multicolumn{1}{r}{x\%}
+& \multicolumn{1}{r}{18.636\%}
 & \multicolumn{1}{r}{\cmark}\\
 
 $\diamond$2
 & InsertBehindMigrator
 
 & \multicolumn{1}{r}{0.32}
-& \multicolumn{1}{r}{47}
 & \multicolumn{1}{r}{72.534\%}
 & \multicolumn{1}{r}{\cmark}
 
 & \multicolumn{1}{r}{0.31}
-& \multicolumn{1}{r}{47}
 & \multicolumn{1}{r}{49.985\%}
 & \multicolumn{1}{r}{\cmark}\\[0.1em]
