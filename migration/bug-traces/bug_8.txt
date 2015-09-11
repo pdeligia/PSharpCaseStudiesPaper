@@ -1,0 +1,1243 @@
+<CreateLog> Machine TablesMachine(0) is created.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Initializing'.
+<CreateLog> Machine ServiceMachine(0) is created.
+<StrategyLog> PCTSchedulingStrategy starting iteration with seed 104.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.AppMachineInitializeEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.AppMachineInitializeEvent >.
+<CreateLog> Machine ServiceMachine(1) is created.
+<StateLog> Machine 'ServiceMachine(1)' entering state 'WaitingForInitialization'.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.AppMachineInitializeEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.AppMachineInitializeEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.AppMachineInitializeEvent >.
+<ExitLog> Machine 'ServiceMachine(1)' exiting state 'WaitingForInitialization'.
+<StateLog> Machine 'ServiceMachine(1)' entering state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.TablePeekEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TablePeekEvent >.
+<CreateLog> Machine MigratorMachine(0) is created.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.AppMachineInitializeEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.AppMachineInitializeEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.TablesMachineInitializedEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TablesMachineInitializedEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TablesMachineInitializedEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Initializing'.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TablePeekEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [ServiceMachine,1,,] to [TablesMachine,0,,]: tablesMachinePeek.DumpReferenceTableAsync()
+End call from [ServiceMachine,1,,] to [TablesMachine,0,,]: tablesMachinePeek.DumpReferenceTableAsync() with outcome: System.Collections.Generic.SortedDictionary`2[ChainTableInterface.PrimaryKey,Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity]
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+[ServiceMachine,1,,] starting atomic query: Microsoft.WindowsAzure.Storage.Table.TableQuery`1[Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity]
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [ServiceMachine,1,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=PartitionKey eq '', SelectColumns=, TakeCount=},null,null)
+End call from [ServiceMachine,1,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=PartitionKey eq '', SelectColumns=, TakeCount=},null,null) with outcome: IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [ServiceMachine,1,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(Migration.MirrorTableCall,null)
+End call from [ServiceMachine,1,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(Migration.MirrorTableCall,null) with outcome: IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+[ServiceMachine,1,,] table call outcome is correct:
+IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.TablePeekEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TablePeekEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TablePeekEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [ServiceMachine,1,,] to [TablesMachine,0,,]: tablesMachinePeek.DumpReferenceTableAsync()
+End call from [ServiceMachine,1,,] to [TablesMachine,0,,]: tablesMachinePeek.DumpReferenceTableAsync() with outcome: System.Collections.Generic.SortedDictionary`2[ChainTableInterface.PrimaryKey,Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity]
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+[ServiceMachine,1,,] starting atomic query: Microsoft.WindowsAzure.Storage.Table.TableQuery`1[Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity]
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [ServiceMachine,1,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=PartitionKey eq '', SelectColumns=, TakeCount=},null,null)
+End call from [ServiceMachine,1,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=PartitionKey eq '', SelectColumns=, TakeCount=},null,null) with outcome: IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [ServiceMachine,1,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(Migration.MirrorTableCall,null)
+End call from [ServiceMachine,1,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(Migration.MirrorTableCall,null) with outcome: IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+[ServiceMachine,1,,] table call outcome is correct:
+IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<StateLog> Machine 'MigratorMachine(0)' entering state 'WaitingForInitialization'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.AppMachineInitializeEvent >.
+<ExitLog> Machine 'MigratorMachine(0)' exiting state 'WaitingForInitialization'.
+<StateLog> Machine 'MigratorMachine(0)' entering state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: configService.PushConfigurationAsync(Migration.MTableConfiguration)
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [ServiceMachine,1,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [ServiceMachine,1,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [MigratorMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [MigratorMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+<StateLog> Machine 'ServiceMachine(0)' entering state 'WaitingForInitialization'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.AppMachineInitializeEvent >.
+<ExitLog> Machine 'ServiceMachine(0)' exiting state 'WaitingForInitialization'.
+<StateLog> Machine 'ServiceMachine(0)' entering state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TablePeekEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TablePeekEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TablePeekEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachinePeek.DumpReferenceTableAsync()
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachinePeek.DumpReferenceTableAsync() with outcome: System.Collections.Generic.SortedDictionary`2[ChainTableInterface.PrimaryKey,Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity]
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [ServiceMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [ServiceMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: configService.PushConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: configService.PushConfigurationAsync(Migration.MTableConfiguration)
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [ServiceMachine,1,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [ServiceMachine,1,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [MigratorMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [MigratorMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [ServiceMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [ServiceMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: configService.PushConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryStreamedAsync(TableQuery<Migration.MTableEntity>{FilterString=, SelectColumns=, TakeCount=},null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryStreamedAsync(TableQuery<Migration.MTableEntity>{FilterString=, SelectColumns=, TakeCount=},null,null) with outcome: Migration.InMemoryTableWithHistory+NondeterministicQueryStream`1[Migration.MTableEntity]
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=(PartitionKey eq '') and (RowKey eq '_mtable_partition_meta'), SelectColumns=, TakeCount=},null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=(PartitionKey eq '') and (RowKey eq '_mtable_partition_meta'), SelectColumns=, TakeCount=},null,null) with outcome: IReadOnlyList{}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, ],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, ],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}),null,null) with outcome: TableResult{HttpStatusCode=201, ETag=5, Result=ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}),null,null) with outcome: TableResult{HttpStatusCode=201, ETag=1, Result=ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=0, newETag=1}})
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=0, newETag=1}}) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}),null,null) with outcome: TableResult{HttpStatusCode=201, ETag=2, Result=ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=1, newETag=2}})
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=1, newETag=2}}) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}),null,null) with outcome: TableResult{HttpStatusCode=201, ETag=3, Result=ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=3, newETag=3}})
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=3, newETag=3}}) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}),null,null) with outcome: TableResult{HttpStatusCode=201, ETag=4, Result=ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=4, newETag=4}})
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=4, newETag=4}}) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]},null}, choiceIndex 1
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: configService.PushConfigurationAsync(Migration.MTableConfiguration)
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [ServiceMachine,1,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [ServiceMachine,1,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [MigratorMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [MigratorMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+[ServiceMachine,0,,] starting atomic query: Microsoft.WindowsAzure.Storage.Table.TableQuery`1[Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity]
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=PartitionKey eq '', SelectColumns=, TakeCount=},null,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=PartitionKey eq '', SelectColumns=, TakeCount=},null,null) with outcome: IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [ServiceMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=PartitionKey eq '', SelectColumns=, TakeCount=},null,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=PartitionKey eq '', SelectColumns=, TakeCount=},null,null) with outcome: IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(Migration.MirrorTableCall,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(Migration.MirrorTableCall,null) with outcome: IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+End call from [TablesMachine,0,,] to [ServiceMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: configService.PushConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: configService.PushConfigurationAsync(Migration.MTableConfiguration)
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(1)'.
+<EnqueueLog> Machine 'ServiceMachine(1)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(1)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(1)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [ServiceMachine,1,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [ServiceMachine,1,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'ServiceMachine(1)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [MigratorMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [MigratorMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+[ServiceMachine,0,,] table call outcome is correct:
+IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]},ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]},ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TablePeekEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TablePeekEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TablePeekEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachinePeek.DumpReferenceTableAsync()
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachinePeek.DumpReferenceTableAsync() with outcome: System.Collections.Generic.SortedDictionary`2[ChainTableInterface.PrimaryKey,Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity]
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Start call from [TablesMachine,0,,] to [ServiceMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration)
+End call from [TablesMachine,0,,] to [ServiceMachine,0,,]: <configService subscriber>.ApplyConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: configService.PushConfigurationAsync(Migration.MTableConfiguration) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteQueryStreamedAsync(TableQuery<Migration.MTableEntity>{FilterString=, SelectColumns=, TakeCount=},null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteQueryStreamedAsync(TableQuery<Migration.MTableEntity>{FilterString=, SelectColumns=, TakeCount=},null,null) with outcome: Migration.InMemoryTableWithHistory+NondeterministicQueryStream`1[Migration.MTableEntity]
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Replace(ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Replace(ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=5, Result=ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=0, newETag=5}})
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=0, newETag=5}}) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Replace(ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Replace(ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=6, Result=ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 6],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=1, newETag=6}})
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=1, newETag=6}}) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Replace(ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Replace(ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=7, Result=ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 7],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=3, newETag=7}})
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=3, newETag=7}}) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Replace(ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteAsync(TableOperation.Replace(ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=8, Result=ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 8],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=4, newETag=8}})
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,IReadOnlyList{SpuriousETagChange{partitionKey=, rowKey=4, newETag=8}}) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{null}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <newTable QueryStream>.ReadRowAsync() with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryStreamedAsync(TableQuery<Migration.MTableEntity>{FilterString=, SelectColumns=, TakeCount=},null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryStreamedAsync(TableQuery<Migration.MTableEntity>{FilterString=, SelectColumns=, TakeCount=},null,null) with outcome: Migration.InMemoryTableWithHistory+NondeterministicQueryStream`1[Migration.MTableEntity]
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=, Result=ITableEntity{[PartitionKey, ],[RowKey, 0],[ETag, 1],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=, Result=ITableEntity{[PartitionKey, ],[RowKey, 1],[ETag, 2],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, False]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=, Result=ITableEntity{[PartitionKey, ],[RowKey, 3],[ETag, 3],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, False]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[isHappy, True]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=, Result=ITableEntity{[PartitionKey, ],[RowKey, 4],[ETag, 4],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[isHappy, True]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}),null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}),null,null) with outcome: TableResult{HttpStatusCode=204, ETag=, Result=ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 5],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'TablesMachine(0)' executed action 'DispatchPayload' in state 'Ready'.
+Start call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync()
+NondeterministicQueryStream: possibleRows IReadOnlyList{null}, choiceIndex 0
+End call from [MigratorMachine,0,,] to [TablesMachine,0,,]: <oldTable QueryStream>.ReadRowAsync() with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'MigratorMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'MigratorMachine(0)'.
+<EnqueueLog> Machine 'MigratorMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'MigratorMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'MigratorMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+[ServiceMachine,0,,] starting batch: TableBatchOperation{TableOperation.Delete(ITableEntity{[PartitionKey, ],[RowKey, 5],[ETag, **],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[[ServiceMachine,0,,]_c1_o0, True],[isHappy, False]})}
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=(PartitionKey eq '') and (RowKey eq '_mtable_partition_meta'), SelectColumns=, TakeCount=},null,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=(PartitionKey eq '') and (RowKey eq '_mtable_partition_meta'), SelectColumns=, TakeCount=},null,null) with outcome: IReadOnlyList{}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, ],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}),null,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: oldTable.ExecuteAsync(TableOperation.Insert(ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, ],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}),null,null) with outcome: TableResult{HttpStatusCode=201, ETag=6, Result=ITableEntity{[PartitionKey, ],[RowKey, _mtable_partition_meta],[ETag, 6],[Timestamp, 1/1/0001 12:00:00 AM +00:00],[_mtable_deleted, False],[_mtable_partition_state, 1]}}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallAnnotationEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallAnnotationEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallAnnotationEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'WaitingForAnnotation'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: tablesMachineAnnotation.AnnotateLastBackendCallAsync(null,null) with outcome: null
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'Ready'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.TableCallEvent' to 'TablesMachine(0)'.
+<EnqueueLog> Machine 'TablesMachine(0)' enqueued event < ____Migration.TableCallEvent >.
+<DequeueLog> Machine 'TablesMachine(0)' dequeued event < ____Migration.TableCallEvent >.
+<ExitLog> Machine 'TablesMachine(0)' exiting state 'Ready'.
+Start call from [ServiceMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=(PartitionKey eq '') and (RowKey eq '5'), SelectColumns=, TakeCount=},null,null)
+End call from [ServiceMachine,0,,] to [TablesMachine,0,,]: newTable.ExecuteQueryAtomicAsync(TableQuery<Migration.MTableEntity>{FilterString=(PartitionKey eq '') and (RowKey eq '5'), SelectColumns=, TakeCount=},null,null) with outcome: IReadOnlyList{}
+<SendLog> Machine 'TablesMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<StateLog> Machine 'TablesMachine(0)' entering state 'WaitingForAnnotation'.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+<SendLog> Machine 'ServiceMachine(0)' sent event 'Migration.GenericDispatchableEvent' to 'ServiceMachine(0)'.
+<EnqueueLog> Machine 'ServiceMachine(0)' enqueued event < ____Migration.GenericDispatchableEvent >.
+<DequeueLog> Machine 'ServiceMachine(0)' dequeued event < ____Migration.GenericDispatchableEvent >.
+<ActionLog> Machine 'ServiceMachine(0)' executed action 'DispatchPayload' in state 'MainState'.
+Error: Exception 'System.InvalidOperationException' was thrown in machine 'ServiceMachine', 'mscorlib':
+   Nullable object must have a value.
+The stack trace is:
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Nullable`1.get_Value()
+   at Migration.MigratingTable.<ExecuteBatchOnNewTableAsync>d__21.MoveNext() in C:\Users\Pantazis\workspace\MigratingTable\Migration\MigratingTable.cs:line 533
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MigratingTable.<ExecuteBatchAsync>d__22.MoveNext() in C:\Users\Pantazis\workspace\MigratingTable\Migration\MigratingTable.cs:line 576
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.ServiceMachineCore.<>c__DisplayClass8_1.<<DoRandomAtomicCalls>b__2>d.MoveNext() in C:\Users\Pantazis\workspace\MigratingTable\Migration\Verification.cs:line 394
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.Catching`1.<Task>d__1`1.MoveNext() in C:\Users\Pantazis\workspace\MigratingTable\Migration\Utils\Outcome.cs:line 58
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.ServiceMachineCore.<RunCallAsync>d__5.MoveNext() in C:\Users\Pantazis\workspace\MigratingTable\Migration\Verification.cs:line 265
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.ServiceMachineCore.<DoRandomAtomicCalls>d__8.MoveNext() in C:\Users\Pantazis\workspace\MigratingTable\Migration\Verification.cs:line 399
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.ServiceMachine.<Run>d__8.MoveNext() in C:\Users\Pantazis\workspace\MigratingTable\Migration\Verification.cs:line 553
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c__DisplayClass2.<ThrowAsync>b__3(Object state)
+   at Migration.SynchronizationContextWorkUnit.Dispatch() in C:\Users\Pantazis\workspace\MigratingTable\Migration\PSharpUtils\MachineSynchronizationContext.cs:line 28
+   at Migration.ServiceMachine.DispatchPayload() in C:\Users\Pantazis\workspace\MigratingTable\Migration\Verification.cs:line 527
+   at Microsoft.PSharp.Machine.Do(Action a) in C:\Users\Pantazis\workspace\MigratingTable\PSharp\Source\Core\Library\Machine.cs:line 810
