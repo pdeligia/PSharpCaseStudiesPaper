@@ -1,6 +1,6 @@
 To uncover the elusive extent repair bug in Azure Storage vNext, a testing harness is written in \psharp. The developers of vNext expect the bug more likely in Extent Manager than in Extent Node. Hence, the testing harness focuses on the real Extent Manager with mocked Extent Nodes.
 
-The testing harness consists of multiple \psharp machines:
+The testing harness consists of multiple \psharp machines, as shown in Figure~\ref{fig:azurestoremodel}:
 %\begin{enumerate}
 \begin{description}
 \item[Extent Manager machine] is a thin wrapper for the real Extent Manager in vNext.
@@ -11,14 +11,13 @@ The testing harness consists of multiple \psharp machines:
 
 \item[Monitor machine] collects states from all the ENs and verifies desired properties, such as the extent is replicated or repaired at the expected ENs.
 \end{description}
-%\item {\em Extent Manager machine} is a thin wrapper for the real Extent Manager in vNext.
-%
-%\item {\em Extent Node machine} represents simple mocked EN.
-%
-%\item {\em Testing Driver machine} communicates with all other machines, relays messages between the Extent Manager machine and multiple EN machines, and drives testing scenarios. In one testing scenario, the testing driver launches Extent Manager with three ENs, with a single extent on one of the ENs. It then waits for the extent to be repaired on all three ENs. In another testing scenario, the testing driver fails one of the ENs and launches a new EN. It then waits for the extent to be repaired on all the remaining ENs.
-%
-%\item Moreover, there is a {\em Monitor} machine, which collects states from all the ENs and verifies the desired property that the extent is {\em eventually} repaired.
-%\end{enumerate}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{img/mocked_vnext}
+\caption{Real Extent Manager with a Mocked Environment (each box presents one \psharp machine).}
+\label{fig:azurestoremodel}
+\end{figure}
 
 \subsection{Extent Manager Machine}
 \label{sec:method:wrap_target}
@@ -288,8 +287,10 @@ class ExtentNodeMachine : Machine {
 %\vspace{-2mm}
 \end{figure}
 
-%\subsection{Testing Driver Machine}
-%\label{sec:method:driver}
+\subsection{Testing Driver Machine}
+\label{sec:method:driver}
+
+The testing driver machine drives two testing scenarios. In one scenario, it launches one Extent Manager and three ENs, with a single extent on one of the ENs. It waits for the extent to be replicated at the other ENs. In another scenario, it fails one of the ENs and launches a new one. It waits for the extent to be repaired on the new EN. Code snippets are skipped due to space constraint.
 
 \subsection{Monitor Machine}
 \label{sec:method:monitor}
