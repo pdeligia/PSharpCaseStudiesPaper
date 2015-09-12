@@ -1,10 +1,8 @@
-We compared the bug-finding effectiveness of \psharp systematic concurrency testing to traditional ``stress testing'' without systematic concurrency control on several benchmark bugs, described below.  We report the length of time it took for the test to fail and remark on the effort needed to diagnose the bug from the test output. \MMComment{Overview of actual results?}
+After we fixed all the bugs we could find in the programs under test, we added options to the code to introduce various benchmark bugs (some that were actually in the original programs and some we made up) one at a time so we could evaluate different methods to detect and diagnose them.  We compare \psharp systematic concurrency testing to traditional ``stress testing'' without systematic concurrency control; we report the average length of time it took for the test to fail and remark on the effort needed to diagnose the bug from the test output. \MMComment{Overview of actual results?}
 
 \subsection{Experimental Setup}
 
 We performed all experiments using the Windows PowerShell tool on a 2.50GHz Intel Core i5-4300U CPU with 8GB RAM running Windows 10 Pro 64-bit.
-
-Because we fixed all bugs that we discovered using the \psharp systematic testing engine in the case studies, for the evaluation we added an option to conditionally reintroduce each one of the bugs so that we can measure how fast and how often each bug can be discovered with the \psharp random and the PCT scheduler.
 
 Cheng's case study with the actual bug
 
@@ -43,6 +41,8 @@ After fixing all the bugs we found in MigratingTable, we added an option to cond
 \end{table*}
 
 Table~\ref{tab:testing} presents the results from running the \psharp systematic testing engine on each case study with an enabled bug using the random and the PCT schedulers. We configured the engine to perform 100,000 iterations. The random seed for both schedulers was generated in each iteration using the \texttt{DateTime.Now.Millisecond} API which represents the current time in milliseconds. The PCT scheduler was configured with a bug depth of 2 and a max number of scheduling steps to execute of 500. All reported times are in seconds.
+
+For MigratingTable, the upper section of the table uses the random input generator described in Section~\ref{sec:mtable:input}.  For each bug that led to at least one test failure, we manually reviewed one of the failure traces to confirm it reflected the intended bug.  For each of the remaining bugs, we repeated the test using a test case custom written to trigger that particular bug in order to confirm that the failure to detect the bug in the original test was due to unlucky random choices of inputs and schedules and not some other problem with the experimental setup.  These results are in the lower section of the table; they can serve as additional cases in which to compare the random and PCT schedulers but do not represent a testing method one could use to find unknown bugs in software.  It may have been interesting to report results for specific test cases written before we knew the bugs as mentioned in \ref{sec:mtable:input}, but we did not do so in this study.
 
 How long you had to run the test to find the bug (if you can find it) and how long are the traces
 
