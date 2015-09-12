@@ -12,7 +12,7 @@ The testing harness consists of multiple \psharp machines.
 \subsection{Extent Manager Machine}
 \label{sec:method:wrap_target}
 
-The testing target is the real Extent Manager in vNext, wrapped inside a \psharp machine in the testing harness.
+The testing target, the real Extent Manager in vNext, is wrapped inside a \psharp machine in the testing harness.
 
 \subsubsection{Extent Manager Internals}
 
@@ -25,7 +25,7 @@ The testing target is the real Extent Manager in vNext, wrapped inside a \psharp
 
 Inside Extent Manager, there are two structures related to extent repair: an \emph{Extent Center} and an EN map. The Extent Center maintains mapping records from extents to their hosting ENs. It is updated upon every sync report from ENs. The EN map records the latest heartbeat time from every EN. It internally runs an EN expiration loop that is responsible for removing ENs that have been missing heartbeats for extended period and also cleaning up corresponding Extent Center records. In addition, Extent Manager runs an extent repair loop, which examines all the Extent Center records, identifies extents with missing replica, schedules extent repair tasks and sends the repair tasks to ENs.
 
-\subsubsection{Stubbing Network}
+\subsubsection{Intercepting Extent Manager Messages}
 \label{sec:method:model:dispath}
 
 %Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
@@ -65,7 +65,7 @@ Inside Extent Manager, there are two structures related to extent repair: an \em
 %%\vspace{-2mm}
 %\end{figure}
 
-Extent Manager uses a network engine to send and receive messages from ENs. The testing harness mocks the original network engine in vNext and overrides the networking methods. In this way, it intercepts all outbound messages and relays to the testing driver, which is responsible for dispatching the messages to destination ENs. As shown in Figure~\ref{fig:enginecode}, the mocked network engine captures outbound messages from Extent Manager and invokes \texttt{PSharpRuntime.Send(...)} to asynchronously relay the messages to the testing driver.
+Extent Manager uses a network engine to send and receive messages from ENs. The testing harness mocks the original network engine in vNext and overrides the networking interface. In this way, it intercepts all outbound messages and relays to the testing driver, which is responsible for dispatching the messages to destination ENs. As shown in Figure~\ref{fig:enginecode}, the mocked network engine captures outbound messages from Extent Manager and invokes \texttt{PSharpRuntime.Send(...)} to asynchronously relay the messages to the testing driver. \CHComment{Conceivably, if it is desirable to emulate message loss, the mocked network engine could leverage the non-determinism support in \psharp and drop the messages non-deterministically (only if non-determinism is already described in the previous section). }
 
 \begin{figure}[t]
 \begin{lstlisting}
@@ -77,8 +77,8 @@ class NetworkEngine {
 // mocked network for capturing Extent Manager messages
 class MockedNetEngine : NetworkEngine {
   public override void SendMessage(Socket s, Message msg) {
-    // capture and relay Extent Manager messages
-    PSharpRuntime.Send(this.Environment, new MessageFromExtentManagerEvent(), s, msg);
+    // intercept and relay Extent Manager messages
+    PSharpRuntime.Send(this.TestingDriver, new MessageFromExtentManagerEvent(), s, msg);
   }
 }
 \end{lstlisting}
@@ -94,7 +94,7 @@ class MockedNetEngine : NetworkEngine {
 
 \subsubsection{Extent Manager Machine}
 
-Figure~\ref{fig:wrap_target} shows code snippet from Extent Manager machine, as a thin wrapper of the real Extent Manager. A mocked network engine replaces the real one in Extent Manager. It captures and relays all outbound messages from Extent Manager.
+Figure~\ref{fig:wrap_target} shows code snippet from Extent Manager machine, as a thin wrapper of the real Extent Manager. A mocked network engine replaces the real one in Extent Manager. It intercepts all outbound messages from Extent Manager and relays them to the testing driver.
 
 %A typical wrapper machine contains a handle (as a field) to the system component that is being wrapped (in our case the real Extent Manager object) and the event handlers are responsible for translating any received events to method calls in the real code that is being tested. The \texttt{ExtentManager} is accompanied by a mocked version of the real Network Engine class. The real Extent Manager is communicating with the outside world via remote procedure calls, but in \psharp harness we want to capture this communicating and expose it as calls to \psharp communicating primitives. This is discussed in detail in Section~\ref{sec:method:model:dispath}.
 
@@ -111,17 +111,23 @@ class ExtentManagerMachine : Machine {
     extMgr = new ExtentManager();
 
     extMgr.netEngine = new MockedNetEngine(); // mock network
-    extMgr.SkippingJournal = true; // skip persistence
-    extMgr.IsMockingTimer = true;	 // disable internal timer
+    extMgr.skippingJournal = true; // skip persistence
+    extMgr.isMockingTimer = true;	 // disable internal timer
   }
 
-  [OnEventDoAction(typeof(MessageFromExtentNodeEvent), nameof(DeliverMessageAction))]
-	
-  private void DeliverMessageAction()
+  [OnEvent(MessageFromExtentNode, DeliverExtentNodeMessage)]
+  void DeliverExtentNodeMessage()
   {
-    var msg = (CommandMessage)this.Payload;
+    var msg = (ExtentNodeMessage)this.Payload;
     // relay messages from Extent Node to Extent Manager
-    extMgr.ProcessSingleMessage(msg);
+    extMgr.ProcessMessage(msg);
+  }
+	
+  [OnEvent(TimerTick), nameof(ProcessExtentRepair))]
+  void ProcessExtentRepair()
+  {
+    // extent repair loop driven by external timer
+    extMgr.ProcessEvent(new ExtentRepairEvent());
   }
 }
 \end{lstlisting}
@@ -131,16 +137,20 @@ class ExtentManagerMachine : Machine {
 %\vspace{-2mm}
 \end{figure}
 
-Incoming messages from ENs are delivered to the Extent Manager machine and trigger action. The specific action here relays the messages to the internal Extent Manager by invoking \texttt{extMgr.ProcessSingleMessage}. From the Extent Manager's perspective, it is unaware of EN mocking and behaves as if it is communicating with several real ENs.
+Messages from ENs do {\em not} go through the mocked network engine. They are delivered to the Extent Manager machine directly and trigger an action that invokes the messages on the internal Extent Manager with \texttt{extMgr.ProcessSingleMessage}. From Extent Manager's perspective, it is unaware of the testing harness and behaves as if running in a real distributed environment and communicating with real ENs.
 
-\subsection{Mocking Extent Node}
+It is crucial to delegate all non-determinism to \psharp. For that, all internal timers of Extent Manager are disabled. Instead, the EN expiration loop and the extent repair loop are triggered repeatedly by dedicated \psharp timers. Note that system correctness should {\em not} hinge on the frequency of any individual timer. Hence, \psharp has the complete freedom to schedule arbitrary interleaving between the timers.
+
+\subsection{Extent Node Machine}
 \label{sec:method:mock_en}
 
-The \texttt{ExtentNode} machine is a model (less than 150 lines of code) of the real Extent Node and is responsible for generating synchronization events and sending them to the \texttt{ExtentManager} to test the extent manager's repair logic.
+The \texttt{ExtentNode} machine is reduced to the simplest. It omits the details of real Extent Node, mocks only those logic required for the testing scenarios, and keeps the mocked logic simplest. The logic here includes: repairing an extent from its replica, generating sync reports periodically, and sending heartbeat messages periodically.
 
-briefly describe mocked repair logic.
+The testing harness leverages components in vNext whenever appropriate. Here, the machine re-uses \texttt{ExtentCenter}, an internal component of real Extent Node, for extent bookkeeping.
 
-briefly describe mocked sync logic
+In the mocked extent repair logic, the machine is instrumented by Extent Manager to repair an extent. It sends a repair request to a source Extent Node where a replica is stored. After receiving a \texttt{ExtentRepairResponse} from the source, it updates its internal \texttt{ExtentCenter}, as illustrated in Figure~\ref{fig:mocked_en}. 
+
+In the mocked sync logic, the machine is triggered repeatedly by a \psharp timer. It prepares a sync report with \texttt{extCtr.GetSyncReport(...)} and asynchronously sends the report to Extent Manager with \texttt{PSharpRuntime.Send(...)}.
 
 %\begin{figure}[t]
 %\begin{lstlisting}
@@ -195,32 +205,67 @@ briefly describe mocked sync logic
 %%\vspace{-2mm}
 %\end{figure}
 
+%\begin{figure}[t]
+%\begin{lstlisting}
+%// Mocking Extent Node in P#
+%class ExtentNodeMachine : Machine {
+  %// use real vNext component whenever appropriate
+  %private ExtentNode.ExtentCenter extCtr;
+%
+  %[OnEventDoAction(typeof(RepairExtentRequestEvent), nameof(ProcessRepairExtentRequest))]
+  %[OnEventDoAction(typeof(TimerTickEvent), nameof(ProcessExtentNodeSync))]
+%
+  %// extent repair logic
+  %void ProcessRepairExtentRequest()
+  %{
+    %var source = GetRepairSourceMachine(this.Payload);
+    %PSharpRuntime.Send(source, new DownloadExtentRequestEvent(), this.Payload);
+  %}
+  %...
+%
+  %// extent node sync logic
+  %void ProcessExtentNodeSync()
+  %{
+    %var sync = new ExtentNodeSync(this.NodeID);
+    %extCtr.Extents.ForEach(ext =>
+      %{
+        %sync.ExtentRecords.Add(new ExtentRecord(ext));
+      %});
+    %PSharpRuntime.Send(this.ExtentManagerMachine, new MessageFromExtentNodeEvent(), sync);
+  %}
+%}
+%\end{lstlisting}
+%\vspace{-2mm}
+%\caption{Mocked Extent Node.}
+%\label{fig:mocked_en}
+%%\vspace{-2mm}
+%\end{figure}
+
 \begin{figure}[t]
 \begin{lstlisting}
 // Mocking Extent Node in P#
 class ExtentNodeMachine : Machine {
-  // use real vNext component whenever appropriate
+  // leverage real vNext component whenever appropriate
   private ExtentNode.ExtentCenter extCtr;
 
-  [OnEventDoAction(typeof(RepairExtentRequestEvent), nameof(ProcessRepairExtentRequest))]
-  [OnEventDoAction(typeof(TimerTickEvent), nameof(ProcessExtentNodeSync))]
-
   // extent repair logic
-  void ProcessRepairExtentRequest()
-  {
-    var source = GetRepairSourceMachine(this.Payload);
-    PSharpRuntime.Send(source, new DownloadExtentRequestEvent(), this.Payload);
-  }
   ...
+  [OnEvent(ExtentRepairResponse, ProcessRepairResponse)]
+  void ProcessRepairResponse()
+  {
+    // repair response from source replica
+    if (IsRepairSucceeded(this.Payload))
+    {
+      var rec = GetExtentRecord(this.Payload);
+      extCtr.AddOrUpdate(rec); // update Extent Center
+    }
+  }
 
   // extent node sync logic
+  [OnEvent(TimerTick, ProcessExtentNodeSync)]
   void ProcessExtentNodeSync()
   {
-    var sync = new ExtentNodeSync(this.NodeID);
-    extCtr.Extents.ForEach(ext =>
-      {
-        sync.ExtentRecords.Add(new ExtentRecord(ext));
-      });
+    var sync = extCtr.GetSyncReport(); // prepare sync report
     PSharpRuntime.Send(this.ExtentManagerMachine, new MessageFromExtentNodeEvent(), sync);
   }
 }
@@ -231,122 +276,169 @@ class ExtentNodeMachine : Machine {
 %\vspace{-2mm}
 \end{figure}
 
+%\subsection{Testing Driver Machine}
+%\label{sec:method:driver}
 
-%\subsection{Modeling the environment}
-\subsection{Test Harness}
-\label{sec:method:model}
+\subsection{Monitor Machine}
+\label{sec:method:monitor}
 
-The environment of a distributed system might consist of other distributed systems and services, clients, operating system timers, as well as libraries for networking or other purposes. To be able to systematically test a distributed system, this environment must be modeled and all the interactions between the environment and the system, as well as all the nondeterminism, must be captured and controlled by the \psharp runtime.
+As illustrated in Figure~\ref{fig:monitor}, the monitor machine transitions between a cold state and a hot state. It is desirable to maintain a target number of replicas for an extent. Whenever an extent node fails, the monitor is notified and transitions into the hot {\em repairing} state, as the replica number now falls below the target. Once the extent is repaired, the monitor is again notified and transitions into the cold {\em repaired} state, when the replica number reaches the target.
 
-%\subsubsection{Creating a test harness using \psharp}
-\subsubsection{Orchestrating Machines}
-\label{sec:method:model:harness}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{img/mocked_vnext}
-\caption{The real environment of the Extent Manager is replaced with a mocked version for testing.}
-\label{fig:azurestoremodel}
-\end{figure}
-
-Before being able to use \psharp to test an existing distributed system, the environment of the components that the developer wants to test have to be modeled using the \psharp state machine APIs.  This involves creating mock classes that inherit from the \texttt{Machine} abstract class. The \texttt{Machine} class exposes methods for declaring a state machine (e.g. machine states and state transitions) as well as methods for sending events to other machines, declaring event handlers for received events, and accessing the payload from the latest received event.
-
-In the Azure Storage vNext case study, we created the following \psharp machines: \texttt{Environment}, \texttt{ExtentNode}, \texttt{ExtentManager}, and \texttt{Timer}.
-
-The \texttt{Environment} (denoted with a dashed line box in Figure~\ref{fig:azurestoremodel}) is essentially a ``god'' machine: it is the very first machine that is created; has a handle to all other machines in the harness; and includes the logic based on which the test harness will execute. The programmer is free to create either a finite test harness (e.g. with a predefined number of node failures) or an infinite test harness (e.g. with an unbounded number of failures), as long as any nondeterminism (e.g. when to insert a failure) is captured using the available \psharp APIs.
-
-Finally, the \texttt{Timer} machine models the operating system timer and is responsible for triggering events related to the Azure Storage vNext logic (e.g. synchronization messages, heartbeats and repair logic loops). This is discussed in detail in Section~\ref{sec:method:model:timers}.
-
-\subsubsection{Modeling and injecting failures}
-\label{sec:method:model:failures}
-
-In production, each Extent Node of the Azure Storage vNext system periodically (every 5 seconds) sends a heartbeat to the Extent Manager which notifies that the Extent Node is alive. Because we want to model failures and systematically inject them using \psharp, we abstract away the heartbeat mechanism in our harness. However, the Extent Manager logic relies on time intervals to detect node failures (see Figure~\ref{fig:expiration}). The way to abstract this time-related logic and connect the real code with the modeled code is to use virtual dispatch and override the virtual \texttt{IsNodeExpired} method with a mocked version.
+In the extent repair testing scenarios, it is expected that the monitor should {\em always eventually} end up in the cold repaired state. Otherwise, if the monitor is stuck in the hot repairing state for {\em infinitely} long, it is an indication that the corresponding execution sequence results in the extent never being repaired -- a liveness bug!
 
 \begin{figure}[t]
 \begin{lstlisting}
-// Real code for detecting node expiration
-public virtual bool IsNodeExpired(string id, DateTime time)
-{
-  return DateTime.Compare(time, DateTime.Now) <= 0;
-}
+class ExtentRepairMonitor : Machine {
+  // true: with replica, false: w/o replica
+  private Dictionary<Machine, bool> ExtentNode2Replica;
 
-// Mocked code for detecting node expiration
-public override bool IsNodeExpired(string id, DateTime time)
-{
-  return this.DeletedNodes.Contains(id);
-}
-\end{lstlisting}
-\vspace{-2mm}
-\caption{Abstracting the node expiration logic in the Extent Manager component of Azure Storage vNext.}
-\label{fig:expiration}
-%\vspace{-2mm}
-\end{figure}
-
-Figure~\ref{fig:expiration} presents how we mocked the node expiration detection method. Instead of comparing the time interval as in the original code, we now check if the set \texttt{DeletedNodes} contains the id of the Extent Node that we are checking for expiration. If it contains the id, then it means that the node has failed. The \texttt{Environment} machine that we have created as part of our testing \psharp harness, will nondeterministically choose a node to kill, then send the id of this killed node to the Extent Manager wrapper machine, who will in turn add it to the \texttt{DeletedNodes} set.
-
-\subsubsection{Entry point to a \psharp test harness}
-\label{sec:method:model:entrypoint}
-
-A developer can specify the entry point of a \psharp test harness similar to how unit tests are typically written. Figure~\ref{fig:entrypoint} shows the source code of the entry point for the Azure Storage vNext \psharp test harness. The programmer can declare an entry point method using the \texttt{Microsoft.PSharp.Test} attribute. When the \psharp systematic testing engine is invoked, it will scan the binary and attempt to find a static method declared with this attribute. When such a method is found (in our example the \texttt{Execute()} method), the testing engine will invoke it and start testing the program. The systematic engine can optionally run multiple iterations of the test harness, each one potentially exploring a different schedule. In each iteration, the program state will be reset (any static fields must be explicitly reset by the programmer) and the entry point will be re-invoked.
-
-\begin{figure}[t]
-\begin{lstlisting}
-[Microsoft.PSharp.Test]
-public static void Execute()
-{
-  PSharpRuntime.CreateMachine(typeof(Environment));
-}
-\end{lstlisting}
-\vspace{-2mm}
-\caption{Static \csharp method acting as the entry point to the Azure Storage vNext \psharp test harness.}
-\label{fig:entrypoint}
-%\vspace{-2mm}
-\end{figure}
-
-\subsubsection{Abstracting timers}
-\label{sec:method:model:timers}
-
-Distributed systems are often using timers to determine when an event should be send from one component to another. For example, in the Azure Storage vNext system, each Extent Node is associated with a timer that fires of a synchronization message every 5 minutes and a heartbeat every 5 seconds. This timer is related to the liveness bug that we discovered: the synchronization message that gets fired every 5 minutes can potentially race with an Extent Node failure; if it arrives after the node failed, then the bug would manifest. Traditional testing techniques cannot easily find such a bug, due to the very infrequent occurrence of this race due to the timer. 
-
-Our methodology in \psharp to systematically test distributed systems that rely on timers, is to abstract timers away, model them using message passing communication and introduce nondeterminism in their firing. This nondeterminism is introduced using the \psharp \texttt{Nondet()} method, which returns a nondeterministic boolean value that is controlled by the \psharp runtime during systematic testing.
-
-Figure~\ref{fig:timer} shows how we modeled a generic timer in the Azure Storage vNext case study. The Extend Manager, as well as each Extent Node in the harness, is associated with a unique \texttt{Timer} machine. When creating this machine, we pass as a payload the id of the machine that owns this timer. When the \texttt{Timer} machine is created, it stores this id in the \texttt{Owner} field and then transitions to the \texttt{Active} state. In this state, the \texttt{Timer} loops infinitely and nondeterministically (using \texttt{Nondet()}) sends a \texttt{TimerTickEvent} to \texttt{this.Owner}. When the Extent Node owner receives this event, it handles it by generating a synchronization message that is being send to the Extent Manager. Similarly, when the Extent Manager receives a \texttt{TimerTickEvent} from its own \texttt{Timer}, it handles it by nondeterministically invoking repair-related methods in the Extent Repair Center data structure. 
-
-\begin{figure}[t]
-\begin{lstlisting}
-internal class Timer : Machine
-{
-  MachineId Owner; // Id of the owner machine
-
-  [Start]
-  [OnEntry(nameof(InitOnEntryAction))]
-  [OnEventGotoState(typeof(Unit), typeof(Active))]
-  class Init : MachineState { }
-
-  void InitOnEntryAction()
-  {
-    this.Owner = (MachineId)this.Payload;
-    // triggers state transition to Active
-    this.Raise(new Unit());
+  [Cold] // cold state: repaired
+  [OnEvent(NotifyEnFailure, ProcessExtentNodeFailure)]
+  state Repaired : MonitorState {
+    void ProcessExtentNodeFailure()
+    {
+        var node = GetExtentNode(this.Payload);
+        ExtentNode2Replica.Remove(node);
+        goto Repairing;
+    }
   }
 
-  [OnEntry(nameof(ProcessTickEvent))]
-  [OnEventGotoState(typeof(Unit), typeof(Active))]
-  class Active : MachineState { }
+  [Hot] // hot state: repairing
+  [OnEvent(NotifyExtentRepaired ProcessExtentRepaired)]
+  state Repairing : MonitorState {
+    void ProcessExtentRepaired()
+    {
+      var node = GetExtentNode(this.Payload);
+      ExtentNode2Replica[node] = true;
 
-  void ProcessTickEvent()
-  {
-    // Nondeterministic boolean choice controlled by P#
-    if (this.Nondet())
-      // sends a timer tick event to the owner machine
-      this.Send(this.Owner, new TimerTickEvent());
-    // triggers state transition to Active
-    this.Raise(new Unit());
+      if (ReplicaCount == Harness.REPLICATION_FACTOR)
+        goto Repaired;
+    }
   }
 }
 \end{lstlisting}
 \vspace{-2mm}
-\caption{Timers in Azure Storage vNext are modeled as nondeterministic \psharp machines.}
-\label{fig:timer}
+\caption{Monitor Machine.}
+\label{fig:monitor}
 %\vspace{-2mm}
 \end{figure}
+
+
+%%\subsection{Modeling the environment}
+%\subsection{Test Harness}
+%\label{sec:method:model}
+%
+%The environment of a distributed system might consist of other distributed systems and services, clients, operating system timers, as well as libraries for networking or other purposes. To be able to systematically test a distributed system, this environment must be modeled and all the interactions between the environment and the system, as well as all the nondeterminism, must be captured and controlled by the \psharp runtime.
+%
+%%\subsubsection{Creating a test harness using \psharp}
+%\subsubsection{Orchestrating Machines}
+%\label{sec:method:model:harness}
+%
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=\linewidth]{img/mocked_vnext}
+%\caption{The real environment of the Extent Manager is replaced with a mocked version for testing.}
+%\label{fig:azurestoremodel}
+%\end{figure}
+%
+%Before being able to use \psharp to test an existing distributed system, the environment of the components that the developer wants to test have to be modeled using the \psharp state machine APIs.  This involves creating mock classes that inherit from the \texttt{Machine} abstract class. The \texttt{Machine} class exposes methods for declaring a state machine (e.g. machine states and state transitions) as well as methods for sending events to other machines, declaring event handlers for received events, and accessing the payload from the latest received event.
+%
+%In the Azure Storage vNext case study, we created the following \psharp machines: \texttt{Environment}, \texttt{ExtentNode}, \texttt{ExtentManager}, and \texttt{Timer}.
+%
+%The \texttt{Environment} (denoted with a dashed line box in Figure~\ref{fig:azurestoremodel}) is essentially a ``god'' machine: it is the very first machine that is created; has a handle to all other machines in the harness; and includes the logic based on which the test harness will execute. The programmer is free to create either a finite test harness (e.g. with a predefined number of node failures) or an infinite test harness (e.g. with an unbounded number of failures), as long as any nondeterminism (e.g. when to insert a failure) is captured using the available \psharp APIs.
+%
+%Finally, the \texttt{Timer} machine models the operating system timer and is responsible for triggering events related to the Azure Storage vNext logic (e.g. synchronization messages, heartbeats and repair logic loops). This is discussed in detail in Section~\ref{sec:method:model:timers}.
+%
+%\subsubsection{Modeling and injecting failures}
+%\label{sec:method:model:failures}
+%
+%In production, each Extent Node of the Azure Storage vNext system periodically (every 5 seconds) sends a heartbeat to the Extent Manager which notifies that the Extent Node is alive. Because we want to model failures and systematically inject them using \psharp, we abstract away the heartbeat mechanism in our harness. However, the Extent Manager logic relies on time intervals to detect node failures (see Figure~\ref{fig:expiration}). The way to abstract this time-related logic and connect the real code with the modeled code is to use virtual dispatch and override the virtual \texttt{IsNodeExpired} method with a mocked version.
+%
+%\begin{figure}[t]
+%\begin{lstlisting}
+%// Real code for detecting node expiration
+%public virtual bool IsNodeExpired(string id, DateTime time)
+%{
+  %return DateTime.Compare(time, DateTime.Now) <= 0;
+%}
+%
+%// Mocked code for detecting node expiration
+%public override bool IsNodeExpired(string id, DateTime time)
+%{
+  %return this.DeletedNodes.Contains(id);
+%}
+%\end{lstlisting}
+%\vspace{-2mm}
+%\caption{Abstracting the node expiration logic in the Extent Manager component of Azure Storage vNext.}
+%\label{fig:expiration}
+%%\vspace{-2mm}
+%\end{figure}
+%
+%Figure~\ref{fig:expiration} presents how we mocked the node expiration detection method. Instead of comparing the time interval as in the original code, we now check if the set \texttt{DeletedNodes} contains the id of the Extent Node that we are checking for expiration. If it contains the id, then it means that the node has failed. The \texttt{Environment} machine that we have created as part of our testing \psharp harness, will nondeterministically choose a node to kill, then send the id of this killed node to the Extent Manager wrapper machine, who will in turn add it to the \texttt{DeletedNodes} set.
+%
+%\subsubsection{Entry point to a \psharp test harness}
+%\label{sec:method:model:entrypoint}
+%
+%A developer can specify the entry point of a \psharp test harness similar to how unit tests are typically written. Figure~\ref{fig:entrypoint} shows the source code of the entry point for the Azure Storage vNext \psharp test harness. The programmer can declare an entry point method using the \texttt{Microsoft.PSharp.Test} attribute. When the \psharp systematic testing engine is invoked, it will scan the binary and attempt to find a static method declared with this attribute. When such a method is found (in our example the \texttt{Execute()} method), the testing engine will invoke it and start testing the program. The systematic engine can optionally run multiple iterations of the test harness, each one potentially exploring a different schedule. In each iteration, the program state will be reset (any static fields must be explicitly reset by the programmer) and the entry point will be re-invoked.
+%
+%\begin{figure}[t]
+%\begin{lstlisting}
+%[Microsoft.PSharp.Test]
+%public static void Execute()
+%{
+  %PSharpRuntime.CreateMachine(typeof(Environment));
+%}
+%\end{lstlisting}
+%\vspace{-2mm}
+%\caption{Static \csharp method acting as the entry point to the Azure Storage vNext \psharp test harness.}
+%\label{fig:entrypoint}
+%%\vspace{-2mm}
+%\end{figure}
+%
+%\subsubsection{Abstracting timers}
+%\label{sec:method:model:timers}
+%
+%Distributed systems are often using timers to determine when an event should be send from one component to another. For example, in the Azure Storage vNext system, each Extent Node is associated with a timer that fires of a synchronization message every 5 minutes and a heartbeat every 5 seconds. This timer is related to the liveness bug that we discovered: the synchronization message that gets fired every 5 minutes can potentially race with an Extent Node failure; if it arrives after the node failed, then the bug would manifest. Traditional testing techniques cannot easily find such a bug, due to the very infrequent occurrence of this race due to the timer. 
+%
+%Our methodology in \psharp to systematically test distributed systems that rely on timers, is to abstract timers away, model them using message passing communication and introduce nondeterminism in their firing. This nondeterminism is introduced using the \psharp \texttt{Nondet()} method, which returns a nondeterministic boolean value that is controlled by the \psharp runtime during systematic testing.
+%
+%Figure~\ref{fig:timer} shows how we modeled a generic timer in the Azure Storage vNext case study. The Extend Manager, as well as each Extent Node in the harness, is associated with a unique \texttt{Timer} machine. When creating this machine, we pass as a payload the id of the machine that owns this timer. When the \texttt{Timer} machine is created, it stores this id in the \texttt{Owner} field and then transitions to the \texttt{Active} state. In this state, the \texttt{Timer} loops infinitely and nondeterministically (using \texttt{Nondet()}) sends a \texttt{TimerTickEvent} to \texttt{this.Owner}. When the Extent Node owner receives this event, it handles it by generating a synchronization message that is being send to the Extent Manager. Similarly, when the Extent Manager receives a \texttt{TimerTickEvent} from its own \texttt{Timer}, it handles it by nondeterministically invoking repair-related methods in the Extent Repair Center data structure. 
+%
+%\begin{figure}[t]
+%\begin{lstlisting}
+%internal class Timer : Machine
+%{
+  %MachineId Owner; // Id of the owner machine
+%
+  %[Start]
+  %[OnEntry(nameof(InitOnEntryAction))]
+  %[OnEventGotoState(typeof(Unit), typeof(Active))]
+  %class Init : MachineState { }
+%
+  %void InitOnEntryAction()
+  %{
+    %this.Owner = (MachineId)this.Payload;
+    %// triggers state transition to Active
+    %this.Raise(new Unit());
+  %}
+%
+  %[OnEntry(nameof(ProcessTickEvent))]
+  %[OnEventGotoState(typeof(Unit), typeof(Active))]
+  %class Active : MachineState { }
+%
+  %void ProcessTickEvent()
+  %{
+    %// Nondeterministic boolean choice controlled by P#
+    %if (this.Nondet())
+      %// sends a timer tick event to the owner machine
+      %this.Send(this.Owner, new TimerTickEvent());
+    %// triggers state transition to Active
+    %this.Raise(new Unit());
+  %}
+%}
+%\end{lstlisting}
+%\vspace{-2mm}
+%\caption{Timers in Azure Storage vNext are modeled as nondeterministic \psharp machines.}
+%\label{fig:timer}
+%%\vspace{-2mm}
+%\end{figure}
