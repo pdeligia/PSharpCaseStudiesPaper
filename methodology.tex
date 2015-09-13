@@ -1,43 +1,43 @@
-To uncover the elusive extent repair bug in Azure Storage vNext, a testing harness is written in \psharp. The developers of vNext expect the bug more likely in Extent Manager than in Extent Node. Hence, the testing harness focuses on the real Extent Manager with mocked Extent Nodes.
+To uncover the elusive extent repair bug in Azure Storage vNext, its developers wrote a testing harness in \psharp. The developers of vNext expected that it was more likely for the bug to occur in the ExtMgr logic, rather than the EN logic. Hence, the testing harness focuses on the real ExtMgr using mocked ENs.
 
-The testing harness consists of multiple \psharp machines, as shown in Figure~\ref{fig:azurestoremodel}:
+The testing harness consists of the following \psharp machines (as shown in Figure~\ref{fig:azurestoremodel}):
 %\begin{enumerate}
 \begin{description}
-\item[Extent Manager machine] is a thin wrapper for the real Extent Manager in vNext.
+\item[ExtentManager] acts as a thin wrapper machine for the real ExtMgr component in vNext.
 
-\item[Extent Node machines] represent simple mocked ENs.
+\item[ExtentNode] represents a simplified mocked EN.
 
-\item[Testing Driver machine] communicates with all other machines, relays messages between the Extent Manager machine and the EN machines, and drives testing scenarios. In one scenario, the testing driver launches one Extent Manager and three ENs, with a single extent on one of the ENs. It then waits for the extent to be replicated at the other ENs. In another scenario, the testing driver fails one of the ENs and launches a new one. It then waits for the extent to be repaired on the new EN.
+\item[TestingDriver] communicates with all other machines, relays messages between the \texttt{ExtentManager} and the \texttt{ExtentNode} machines, and is responsible for driving testing scenarios.
 
-\item[Monitor machine] collects states from all the ENs and verifies desired properties, such as the extent is replicated or repaired at the expected ENs.
+\item[RepairMonitor] collects states from all \texttt{ExtentNode} machines in the testing harness and verifies desired properties, such as that an extent is replicated or repaired at the expected ENs.
 \end{description}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{img/mocked_vnext}
-\caption{Real Extent Manager with a Mocked Environment (each box presents one \psharp machine).}
+\caption{Real Extent Manager with a mocked environment (each box represents one \psharp machine).}
 \label{fig:azurestoremodel}
 \end{figure}
 
-\subsection{Extent Manager Machine}
+\subsection{The ExtentManager machine}
 \label{sec:method:wrap_target}
 
-The testing target, the real Extent Manager in vNext, is wrapped inside a \psharp machine in the testing harness.
+The component under test, the real ExtMgr in vNext, is wrapped inside the \texttt{ExtentManager} \psharp machine in the testing harness.
 
-\subsubsection{Extent Manager Internals}
+\subsubsection{Internals of the real Extent Manager}
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=.9\linewidth]{img/extent_manager}
-\caption{Internal components of the Extent Manager in Azure Storage vNext.}
+\caption{Internal components of the real Extent Manager in Azure Storage vNext.}
 \label{fig:extentmanager}
 \end{figure*}
 
-Inside Extent Manager, there are two data structures related to extent replication and repair: an \texttt{ExtentCenter} and an \texttt{ExtentNode Map}. The extent center maintains the mapping records from extents to their hosting ENs. It is updated upon the periodic sync reports from the ENs. Again recall that the sync report from a particular EN lists all the extents stored at the EN. Its purpose is to update Extent Manager's possible out-of-date view of the EN with the ground truth. The EN map records the latest heartbeat time from every EN.
+Inside the real ExtMgr, there are two data structures related to extent replication and repair: \texttt{ExtentCenter} and \texttt{ExtentNodeMap}. The \texttt{ExtentCenter} maintains the mapping records from extents to their hosting ENs. It is updated upon the periodic sync reports from the ENs. Recall that the sync report from a particular EN lists all the extents stored at the EN. Its purpose is to update extent manager's possible out-of-date view of the EN with the ground truth. The EN map records the latest heartbeat time from every EN.
 
-Extent Manager internally runs a periodic {\em EN expiration loop} that is responsible for removing ENs that have been missing heartbeats for an extended period, as well as cleaning up the corresponding records in the extent center. In addition, it runs a periodic {\em extent repair loop}, which examines all the extent center records, identifies extents with missing replica, schedules extent repair tasks and sends them to the ENs.
+The ExtMgr runs internally a periodic {\em EN expiration loop} that is responsible for removing ENs that have been missing heartbeats for an extended period, as well as cleaning up the corresponding records in the \texttt{ExtentCenter}. In addition, the ExtMgr runs a periodic {\em extent repair loop} that examines all the \texttt{ExtentCenter} records, identifies extents with missing replicas, schedules extent repair tasks and sends them to the ENs.
 
-\subsubsection{Intercepting Extent Manager Messages}
+\subsubsection{Intercepting messages between machines}
 \label{sec:method:model:dispath}
 
 %Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
@@ -77,7 +77,7 @@ Extent Manager internally runs a periodic {\em EN expiration loop} that is respo
 %%\vspace{-2mm}
 %\end{figure}
 
-Extent Manager uses a network engine to send messages to the ENs. The testing harness mocks the original network engine in vNext and overrides its interface. In this way, the mocked network engine intercepts all outbound messages and relays them to the testing driver, which is responsible for dispatching the messages to the destination ENs. As shown in Figure~\ref{fig:enginecode}, the mocked network engine intercepts the outbound messages from Extent Manager and invokes \texttt{PSharpRuntime.Send(...)} to asynchronously relay the messages to the testing driver. Conceivably, the mocked network engine could leverage the non-determinism support in \psharp and choose to drop the messages in a non-deterministic fashion, in case emulating message loss is desirable. \CHComment{only if non-determinism is already covered in the previous section.}
+The real ExtMgr uses a network engine to send messages to the ENs. The testing harness mocks the original network engine in vNext and overrides its interface. In this way, the mocked network engine intercepts all outbound messages and relays them to the \texttt{TestingDriver} machine, which is responsible for dispatching the messages to the corresponding \texttt{ExtentNode} machines. As shown in Figure~\ref{fig:enginecode}, the mocked network engine intercepts the outbound messages from the ExtMgr and invokes \texttt{PSharpRuntime.Send(...)} to asynchronously relay the messages to \texttt{TestingDriver}. Conceivably, the mocked network engine could leverage the non-determinism support in \psharp and choose to drop the messages in a non-deterministic fashion, in case emulating message loss is desirable. \CHComment{only if non-determinism is already covered in the previous section.}
 
 \begin{figure}[t]
 \begin{lstlisting}
@@ -95,7 +95,7 @@ class MockedNetEngine : NetworkEngine {
 }
 \end{lstlisting}
 \vspace{-2mm}
-\caption{Mocked Network Engine.}
+\caption{Mocked network engine in vNext.}
 \label{fig:enginecode}
 %\vspace{-2mm}
 \end{figure}
@@ -104,9 +104,9 @@ class MockedNetEngine : NetworkEngine {
 
 %For mocking the receive operation, we take advantage of the implicit receive of events in \psharp machines. When a extent node machine receives an event, an appropriate event handler is invoked, which extracts the original message from the payload and then handles it accordingly.
 
-\subsubsection{Extent Manager Machine}
+\subsubsection{Specifics of the ExtentManager machine}
 
-Figure~\ref{fig:wrap_target} shows some code snippets from the Extent Manager machine. It is a thin wrapper of the real Extent Manager. The mocked network engine replaces the real one in Extent Manager, which intercepts all the outbound messages from Extent Manager and relays them to the testing driver.
+Figure~\ref{fig:wrap_target} shows code snippets from the \texttt{ExtentManager} \psharp machine. \texttt{ExtentManager} is a thin wrapper of the real ExtMgr. The mocked network engine replaces the real one in ExtMgr, intercepts all the outbound messages from ExtMgr and relays them to \texttt{TestingDriver}.
 
 %A typical wrapper machine contains a handle (as a field) to the system component that is being wrapped (in our case the real Extent Manager object) and the event handlers are responsible for translating any received events to method calls in the real code that is being tested. The \texttt{ExtentManager} is accompanied by a mocked version of the real Network Engine class. The real Extent Manager is communicating with the outside world via remote procedure calls, but in \psharp harness we want to capture this communicating and expose it as calls to \psharp communicating primitives. This is discussed in detail in Section~\ref{sec:method:model:dispath}.
 
@@ -114,54 +114,50 @@ Figure~\ref{fig:wrap_target} shows some code snippets from the Extent Manager ma
 
 \begin{figure}[t]
 \begin{lstlisting}
-// Wrapping the target vNext component in P#
+// Wrapping the target vNext component in a P# machine
 class ExtentManagerMachine : Machine {
   private ExtentManager extMgr; // real vNext code
 
-  void Init()
-  {
+  void Init() {
     extMgr = new ExtentManager();
-
     extMgr.netEngine = new MockedNetEngine(); // mock network
     extMgr.isMockingTimer = true;	 // disable internal timer
   }
 
   [OnEvent(MessageFromExtentNode, DeliverExtentNodeMessage)]
-  void DeliverExtentNodeMessage()
-  {
+  void DeliverExtentNodeMessage() {
     var msg = (ExtentNodeMessage)this.Payload;
     // relay messages from Extent Node to Extent Manager
     extMgr.ProcessMessage(msg);
   }
 	
   [OnEvent(TimerTick), nameof(ProcessExtentRepair))]
-  void ProcessExtentRepair()
-  {
+  void ProcessExtentRepair() {
     // extent repair loop driven by external timer
     extMgr.ProcessEvent(new ExtentRepairEvent());
   }
 }
 \end{lstlisting}
 \vspace{-2mm}
-\caption{Extent Manager Machine: the Testing Target.}
+\caption{Component under test: the real Extent Manager wrapped inside an \texttt{ExtentManager} \psharp machine.}
 \label{fig:wrap_target}
 %\vspace{-2mm}
 \end{figure}
 
-Messages coming from the ENs do {\em not} go through the mocked network engine. They are delivered to the Extent Manager machine directly and trigger an action that invokes the messages on the internal Extent Manager with \texttt{extMgr.ProcessSingleMessage}. From Extent Manager's perspective, it is unaware of the testing harness and behaves as if running in a real distributed environment and communicating with real ENs.
+Messages coming from the ENs do {\em not} go through the mocked network engine. They are delivered to the \texttt{ExtentManager} machine directly and trigger an action that invokes the messages on the internal ExtMgr with \texttt{extMgr.ProcessSingleMessage}. The benefit of this approach is that ExtMgr is unaware of the testing harness and behaves as if it running in a real distributed environment and communicating with real ENs.
 
-All internal timers of Extent Manager are disabled, because it is crucial to delegate all non-determinism to \psharp. Instead, the EN expiration loop and the extent repair loop are driven by external timers provided by \psharp. Note that system correctness should {\em not} hinge on the frequency of any individual timer. Hence, \psharp has the complete freedom to schedule arbitrary interleaving between the timers.
+All internal timers of ExtMgr are disabled, because it is crucial to delegate all non-determinism to \psharp. Instead, the EN expiration loop and the extent repair loop are driven by external timers provided by \psharp. Note that system correctness should {\em not} hinge on the frequency of any individual timer. Hence, \psharp has the complete freedom to schedule arbitrary interleavings between the timers.
 
-\subsection{Extent Node Machine}
+\subsection{The ExtentNode machine}
 \label{sec:method:mock_en}
 
-The Extent Node machine is reduced to the simplest. It omits the details of a real Extent Node, mocks only those logic necessary for the testing scenarios, and keeps the mocked logic simplest. The logic here includes: repairing an extent from its replica, generating sync reports periodically, and sending heartbeat messages periodically.
+The \texttt{ExtentNode} machine is a much simplified version of the original EN. It omits the details of a real EN, mocks only logic necessary for the testing scenarios, and keeps the mocked logic as simple as possible. The logic here includes: repairing an extent from its replica, generating sync reports periodically, and sending heartbeat messages periodically.
 
-The testing harness leverages components in vNext whenever appropriate. Here, the Extent Node machine re-uses \texttt{ExtentCenter}, an internal component of real Extent Node, for extent bookkeeping.
+The testing harness leverages components in vNext whenever appropriate. Here, the \texttt{ExtentNode} machine re-uses the \texttt{ExtentCenter} data structure, an internal component of a real EN used for extent bookkeeping.
 
-In the mocked extent repair logic, the machine takes action upon receiving an extent repair request from Extent Manager. It sends a copy request to a source Extent Node where a replica is stored. After receiving a \texttt{ExtentCopyResponse} from the source, it updates the internal extent center, as illustrated in Figure~\ref{fig:mocked_en}. 
+In the mocked extent repair logic, \texttt{ExtentNode} takes action upon receiving an extent repair request from the \texttt{ExtentManager} machine. It sends a copy request to a source \texttt{ExtentNode} machine where a replica is stored. After receiving an \texttt{ExtentCopyResponse} event from the source, it updates the internal \texttt{ExtentCenter}, as illustrated in Figure~\ref{fig:mocked_en}. 
 
-In the mocked extent node sync logic, the machine is again driven by an external timer provided by \psharp. It prepares a sync report with \texttt{extCtr.GetSyncReport(...)} and asynchronously sends the report to Extent Manager with \texttt{PSharpRuntime.Send(...)}.
+In the mocked EN sync logic, the machine is again driven by an external timer provided by \psharp. It prepares a sync report with \texttt{extCtr.GetSyncReport(...)} and asynchronously sends the report to \texttt{ExtentManager} with \texttt{PSharpRuntime.Send(...)}.
 
 %\begin{figure}[t]
 %\begin{lstlisting}
@@ -262,11 +258,9 @@ class ExtentNodeMachine : Machine {
   // extent repair logic
   ...
   [OnEvent(ExtentCopyResponse, ProcessExtentCopyResponse)]
-  void ProcessExtentCopyResponse()
-  {
+  void ProcessExtentCopyResponse() {
     // extent copy response from source replica
-    if (IsCopySucceeded(this.Payload))
-    {
+    if (IsCopySucceeded(this.Payload)) {
       var rec = GetExtentRecord(this.Payload);
       extCtr.AddOrUpdate(rec); // update Extent Center
     }
@@ -274,36 +268,35 @@ class ExtentNodeMachine : Machine {
 
   // extent node sync logic
   [OnEvent(TimerTick, ProcessExtentNodeSync)]
-  void ProcessExtentNodeSync()
-  {
+  void ProcessExtentNodeSync() {
     var sync = extCtr.GetSyncReport(); // prepare sync report
     PSharpRuntime.Send(this.ExtentManagerMachine, new MessageFromExtentNodeEvent(), sync);
   }
 }
 \end{lstlisting}
 \vspace{-2mm}
-\caption{Mocked Extent Node.}
+\caption{The mocked EN in vNext.}
 \label{fig:mocked_en}
 %\vspace{-2mm}
 \end{figure}
 
-\subsection{Testing Driver Machine}
+\subsection{The TestingDriver machine}
 \label{sec:method:driver}
 
-The testing driver machine drives two testing scenarios. In one scenario, it launches one Extent Manager and three ENs, with a single extent on one of the ENs. It waits for the extent to be replicated at the other ENs. In another scenario, it fails one of the ENs and launches a new one. It waits for the extent to be repaired on the new EN. Code snippets are skipped due to space constraint.
+The \texttt{TestingDriver} machine drives two testing scenarios. In the first scenario, it launches one \texttt{ExtentManager} and three \texttt{ExtentNode} machines, with a single extent on one of the ENs. It waits for the extent to be replicated at the other ENs. In the second scenario, it fails one of the \texttt{ExtentNode} machines and launches a new one. It waits for the extent to be repaired on the new EN. Code snippets are skipped due to space constraint.
 
-\subsection{Monitor Machine}
+\subsection{The RepairMonitor machine}
 \label{sec:method:monitor}
 
-The monitor machine transitions between a cold state and a hot state. Whenever an extent node fails, the monitor is notified. As soon as the number of extent replica falls below a specified target, the monitor transitions into the hot {\em repairing} state, where the missing replica is being repaired. Whenever a replica is repaired, the monitor is also notified. It transitions into the cold {\em repaired} state, when the replica number reaches the target again, as illustrated in Figure~\ref{fig:monitor}.
+The \texttt{RepairMonitor} machine transitions between a cold state and a hot state. Whenever an extent node fails, \texttt{RepairMonitor} is notified. As soon as the number of extent replicas falls below a specified target, \texttt{RepairMonitor} transitions into the hot \emph{repairing} state, where the missing replica is being repaired. Whenever a replica is repaired, the \texttt{RepairMonitor} machine is also notified. It transitions into the cold \emph{repaired} state, when the replica number reaches the target again, as illustrated in Figure~\ref{fig:monitor}.
 
 %It verifies the property that the number of extent replica {\em eventually} reaches the target.
 
-In the extent repair testing scenarios, the monitor verifies that it should {\em always eventually} end up in the cold repaired state. Otherwise, the monitor is stuck in the hot repairing state for {\em infinitely} long. This indicates that the corresponding execution sequence results in extent replica never being repaired -- a liveness bug!
+In the extent repair testing scenarios, \texttt{RepairMonitor} verifies that it should {\em always eventually} end up in the cold repaired state. Otherwise, the \texttt{RepairMonitor} machine is stuck in the hot repairing state for {\em infinitely} long. This indicates that the corresponding execution sequence results in an extent replica never being repaired, which is a liveness bug!
 
 \begin{figure}[t]
 \begin{lstlisting}
-class ExtentRepairMonitor : Machine {
+class RepairMonitor : Machine {
   // true: EN has replica, false: EN has no replica
   private Dictionary<Machine, bool> ExtentNode2Replica;
 
@@ -333,7 +326,7 @@ class ExtentRepairMonitor : Machine {
 }
 \end{lstlisting}
 \vspace{-2mm}
-\caption{Monitor Machine.}
+\caption{The RepairMonitor machine.}
 \label{fig:monitor}
 %\vspace{-2mm}
 \end{figure}
