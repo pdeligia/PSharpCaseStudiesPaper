@@ -90,7 +90,8 @@ class NetworkEngine {
 class MockedNetEngine : NetworkEngine {
   public override void SendMessage(Socket s, Message msg) {
     // intercept and relay Extent Manager messages
-    PSharpRuntime.Send(this.TestingDriver, new MessageFromExtentManagerEvent(), s, msg);
+    PSharpRuntime.Send(this.TestingDriver,
+      new MessageFromExtentManagerEvent(), s, msg);
   }
 }
 \end{lstlisting}
@@ -270,7 +271,8 @@ class ExtentNodeMachine : Machine {
   [OnEvent(TimerTick, ProcessExtentNodeSync)]
   void ProcessExtentNodeSync() {
     var sync = extCtr.GetSyncReport(); // prepare sync report
-    PSharpRuntime.Send(this.ExtentManagerMachine, new MessageFromExtentNodeEvent(), sync);
+    PSharpRuntime.Send(this.ExtentManagerMachine,
+      new MessageFromExtentNodeEvent(), sync);
   }
 }
 \end{lstlisting}
@@ -300,25 +302,22 @@ class RepairMonitor : Machine {
   // true: EN has replica, false: EN has no replica
   private Dictionary<Machine, bool> ExtentNode2Replica;
 
-  [Cold] // cold state: repaired
+  // cold state: repaired
   [OnEvent(NotifyEnFailure, ProcessExtentNodeFailure)]
-  state Repaired : MonitorState {
-    void ProcessExtentNodeFailure()
-    {
+  cold state Repaired : MonitorState {
+    void ProcessExtentNodeFailure() {
         var node = GetExtentNode(this.Payload);
         ExtentNode2Replica.Remove(node);
         goto Repairing;
     }
   }
 
-  [Hot] // hot state: repairing
+  // hot state: repairing
   [OnEvent(NotifyExtentRepaired, ProcessExtentRepaired)]
-  state Repairing : MonitorState {
-    void ProcessExtentRepaired()
-    {
+  hot state Repairing : MonitorState {
+    void ProcessExtentRepaired() {
       var node = GetExtentNode(this.Payload);
       ExtentNode2Replica[node] = true;
-
       if (ReplicaCount == Harness.REPLICA_COUNT_TARGET)
         goto Repaired;
     }
