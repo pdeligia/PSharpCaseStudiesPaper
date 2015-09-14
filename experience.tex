@@ -104,7 +104,7 @@ and
 \begin{figure}[thb]
 \centering
 \includegraphics[width=\linewidth]{img/fabricmodel}
-\caption{Overview of the key machines (rounded boxes) and interfaces (boxes) in our Fabric model.}
+\caption{Overview of the key machines and interfaces in our Fabric model.}
 \label{fig:fabric_model}
 \end{figure}
 
@@ -131,5 +131,130 @@ Instead, we chose an architecture
 that keeps the model simple
 while still allowing (what we believe to be) realistic
 asynchrony and failure scenarios.
- 
+
+\textbf{Replication example:} In order to replicate a state-mutating operation,
+user code at the primary replica 
+calls \texttt{IStateReplicator.ReplicateAsync},
+passing the serialized operation
+object.
+The operation is sent to the \texttt{ServiceRuntime},
+where it is assigned a \emph{logical sequence number} (LSN);
+each operation is assigned a consecutive LSN
+to track the total-order in which operations should be applied.
+The LSN is sent back to the primary replica
+where it is returned from the \texttt{ReplicateAsync} call,
+along with a \texttt{Task} object that will ``complete'' once
+the operation has been replicated to a majority of
+secondaries;
+thus, the user code can wait on the \texttt{Task}
+before confirming to any clients that the request has been applied reliably.
+The \texttt{ServiceRuntime} adds the operation to its list of in-flight
+replication requests and sends $n$ events to itself to signal that the request
+must be sent to a replica, where $n$ is the number of secondary replicas.
+The reason for sending $n$ events to itself instead of simply sending events
+directly to each secondary is so that the \texttt{ServiceRuntime}
+can process a simulated failure event inbetween the sending of replica requests
+to each secondary.
+This is an example of where we carefully considered
+the granularity of actions so that we could 
+model failures appropriately.
+The user code at a secondary receives the operation,
+applies it and then calls \texttt{Acknowledge} on the operation object;
+we implement this to send an event to the \texttt{ReplicaRuntime}
+which forwards the acknowledgement to the \texttt{ServiceRuntime}.
+Once a majority of secondaries have acknowledged, the
+\texttt{ServiceRuntime} removes the replication request from its list
+of replication requests
+and sends an acknowledgement to the primary,
+where the previously returned \texttt{Task} completes. 
+
+\subsubsection{Fabric model correctness}
+Our model does not attempt to
+simulate the internals of Fabric accurately,
+as its purpose is to find bugs in the user code
+and not in Fabric itself (which we assume to be correct).   
+However,
+due to lack of documentation,
+it is not always clear how Fabric should behave
+in certain scenarios.
+Thus,
+we ran several variants of a simple Fabric service
+that logs calls into the user code in order to
+reverse-engineer the actual behaviour of Fabric;
+we ensured that our model has the same behaviour,
+although this is an ongoing process as we encounter
+additional scenarios.
+A further problem is that our model may contain bugs.
+In order to find bugs in our model effectively,
+we wrote a \psharp{} service made up of a single machine
+which takes the place
+of the user code and translation layer in Figure \ref{fig:fabric_model},
+for each \texttt{ReplicaRuntime}.
+Thus, we were able to run this pure \psharp{} system
+under \psharp{}'s systematic testing mode
+and uncover many assertion failures within our model.
+We tested a scenario where the primary fails at some non-deterministic point
+within the execution.
+
+\textbf{Example Fabric model assertion failure:}
+In the buggy trace,
+the \texttt{ServiceRuntime}
+sends an \texttt{EEpochInfo} event to the second
+\texttt{ReplicaRuntime}
+indicating that this is the first epoch and the
+replica will be a secondary.
+An \emph{epoch} represents a configuration of primary and
+secondary replicas; when a different replica becomes the primary,
+this indicates the start of a new epoch.
+The \texttt{ReplicaRuntime} acknowledges that it has become
+a secondary by responding with the same event type.
+The \psharp{} service sends an \texttt{ESecondaryCopyContextOp};
+this indicates what state the secondary has
+and, thus, what the primary should send to this secondary so that it can catch
+up.
+The \texttt{ESecondaryCopyContextOp} event is forwarded to the
+\texttt{ServiceRuntime}. 
+The \texttt{ServiceRuntime} then receives and handles an \texttt{EKillPrimary}
+event, which causes the second replica to become the new primary.
+Thus,
+the \texttt{ServiceRuntime} sends another \texttt{EEpochInfo}
+to the second \texttt{ReplicaRuntime}
+indicating that this is the second epoch
+and the replica will be a primary.
+As part of this change,
+the \texttt{ReplicaRuntime}
+sends an event to the \psharp{} service
+indicating that it should stop waiting for
+the state to be copied from the old primary to this replica,
+which is acknowledged by sending an event to the \texttt{ReplicaRuntime}.
+This event causes the \texttt{ReplicaRuntime}
+to send an \texttt{ESecondaryCopyStateDone}
+event to the \texttt{ServiceRuntime},
+which unfortunately responds with an event indicating that the
+\texttt{ReplicaRuntime} is now an \emph{active} secondary
+(i.e.\ a secondary that has caught up with the primary).
+However, this causes an assertion failure because
+the \texttt{ReplicaRuntime} is becoming a primary and, thus,
+cannot be a secondary.
+Our fix to this bug was to ensure that the 
+\texttt{ESecondaryCopyStateDone} event was marked as part of the first
+epoch (as the \texttt{ReplicaRuntime} had not yet acknowledged the
+change to primary); thus, 
+the \texttt{ServiceRuntime} ignores the event and does not try to make the
+replica an active secondary.
+
+\subsubsection{CScale}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
