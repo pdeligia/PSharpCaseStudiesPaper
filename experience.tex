@@ -1,19 +1,3 @@
-\section{Liveness Bug in Azure Storage vNext}
-\label{sec:cases:azurestore}
-
-It took only tens of seconds before the testing harness reported the first occurrence of a liveness bug. Upon examining the debug trace, the vNext developers were able to confirm the bug.
-
-However, the trace didn't include enough details, which prevented the developers from identifying a root cause. Fortunately, running the test harness took very little time, so the developers were able to quickly iterate and add more refined debug outputs in each iteration. After several iterations, the developers were able to pinpoint the exact culprit and immediately proposed a solution to fix the bug. Once the proposed solution was implemented, the developers again ran the testing harness, which reported no more bug for $100,000$ iterations in tens of minutes.
-
-The liveness bug occurs in the second testing scenario, where the \texttt{TestingDriver} fails one of the \texttt{ExtentNode} and launches a new one. The \texttt{RepairMonitor} transitions to the hot repairing state and is stuck in the state for infinitely long.
-
-Here is one particular execution sequence resulting in the bug. $i)$ EN$_0$ fails and is detected by the EN expiration loop; $ii)$ EN$_0$ is removed from the EN map; $iii)$ the extent center is updated and the replica count drops from 3, the target, to 2; $iv)$ \texttt{ExtMgr} receives a sync report from EN$_0$; $v)$ the extent center is updated and the replica count increases from 2 to 3 again. This is problematic because, on one hand, the replica count is equal to the target, so the extent repair loop never schedules any repair task. On the other hand, there are only two true replicas in the system, one fewer than the target. This execution sequence leads to one replica missing. Conceivably, repeating this another two times would result in all replicas missing, while \texttt{ExtMgr} still thinks all replicas are healthy. If deployed in production, such bug would have caused a very serious incident of customer data loss.
-
-The culprit is in $iv)$, where \texttt{ExtMgr} receives a sync report from EN$_0$ after deleting the EN. This may occur in \psharp because of arbitrary message interleaving. It may also occur, albeit much less frequently, in the stress testing due to messages being delayed in the network. This explains why the bug only occurs from time to time in the stress testing and also takes long execution to trigger. In contrast, \psharp allows the bug to manifest quickly, the developers to iterate rapidly, the culprit identified promptly, and the fix solution verified effectively, all of which should vastly increase the productivity of distributed storage system development. 
-
-\section{Additional Case Studies}
-\label{sec:cases:other}
-
 The modeling and testing approach described in earlier sections of the paper is not specific to the vNext system. \psharp is a generic framework, capable of handling arbitrary distributed systems. We showcase this capability by presenting developer experience in using \psharp to model and test two other distributed storage systems used in production in Microsoft: the Live Azure Table Migration library; and the Azure Service Fabric system.
 
 \subsection{Live Azure Table Migration}
