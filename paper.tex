@@ -85,9 +85,9 @@ columns=fullflexible
 %for single author (just remove % characters)
 \author{
 {\rm Pantazis Deligiannis$^\dagger$, Matt McCutchen$^\diamond$, Paul Thomson$^\dagger$, Shuo Chen$^\star$}\\
-{\rm Alastair F. Donaldson$^\dagger$, John Erickson$^\ddagger$, Cheng Huang$^\star$, Akash Lal$^\star$}\\
-{\rm Rashmi Mudduluru$^\star$, Shaz Qadeer$^\star$, Wolfram Schulte$^\ddagger$}\\\\
-$^\dagger$Imperial College London, $^\ddagger$Microsoft, $^\star$Microsoft Research\\
+{\rm Alastair F. Donaldson$^\dagger$, John Erickson$^\star$, Cheng Huang$^\star$, Akash Lal$^\star$}\\
+{\rm Rashmi Mudduluru$^\star$, Shaz Qadeer$^\star$, Wolfram Schulte$^\star$}\\\\
+$^\dagger$Imperial College London, $^\star$Microsoft\\
 $^\diamond$Massachusetts Institute of Technology\\
 } % end author
 
@@ -99,11 +99,23 @@ $^\diamond$Massachusetts Institute of Technology\\
 
 
 \subsection*{Abstract}
-Testing distributed systems is very challenging due to multiple sources of nondeterminism, such as arbitrary interleavings between event handlers and unexpected node failures. Stress testing, commonly used in industry today, is unable to deal with this kind of nondeterminism, which results in the most tricky bugs being missed during testing and only getting exposed in production.
+Testing distributed systems is challenging due to multiple sources of nondeterminism in the execution, e.g., arbitrary interleavings between event handlers and unexpected node failures.
+State-of-the-art testing methods commonly used in industry today ---unit, integration, and stress testing--- are unable to cover many behaviors, which results in tricky bugs being missed during testing and getting exposed in production.
+In this paper, we present a new approach to testing distributed storage systems.
+Our approach significantly improves test coverage and allows us to discover during testing errors that are often caught after deployment.
 
-We discuss our experience of using \psharp inside Microsoft to test three distributed storage systems for the Windows Azure cloud computing platform. \psharp is an extension of the \csharp language that provides environmental modeling capabilities and a systematic concurrency testing engine. As long as the developer has expressed all sources of nondeterminism in a system using \psharp, then the \psharp testing engine can systematically explore all these sources of nondeterminism to find bugs.
+Our method for testing distributed storage systems is based on \psharp, an extension to the \csharp language,
+that provides support for modeling, specification, and systematic testing of asynchronous systems.
+We have used \psharp to test three distributed storage systems implemented inside Microsoft for the Windows Azure cloud computing platform.
+To test a distributed system with the \psharp framework, the programmer augments the system code with three artifacts---a model of the nondeterministic execution environment of the system, a concurrent test harness that drives the system towards interesting behaviors, and safety or liveness specifications for each behavior of the system under the test harness.
+The \psharp testing engine then systematically explores behaviors of the test harness and validates them against the provided specifications.
 
-The power of \psharp is that it enables the developer to \emph{test what is being executed} and is engineered to work on production-level code. Using \psharp we managed to find and reproduce more than 10 hard-to-find with traditional testing techniques bugs in our case studies. As an example, \psharp found a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it. \psharp uncovered the bug in a very small setting, which made it easy to examine traces, identify and fix the problem.
+Our approach enables the developer to \emph{test what is being executed} and is engineered to work on production code.
+We have used our approach to find, reproduce, and fix numerous bugs in production systems;
+these bugs are exhibited by executions with subtle combination of concurrency and failures, making them extremely difficult
+to find with traditional testing techniques.
+An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace,
+which dramatically increases the productivity of debugging.
 
 \section{Introduction}
 \label{sec:intro}
