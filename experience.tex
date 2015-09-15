@@ -14,6 +14,11 @@ The culprit is in $iv)$, where \texttt{ExtMgr} receives a sync report from EN$_0
 \section{Additional Example I: Live Azure Table Migration}
 \label{sec:cases:migration}
 
+- \psharp generalized beyond vNext. \psharp is not only applicable to vNext but in many systems.
+- Advanced safety properties
+- Handles intra-machine concurrency
+- Writing the protocol while testing it (co-development)
+
 The Live Azure Table Migration is a library capable of transparently migrating a data set between tables in the Windows Azure storage service while an application is accessing the data set.  MigratingTable provides a \emph{virtual table} with an API similar to that of an ordinary Azure table, backed by a pair of \emph{old} and \emph{new} tables.  A background \emph{migrator} job moves all data from the old table to the new table.  Meanwhile, each read or write issued to the virtual table is translated to a sequence of reads and writes on the backend tables according to a protocol we designed, which guarantees linearizability of operations on the virtual table across multiple application processes assuming that the backend tables respect their own linearizability guarantees.
 
 \begin{figure}[t]
@@ -72,6 +77,11 @@ This bug took us only about 10 minutes to diagnose from the trace; granted, this
 
 \section{Additional Example II: Azure Service Fabric (change to CScale?)}
 \label{sec:cases:fabric}
+
+- \psharp generalized beyond vNext. \psharp is not only applicable to vNext but in many systems.
+- (Advanced) safety properties?
+- What we developed is a model that other people can reuse. Plugin the model and test the user application.
+- Example of advanced modeling capability of \psharp. One component talks to another sophisticated API. We demonstrate environmental modeling expressivity in system engineering.
 
 \PDComment{I guess we should write stuff about CScale here based on our last discussion: overview of the system (collection of Fabric services connected via TPL dataflow?), of its environment (Fabric), how they interop?, why its very challenging to test? how they test currently? I am not sure if all these should go here or be split here and the experience report, we will see ... same for the above case studies}
 
