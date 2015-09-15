@@ -81,9 +81,6 @@ Fabric services have a lot of asynchrony, which make them interesting targets fo
 Our primary goal was to create a \psharp{} model of Fabric to allow
 thorough testing of services, where Fabric's asynchrony is controlled 
 by the \psharp{} runtime.
-The system that we wished to test is \emph{CScale}~\cite{X},
-a big data-stream processing system that chains multiple Fabric services
-in a directed acyclic graph.
 Prior work~\cite{deligiannis2015psharp}
 created a model of Fabric with limited functionality;
 it used a mixture of \csharp{} and \psharp{} internally,
@@ -244,9 +241,50 @@ the \texttt{ServiceRuntime} ignores the event and does not try to make the
 replica an active secondary.
 
 \subsubsection{CScale}
+The system that we wished to test is \emph{CScale}~\cite{X},
+a big data-stream processing system that chains multiple Fabric services
+in a directed acyclic graph.
+A key challenge is that
+CScale contains inter-service communication
+that resolves services
+via Fabric but communicates
+using a non-Fabric remote procedure call protocol.
+In order to close the system,
+we first implemented service resolution in our Fabric model,
+which resolves Fabric service names to IP addresses.
+We then replaced the inter-service communication
+classes in CScale with our own;
+our replacement includes the ability to map
+URLs to \psharp{} machines
+so that remote procedure calls are now implemented
+by sending and receiving \psharp{} events.
+Thus,
+we converted a multi-process system
+that runs on the Fabric platform
+and 
+uses network communication
+into 
+a single process system that uses multiple threads,
+contains
+the Fabric model
+and the CScale services,
+and does not use network communication.
+Additional changes were needed to
+remove certain static (per-process) fields,
+as these were inadvertently
+being shared between services
+after making the system a single process.
 
-
-
+A key challenge in our work
+was to test CScale despite the fact that it
+uses various synchronous and asynchronous APIs
+other than \psharp{}.
+This work is still in-progress.
+However,
+we were able to find a \texttt{NullReferenceException}
+bug
+in CScale
+by running it on our model.
 
 
 
