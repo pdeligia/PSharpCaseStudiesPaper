@@ -25,8 +25,11 @@ We report our experience of applying \psharp on the three case studies discussed
 
 Environmental modeling is a core activity of using \psharp. It is required for \emph{closing the environment} of a system under test and making it amenable to systematic testing. Table~\ref{tab:stats} presents program statistics for our three case studies. We report: lines of code for the system under test (\#LoC); number of bugs found in the system (\#B); lines of \psharp code for the environmental model (\#LoC); number of machines (\#M); number of state transitions (\#ST); and number of action handlers (\#AH).
 
-Modeling the environment of the vNext
+Modeling the environment of the Extent Manager in the Azure Storage vNext system required approximately 2 weeks of part-time developing. The \psharp model for testing this system is the smallest (in lines of code) from all three case studies. This was because the modeling effort was targeting the particular liveness bug that was haunting the developers of vNext. We are currently in the process of modeling other components of vNext, such as a ChainReplication and a Paxos system.
 
+Modeling the Live Migration Table required \PDComment{waiting confirmation from Matt}. This case study is interesting because the development of the actual system and its \psharp environmental model occurred side-by-side. This is in contrast with the other two case studies discussed in this paper, where the modeling activity occurred independently and at a later stage of the development process.
+
+Modeling Fabric required approximately 4-5 months. Although this is a significant amount of time, it is a one time effort activity. Our plan is to reuse the developed Fabric model for testing arbitrary user services built for the Azure Service Fabric system.
 
 \subsection{Cost of systematic testing}
 \label{sec:eval:machine_cost}
