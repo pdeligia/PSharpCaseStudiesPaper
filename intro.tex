@@ -1,5 +1,4 @@
-Distributed systems are notoriously hard to design, implement and test~\cite{cavage2013there, laguna2015debugging, maddox2015test}. T
-his is due to many well-known sources of \emph{nondeterminism}~\cite{chandra2007paxos}, such as race conditions in the asynchronous interaction between system components, the use of multithreaded code inside a component, unexpected node failures, unreliable communication channels and data losses, and interaction with (human) clients.
+Distributed systems are notoriously hard to design, implement and test~\cite{cavage2013there, laguna2015debugging, maddox2015test}. This is due to many well-known sources of \emph{nondeterminism}~\cite{chandra2007paxos}, such as race conditions in the asynchronous interaction between system components, the use of multithreaded code inside a component, unexpected node failures, unreliable communication channels and data losses, and interaction with (human) clients.
 All these sources of nondeterminism translate into \emph{exponentially} many execution paths that a distributed system might potentially execute.
 A bug might hide deep inside one of these paths and only manifest under extremely rare corner cases~\cite{gray1986computers, musuvathi2008finding}, but the consequence can be catastrophic~\cite{amazon2012aws, google2014outage}.
 
@@ -23,8 +22,8 @@ support for modeling, specification, and systematic testing of asynchronous syst
 To test a distributed system with the \psharp framework, the programmer augments the system code with three artifacts---a model of the nondeterministic execution environment of the system, a concurrent test harness that drives the system towards interesting behaviors, and safety or liveness specifications for each behavior of the system under the test harness.
 The \psharp testing engine then systematically explores behaviors of the test harness and validates them against the provided specifications.
 
-We applied our approach to test three production distributed storage systems implemented inside Microsoft for Windows Azure cloud computing
-platform---a distributed storage management system, a system for migrating data across partitions, and a big-data computing system.
+We applied our approach to test three production distributed storage systems implemented inside Microsoft for the Windows Azure cloud computing
+platform: a distributed storage management system; a system for migrating data across partitions; and a big-data computing system.
 We uncovered numerous bugs in these systems using our approach.
 In particular, we uncovered a subtle liveness bug that was intermittently manifested during stress testing for months without being debugged.
 Our testing approach uncovered this bug in a very small setting, which made it easy to examine traces, identify, and eventually fix the problem.
