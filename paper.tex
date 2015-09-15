@@ -102,18 +102,13 @@ $^\diamond$Massachusetts Institute of Technology\\
 Testing distributed systems is challenging due to multiple sources of nondeterminism in the execution, e.g., arbitrary interleavings between event handlers and unexpected node failures.
 State-of-the-art testing methods commonly used in industry today ---unit, integration, and stress testing--- are unable to cover many behaviors, which results in tricky bugs being missed during testing and getting exposed in production.
 In this paper, we present a new approach to testing distributed storage systems.
-Our approach significantly improves test coverage and allows us to discover during testing errors that are often caught after deployment.
-
-Our method for testing distributed storage systems is based on \psharp, an extension to the \csharp language,
-that provides support for modeling, specification, and systematic testing of asynchronous systems.
-We have used \psharp to test three distributed storage systems implemented inside Microsoft for the Windows Azure cloud computing platform.
-To test a distributed system with the \psharp framework, the programmer augments the system code with three artifacts---a model of the nondeterministic execution environment of the system, a concurrent test harness that drives the system towards interesting behaviors, and safety or liveness specifications for each behavior of the system under the test harness.
-The \psharp testing engine then systematically explores behaviors of the test harness and validates them against the provided specifications.
-
 Our approach enables the developer to \emph{test what is being executed} and is engineered to work on production code.
-We have used our approach to find, reproduce, and fix numerous bugs in production systems;
-these bugs are exhibited by executions with subtle combination of concurrency and failures, making them extremely difficult
-to find with traditional testing techniques.
+It significantly improves coverage of important system behaviors and allows us to discover during testing errors that are often caught after deployment.
+
+We have used our approach to test three distributed storage systems implemented inside Microsoft for the Windows Azure cloud computing platform.
+In the process, we found, reproduced, and fixed numerous bugs in these systems.
+The bugs discovered by our method are exhibited by executions with subtle combination of concurrency and failures,
+making them extremely difficult to find with traditional testing techniques.
 An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace,
 which dramatically increases the productivity of debugging.
 
