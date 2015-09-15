@@ -93,206 +93,236 @@ Each \texttt{Service} machine issues a random sequence of input calls to its Mig
 - What we developed is a model that other people can reuse. Plugin the model and test the user application.\\
 - Example of advanced modeling capability of \psharp. One component talks to another sophisticated API. We demonstrate environmental modeling expressivity in system engineering.
 
-\emph{Azure Service Faric} (or \emph{Fabric} for short) is a platform and API for creating reliable services that execute on a cluster of machines. The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. In order to make the service \emph{reliable}, Fabric launches several copies (\emph{replicas}) of the service, where each copy runs as a separate process on a different node in the cluster. One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary replicates state changes to the secondaries by sending \emph{replication requests} so that all replicas eventually have the same state. If the primary fails (e.g.\ if the node on which the primary is running crashes), Fabric elects one of the secondaries to be the new primary and launches another secondary; the new secondary will receive a full or partial copy (depending on whether persistent storage is used) of the state of the new primary in order to ``catch up'' with the other secondaries. Fabric provides a name-resolution service so that clients can always find the current primary. 
 
-Fabric services have a lot of asynchrony, which make them interesting targets for systematic testing with \psharp{}.
+\emph{Azure Service Faric} (or \emph{Fabric} for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
+%The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
+In order to make the user-written service \emph{reliable}, Fabric launches several copies (\emph{replicas}) of the service, where each copy runs as a separate process on a different node in the cluster.
+\PTComment{Cut: description of primary and secondaries, and electing a new primary.}
+%One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary replicates state changes to the secondaries by sending \emph{replication requests} so that all replicas eventually have the same state. If the primary fails (e.g.\ if the node on which the primary is running crashes), Fabric elects one of the secondaries to be the new primary and launches another secondary; the new secondary will receive a full or partial copy (depending on whether persistent storage is used) of the state of the new primary in order to ``catch up'' with the other secondaries. Fabric provides a name-resolution service so that clients can always find the current primary.
+The state of the service is replicated from the \emph{primary} replica to the other \emph{secondary} replicas for redundancy.
+Since user-written Fabric services are complex asynchronous and distributed applications, 
+they are challenging to test.
+% They are interesting targets for systematic testing with \psharp{}.
+
+\PTComment{Could be improved:}
 Our primary goal was to create a \psharp{} model of Fabric to allow
 thorough testing of services, where Fabric's asynchrony is controlled 
 by the \psharp{} runtime.
-Prior work~\cite{deligiannis2015psharp}
-created a model of Fabric with limited functionality;
-it used a mixture of \csharp{} and \psharp{} internally,
-only supported one in-flight replication request
-(which restricts the asynchrony that can be tested),
-and only supported one Fabric service.
-Our new Fabric model was re-written to use only \psharp{}
-internally,
-support an arbitrary number of Fabric services and in-flight replication requests,
-and in general be a more complete model of Fabric.
-Note that \csharp{} code is still required to interface with the existing
-\csharp{} service code.
-We refer to our \csharp{} code
-as the \emph{translation layer}
-and
- the user-written \csharp{} service code as \emph{user code}. 
+Unlike the other case studies,
+this model is written once
+to include all behaviours of Fabric
+so that it can be used again and again to test arbitrary Fabric services.
 
-\begin{figure}[thb]
-\centering
-\includegraphics[width=\linewidth]{img/fabricmodel}
-\caption{Overview of the key machines and interfaces in our Fabric model.}
-\label{fig:fabric_model}
-\end{figure}
+\PTComment{Cut: prior work created a Fabric model\ldots}
+% Prior work~\cite{deligiannis2015psharp}
+% created a model of Fabric with limited functionality;
+% it used a mixture of \csharp{} and \psharp{} internally,
+% only supported one in-flight replication request
+% (which restricts the asynchrony that can be tested),
+% and only supported one Fabric service.
+% Our new Fabric model was re-written to use only \psharp{}
+% internally,
+% support an arbitrary number of Fabric services and in-flight replication requests,
+% and in general be a more complete model of Fabric.
+% Note that \csharp{} code is still required to interface with the existing
+% \csharp{} service code.
+% We refer to our \csharp{} code
+% as the \emph{translation layer}
+% and
+%  the user-written \csharp{} service code as \emph{user code}. 
 
-An overview of our Fabric model is shown in Figure~\ref{fig:fabric_model}.
-The \texttt{ClusterRuntime} machine 
-handles the creation and management of 
-one or more Fabric services,
-as well as service resolution requests
-which allows for client-service and inter-service communication
-within the model.
-Each Fabric service instance is managed by a \texttt{ServiceRuntime}
-machine, which in turn manages 
-several \texttt{ReplicaRuntime} machines.
-Each \texttt{ReplicaRuntime} communicates with the user code
-via several machines and interfaces from the translation layer
-(only the translation layer for the primary is shown,
-but every \texttt{ReplicaRuntime} has its own instance of the translation layer).
-Note that communication between machines is hierachical;
-thus, communication between \texttt{ReplicaRuntime}s
-(such as the sending of replication requests)
-is via the \texttt{ServiceRuntime} machine for that service.
-This approach does not necessarily reflect how Fabric works in practice.
-Instead, we chose an architecture
-that keeps the model simple
-while still allowing (what we believe to be) realistic
-asynchrony and failure scenarios.
+\PTComment{Cut: Figure of model.}
+% \begin{figure}[thb]
+% \centering
+% \includegraphics[width=\linewidth]{img/fabricmodel}
+% \caption{Overview of the key machines and interfaces in our Fabric model.}
+% \label{fig:fabric_model}
+% \end{figure}
 
-\textbf{Replication example:} In order to replicate a state-mutating operation,
-user code at the primary replica 
-calls \texttt{IStateReplicator.ReplicateAsync},
-passing the serialized operation
-object.
-The operation is sent to the \texttt{ServiceRuntime},
-where it is assigned a \emph{logical sequence number} (LSN);
-each operation is assigned a consecutive LSN
-to track the total-order in which operations should be applied.
-The LSN is sent back to the primary replica
-where it is returned from the \texttt{ReplicateAsync} call,
-along with a \texttt{Task} object that will ``complete'' once
-the operation has been replicated to a majority of
-secondaries;
-thus, the user code can wait on the \texttt{Task}
-before confirming to any clients that the request has been applied reliably.
-The \texttt{ServiceRuntime} adds the operation to its list of in-flight
-replication requests and sends $n$ events to itself to signal that the request
-must be sent to a replica, where $n$ is the number of secondary replicas.
-The reason for sending $n$ events to itself instead of simply sending events
-directly to each secondary is so that the \texttt{ServiceRuntime}
-can process a simulated failure event inbetween the sending of replica requests
-to each secondary.
-This is an example of where we carefully considered
-the granularity of actions so that we could 
-model failures appropriately.
-The user code at a secondary receives the operation,
-applies it and then calls \texttt{Acknowledge} on the operation object;
-we implement this to send an event to the \texttt{ReplicaRuntime}
-which forwards the acknowledgement to the \texttt{ServiceRuntime}.
-Once a majority of secondaries have acknowledged, the
-\texttt{ServiceRuntime} removes the replication request from its list
-of replication requests
-and sends an acknowledgement to the primary,
-where the previously returned \texttt{Task} completes. 
+\PTComment{Cut: overview of model.}
+% An overview of our Fabric model is shown in Figure~\ref{fig:fabric_model}.
+% The \texttt{ClusterRuntime} machine 
+% handles the creation and management of 
+% one or more Fabric services,
+% as well as service resolution requests
+% which allows for client-service and inter-service communication
+% within the model.
+% Each Fabric service instance is managed by a \texttt{ServiceRuntime}
+% machine, which in turn manages 
+% several \texttt{ReplicaRuntime} machines.
+% Each \texttt{ReplicaRuntime} communicates with the user code
+% via several machines and interfaces from the translation layer
+% (only the translation layer for the primary is shown,
+% but every \texttt{ReplicaRuntime} has its own instance of the translation layer).
+% Note that communication between machines is hierachical;
+% thus, communication between \texttt{ReplicaRuntime}s
+% (such as the sending of replication requests)
+% is via the \texttt{ServiceRuntime} machine for that service.
+% This approach does not necessarily reflect how Fabric works in practice.
+% Instead, we chose an architecture
+% that keeps the model simple
+% while still allowing (what we believe to be) realistic
+% asynchrony and failure scenarios.
 
-\subsubsection{Fabric model correctness}
-Our model does not attempt to
-simulate the internals of Fabric accurately,
-as its purpose is to find bugs in the user code
-and not in Fabric itself (which we assume to be correct).   
-However,
-due to lack of documentation,
-it is not always clear how Fabric should behave
-in certain scenarios.
-Thus,
-we ran several variants of a simple Fabric service
-that logs calls into the user code in order to
-reverse-engineer the actual behaviour of Fabric;
-we ensured that our model has the same behaviour,
-although this is an ongoing process as we encounter
-additional scenarios.
-A further problem is that our model may contain bugs.
-In order to find bugs in our model effectively,
-we wrote a \psharp{} service made up of a single machine
-which takes the place
-of the user code and translation layer in Figure \ref{fig:fabric_model},
-for each \texttt{ReplicaRuntime}.
-Thus, we were able to run this pure \psharp{} system
-under \psharp{}'s systematic testing mode
-and uncover many assertion failures within our model.
-We tested a scenario where the primary fails at some non-deterministic point
-within the execution.
+\PTComment{Cut: Description of how replication works in the model, including how we modeled at a fine granularity.}
+% \textbf{Replication example:} In order to replicate a state-mutating operation,
+% user code at the primary replica 
+% calls \texttt{IStateReplicator.ReplicateAsync},
+% passing the serialized operation
+% object.
+% The operation is sent to the \texttt{ServiceRuntime},
+% where it is assigned a \emph{logical sequence number} (LSN);
+% each operation is assigned a consecutive LSN
+% to track the total-order in which operations should be applied.
+% The LSN is sent back to the primary replica
+% where it is returned from the \texttt{ReplicateAsync} call,
+% along with a \texttt{Task} object that will ``complete'' once
+% the operation has been replicated to a majority of
+% secondaries;
+% thus, the user code can wait on the \texttt{Task}
+% before confirming to any clients that the request has been applied reliably.
+% The \texttt{ServiceRuntime} adds the operation to its list of in-flight
+% replication requests and sends $n$ events to itself to signal that the request
+% must be sent to a replica, where $n$ is the number of secondary replicas.
+% The reason for sending $n$ events to itself instead of simply sending events
+% directly to each secondary is so that the \texttt{ServiceRuntime}
+% can process a simulated failure event inbetween the sending of replica requests
+% to each secondary.
+% This is an example of where we carefully considered
+% the granularity of actions so that we could 
+% model failures appropriately.
+% The user code at a secondary receives the operation,
+% applies it and then calls \texttt{Acknowledge} on the operation object;
+% we implement this to send an event to the \texttt{ReplicaRuntime}
+% which forwards the acknowledgement to the \texttt{ServiceRuntime}.
+% Once a majority of secondaries have acknowledged, the
+% \texttt{ServiceRuntime} removes the replication request from its list
+% of replication requests
+% and sends an acknowledgement to the primary,
+% where the previously returned \texttt{Task} completes. 
 
-\textbf{Example Fabric model assertion failure:}
-In the buggy trace,
-the \texttt{ServiceRuntime}
-sends an \texttt{EEpochInfo} event to the second
-\texttt{ReplicaRuntime}
-indicating that this is the first epoch and the
-replica will be a secondary.
-An \emph{epoch} represents a configuration of primary and
-secondary replicas; when a different replica becomes the primary,
-this indicates the start of a new epoch.
-The \texttt{ReplicaRuntime} acknowledges that it has become
-a secondary by responding with the same event type.
-The \psharp{} service sends an \texttt{ESecondaryCopyContextOp};
-this indicates what state the secondary has
-and, thus, what the primary should send to this secondary so that it can catch
-up.
-The \texttt{ESecondaryCopyContextOp} event is forwarded to the
-\texttt{ServiceRuntime}. 
-The \texttt{ServiceRuntime} then receives and handles an \texttt{EKillPrimary}
-event, which causes the second replica to become the new primary.
-Thus,
-the \texttt{ServiceRuntime} sends another \texttt{EEpochInfo}
-to the second \texttt{ReplicaRuntime}
-indicating that this is the second epoch
-and the replica will be a primary.
-As part of this change,
-the \texttt{ReplicaRuntime}
-sends an event to the \psharp{} service
-indicating that it should stop waiting for
-the state to be copied from the old primary to this replica,
-which is acknowledged by sending an event to the \texttt{ReplicaRuntime}.
-This event causes the \texttt{ReplicaRuntime}
-to send an \texttt{ESecondaryCopyStateDone}
-event to the \texttt{ServiceRuntime},
-which unfortunately responds with an event indicating that the
-\texttt{ReplicaRuntime} is now an \emph{active} secondary
-(i.e.\ a secondary that has caught up with the primary).
-However, this causes an assertion failure because
-the \texttt{ReplicaRuntime} is becoming a primary and, thus,
-cannot be a secondary.
-Our fix to this bug was to ensure that the 
-\texttt{ESecondaryCopyStateDone} event was marked as part of the first
-epoch (as the \texttt{ReplicaRuntime} had not yet acknowledged the
-change to primary); thus, 
-the \texttt{ServiceRuntime} ignores the event and does not try to make the
-replica an active secondary.
+\PTComment{Cut: We reverse-engineered Fabric as needed.}
+% \subsubsection{Fabric model correctness}
+% Our model does not attempt to
+% simulate the internals of Fabric accurately,
+% as its purpose is to find bugs in user code
+% and not in Fabric itself (which we assume to be correct).   
+% However,
+% due to lack of documentation,
+% it is not always clear how Fabric should behave
+% in certain scenarios.
+% Thus,
+% we ran several variants of a simple Fabric service
+% that logs calls into the user code in order to
+% reverse-engineer the actual behaviour of Fabric;
+% we ensured that our model has the same behaviour,
+% although this is an ongoing process as we encounter
+% additional scenarios.
 
-\subsubsection{CScale}
-The system that we wished to test is \emph{CScale}~\cite{X},
+\PTComment{Cut: We used systematic testing to find bugs in our model!}
+% A further problem is that our model may contain bugs.
+% In order to find bugs in our model effectively,
+% we wrote a \psharp{} service made up of a single machine
+% which takes the place
+% of the user code and translation layer in Figure \ref{fig:fabric_model},
+% for each \texttt{ReplicaRuntime}.
+% Thus, we were able to run this pure \psharp{} system
+% under \psharp{}'s systematic testing mode
+% and uncover many assertion failures within our model.
+% We tested a scenario where the primary fails at some non-deterministic point
+% within the execution.
+
+\PTComment{Cut: Example bug found in our model plus the fix.}
+% \textbf{Example Fabric model assertion failure:}
+% In the buggy trace,
+% the \texttt{ServiceRuntime}
+% sends an \texttt{EEpochInfo} event to the second
+% \texttt{ReplicaRuntime}
+% indicating that this is the first epoch and the
+% replica will be a secondary.
+% An \emph{epoch} represents a configuration of primary and
+% secondary replicas; when a different replica becomes the primary,
+% this indicates the start of a new epoch.
+% The \texttt{ReplicaRuntime} acknowledges that it has become
+% a secondary by responding with the same event type.
+% The \psharp{} service sends an \texttt{ESecondaryCopyContextOp};
+% this indicates what state the secondary has
+% and, thus, what the primary should send to this secondary so that it can catch
+% up.
+% The \texttt{ESecondaryCopyContextOp} event is forwarded to the
+% \texttt{ServiceRuntime}. 
+% The \texttt{ServiceRuntime} then receives and handles an \texttt{EKillPrimary}
+% event, which causes the second replica to become the new primary.
+% Thus,
+% the \texttt{ServiceRuntime} sends another \texttt{EEpochInfo}
+% to the second \texttt{ReplicaRuntime}
+% indicating that this is the second epoch
+% and the replica will be a primary.
+% As part of this change,
+% the \texttt{ReplicaRuntime}
+% sends an event to the \psharp{} service
+% indicating that it should stop waiting for
+% the state to be copied from the old primary to this replica,
+% which is acknowledged by sending an event to the \texttt{ReplicaRuntime}.
+% This event causes the \texttt{ReplicaRuntime}
+% to send an \texttt{ESecondaryCopyStateDone}
+% event to the \texttt{ServiceRuntime},
+% which unfortunately responds with an event indicating that the
+% \texttt{ReplicaRuntime} is now an \emph{active} secondary
+% (i.e.\ a secondary that has caught up with the primary).
+% However, this causes an assertion failure because
+% the \texttt{ReplicaRuntime} is becoming a primary and, thus,
+% cannot be a secondary.
+% Our fix to this bug was to ensure that the 
+% \texttt{ESecondaryCopyStateDone} event was marked as part of the first
+% epoch (as the \texttt{ReplicaRuntime} had not yet acknowledged the
+% change to primary); thus, 
+% the \texttt{ServiceRuntime} ignores the event and does not try to make the
+% replica an active secondary.
+
+% \subsubsection{CScale}
+
+The main system that we tested is \emph{CScale}~\cite{X},
 a big data-stream processing system that chains multiple Fabric services
 in a directed acyclic graph.
-A key challenge is that
-CScale contains inter-service communication
-that resolves services
-via Fabric but communicates
-using a non-Fabric remote procedure call protocol.
+A key challenge was that
+CScale contains inter-service communication.
+\PTComment{Cut: detail.}
+% that resolves services
+% via Fabric but communicates
+% using a non-Fabric remote procedure call protocol.
 In order to close the system,
-we first implemented service resolution in our Fabric model,
-which resolves Fabric service names to IP addresses.
-We then replaced the inter-service communication
+\PTComment{Cut: we implemented service resolution}
+% we first implemented service resolution in our Fabric model,
+% which resolves Fabric service names to IP addresses.
+%We then replaced 
+we replaced
+the inter-service communication
 classes in CScale with our own;
 our replacement includes the ability to map
 URLs to \psharp{} machines
 so that remote procedure calls are now implemented
 by sending and receiving \psharp{} events.
 Thus,
-we converted a multi-process system
-that runs on the Fabric platform
-and 
-uses network communication
+we converted a distributed system
+that uses both Fabric and its own
+network communication protocol
+% that runs on the Fabric platform
+% and 
+% uses network communication
 into 
-a single process system that uses multiple threads,
-contains
-the Fabric model
-and the CScale services,
-and does not use network communication.
-Additional changes were needed to
-remove certain static (per-process) fields,
-as these were inadvertently
-being shared between services
-after making the system a single process.
-
+a closed single process system. 
+% that uses multiple threads,
+% contains
+% the Fabric model
+% and the CScale services,
+% and does not use network communication.
+\PTComment{Cut: we had to remove static fields.}
+% Additional changes were needed to
+% remove certain static (per-process) fields,
+% as these were inadvertently
+% being shared between services
+% after making the system a single process.
 A key challenge in our work
 was to test CScale despite the fact that it
 uses various synchronous and asynchronous APIs
