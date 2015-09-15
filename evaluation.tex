@@ -1,22 +1,37 @@
-We report our experience of applying \psharp on the three case studies discussed in this paper: Azure Storage vNext, Live Migration Table and Azure Service Fabric. We first discuss how much human effort was spent in modeling the environment of these case studies so they become amenable to testing with \psharp. We then present runtime results of using \psharp with two different systematic testing schedulers to find bugs in the case studies.
+We report our experience of applying \psharp on the three case studies discussed in this paper. We aim to answer the two following questions:
 
-\subsection{Cost of modeling}
+\begin{enumerate}
+\item How much human effort was spent in modeling the environment of a distributed system using \psharp?
+
+\item How much computational time was spent in systematically testing a distributed system using \psharp?
+\end{enumerate}
+
+\subsection{Cost of environmental modeling}
+\label{sec:eval:human_cost}
 
 \newcommand{\colspacing}{\hspace{1.8em}}
 \begin{table}[t]
 \small
 \centering
 \setlength{\tabcolsep}{0.3em}
-\label{tab:stats}
 \begin{tabular}{l rrrrr rr}
 \centering
 \input{experiments/tables/statistics.tex}
 \end{tabular}
-\caption{Statistics from environmental modeling in the three case studies.}
+\caption{Statistics from modeling the environment of the three Microsoft Azure-based systems under test.}
+\label{tab:stats}
 %\vspace{-3mm}
 \end{table}
 
+Environmental modeling is a core activity of using \psharp. It is required for \emph{closing the environment} of a system under test and making it amenable to systematic testing. Table~\ref{tab:stats} presents program statistics for our three case studies. We report: lines of code for the system under test (\#LoC); number of bugs found in the system (\#B); lines of \psharp code for the environmental model (\#LoC); number of machines (\#M); number of state transitions (\#ST); and number of action handlers (\#AH).
+
+Modeling the environment of the vNext
+
+
 \subsection{Cost of systematic testing}
+\label{sec:eval:machine_cost}
+
+We then present runtime results of using \psharp with two different systematic testing schedulers to find bugs in the case studies.
 
 After we fixed all the bugs we could find in the programs under test, we added options to the code to introduce various benchmark bugs (some that were actually in the original programs and some we made up) one at a time so we could evaluate different methods to detect and diagnose them.
 
