@@ -103,7 +103,7 @@ Testing distributed systems is very challenging due to multiple sources of nonde
 
 We discuss our experience of using \psharp inside Microsoft to test three distributed storage systems for the Windows Azure cloud computing platform. \psharp is an extension of the \csharp language that provides environmental modeling capabilities and a systematic concurrency testing engine. As long as the developer has expressed all sources of nondeterminism in a system using \psharp, then the \psharp testing engine can systematically explore all these sources of nondeterminism to find bugs.
 
-The power of \psharp is that it enables the developer to \emph{test what is being executed} and is engineered to work on production-level code. Using \psharp we managed to find and reproduce more than 10 hard-to-find with traditional testing techniques bugs in our case studies. As an example, \psharp found a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it. \psharp uncovered the bug in a very small setting, which made it easy to examine traces, identify and fix the problem. 
+The power of \psharp is that it enables the developer to \emph{test what is being executed} and is engineered to work on production-level code. Using \psharp we managed to find and reproduce more than 10 hard-to-find with traditional testing techniques bugs in our case studies. As an example, \psharp found a very subtle bug that was haunting developers for a long time, as they did not have an effective way to reproduce it. \psharp uncovered the bug in a very small setting, which made it easy to examine traces, identify and fix the problem.
 
 \section{Introduction}
 \label{sec:intro}
