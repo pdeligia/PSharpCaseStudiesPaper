@@ -64,15 +64,18 @@ Towards testing the MigratingTable library, the developers wrote an in-memory re
 
 %As mentioned above, the \texttt{IChainTable} specification is almost deterministic under sequential calls; the only nondeterminism is in the results of streaming reads.  Given a streaming read, \texttt{SpecTable} can compute the set of all results that are compliant with the specification, so we can simply check if the result of MigratingTable is in this set.
 
-To test MigratingTable, we must supply it with backing tables.  We use \texttt{SpecTable} for this purpose as well, with \psharp choosing the actual result of each streaming read from the valid set.  Our correctness property is then:
+%To test MigratingTable, we must supply it with backing tables.  We use \texttt{SpecTable} for this purpose as well, with \psharp choosing the actual result of each streaming read from the valid set.  Our correctness property is then:
 % Convert to some theorem-like environment? ~ Matt
-\begin{quote}
-For every execution trace of a collection of MigratingTables backed by the same pair of \emph{old} and \emph{new} \texttt{SpecTable}s in parallel with the migrator job, there exists a linearization of the combined input history such that the output in the original trace matches the output of a ``reference'' \texttt{SpecTable} on the linearized input.
-\end{quote}
+%\begin{quote}
+%For every execution trace of a collection of MigratingTables backed by the same pair of \emph{old} and \emph{new} \texttt{SpecTable}s in parallel with the migrator job, there exists a linearization of the combined input history such that the output in the original trace matches the output of a ``reference'' \texttt{SpecTable} on the linearized input.
+%\end{quote}
 %
-We instrumented MigratingTable to report the intended \emph{linearization point} of each input call, which in our setting is always one of the corresponding \emph{backend calls} to the backend tables (often the last).  Specifically, after each backend call completes, MigratingTable reports whether that call was the linearization point, which may depend on the result of the call.  This makes it possible to verify the correctness property as the model executes.
 
-The \psharp environmental model of MigratingTable consists of a \psharp \texttt{Tables} machine containing all three \texttt{SpecTable} implementations; a collection of \texttt{Service} machines containing identically configured MigratingTables; and a \texttt{Migrator} machine that performs the background migration (see Figure~\ref{fig:mockedmigration}).
+%The MigratingTable was instrumented to report the intended \emph{linearization point} of each input call, which in our setting is always one of the corresponding \emph{backend calls} to the backend tables (often the last).  Specifically, after each backend call completes, MigratingTable reports whether that call was the linearization point, which may depend on the result of the call.  This makes it possible to check the correctness property as the model executes.
+
+The MigratingTable was instrumented to report the intended \emph{linearization point} of each input call. Specifically, after each input call completes, MigratingTable reports whether that call was the linearization point, which may depend on the result of the call.  This makes it possible to check the correctness property as the model executes.
+
+The \psharp environmental model of MigratingTable consists of a \texttt{Tables} machine containing the old, new and reference table implementations; a collection of \texttt{Service} machines containing identically configured MigratingTables; and a \texttt{Migrator} machine that performs the background migration (see Figure~\ref{fig:mockedmigration}).
 
 Each \texttt{Service} machine issues a random sequence of input calls to its MigratingTable, which sends backend calls to the \texttt{Tables} machine. When MigratingTable reports the linearization point of an input call, the \texttt{Service} machine sends that input call to the reference table.  When an input call completes, the \texttt{Service} machine checks that the results from the MigratingTable and the reference table agree.
 
