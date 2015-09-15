@@ -4,47 +4,13 @@ In a distributed system, message handlers can interleave in arbitrary order, bec
 
 All the above sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix, without using advanced \emph{asynchrony-aware} testing techniques. Techniques such as unit testing, integration testing and stress testing are heavily used in industry today for finding bugs in production code. However, these techniques are not effective for testing distributed systems, as they are not able to capture and control the many sources of nondeterminism.
 
-The ideal testing technique should be able to work on unmodified distributed systems, capture and control all possible sources of nondeterminism, systematically inject faults in the right places, and explore all feasible execution paths. However, this is easier said than done when testing production systems.
-
-\subsection{Types of bugs}
-\label{sec:bg:bugs}
-
-We can classify most distributed system bugs in two categories: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
-
-\begin{description}
-\item[Safety] A safety property checks that an erroneous program state is \emph{never} reached, and is satisfied if it \emph{always} holds in each possible program execution.
-
-\item[Liveness] A liveness property checks that some progress \emph{will} happen, and is satisfied if it \emph{always eventually} holds in each possible program execution.
-\end{description}
-
-\noindent
-A safety property can be specified using an \emph{assertion} that fails if the property gets violated in some program state. An example of a generic safety property for message passing systems is to assert that whenever a message gets dequeued there must be an action that can handle the received message.
-
-Liveness properties are much harder to specify and check since they apply over entire program executions and not just individual program states. The liveness property that must be always eventually satisfied in the Azure Storage vNext system is that a user-defined $N$ number of extent nodes must be always eventually available with the latest extent. There was an actual bug in the system, that led this property to fail for some very rare executions. Although this buggy behavior would be observed from time to time during stress testing, there was no way to reproduce the bug until we tested vNext using the \psharp systematic testing engine.
-
-\subsection{The \psharp framework}
-\label{sec:method:psharp}
-
 Our goal in this work is to \emph{test what is being executed}. To achieve this we use \psharp~\cite{deligiannis2015psharp}, a framework that provides: (i) an \emph{event-driven asynchronous programming} language for developing and modeling distributed systems; and (ii) a \emph{systematic concurrency testing} engine that can systematically explore all interleavings between asynchronous event handlers, as well as other nondeterministic events such as failures and timeouts.
 
 The \psharp language is an extension of \csharp, built on top of Microsoft's Roslyn\footnote{\url{https://github.com/dotnet/roslyn}} compiler, that enables asynchronous programming using communicating state-machines. \psharp machines can interact asynchronously by sending and receiving events,\footnote{We use the word ``event'' and ``message'' interchangeably.} an approach commonly used to develop distributed systems. This programming model is similar to actor-based approaches provided by other asynchronous programming languages (e.g. Scala~\cite{odersky2008programming} and Erlang~\cite{armstrong1996erlang}).
 
 A \psharp machine consists of an input event queue, states, state transitions, event handlers, fields and methods. Machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking an appropriate event handler. This handler might update a field, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the message is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it. All this functionality is provided in a lightweight runtime library, build on top of Microsoft's Task Parallel Library~\cite{leijen2009tpl}.
 
-Because \psharp is built on top of \csharp, the programmer can blend \psharp and \csharp code; this not only lowers the overhead of learning a new language, but also allows \psharp to easily integrate with legacy code. Another advantage is that the programmer can use the familiar programming and debugging environment of Visual Studio.
-
-A key capability of the \psharp runtime is that it can run in \emph{bug-finding mode}, where an embedded systematic testing engine captures and takes control of all sources of nondeterminism (such as event handler interleavings, failures, and client requests) in a \psharp program, and then systematically explores all possible executions to discover bugs.
-
-\psharp is available as open-source\footnote{\url{https://github.com/p-org/PSharp}} and is currently used by various teams in Microsoft to develop and test distributed protocols and systems.
-
-%The \psharp language belongs to the same family of languages as P~\cite{desai2013p}.
-
-\subsection{Overview of our approach}
-\label{sec:method:model}
-
-In previous work~\cite{deligiannis2015psharp}, we approached the problem of testing legacy distributed systems as follows. First, we ported the system to \psharp, then we modeled its environment as \psharp state machines, and finally we tested the ported system and its environmental model using the \psharp systematic concurrency testing engine. The limitation of this approach is that it does not allow us to directly test a legacy system, as it has to be re-implemented first in \psharp. However, such endeavor is very costly and time consuming, and thus is not realistic for testing an existing production system, such as the Azure Storage vNext. Also, unless the code under test is the one that will actually execute, there is no guarantee that the real system will be bug-free.
-
-To solve this problem, and allow \psharp to be used for testing legacy distributed systems, we decided to take a different approach. Our approach of testing existing distributed systems using \psharp requires the developer to perform three key modeling tasks:
+Our approach of testing existing distributed systems using \psharp requires the developer to perform three key modeling tasks:
 
 \begin{enumerate}
 \item \psharp operates in the level of communicating state machines, and thus the environment of the system-under-test must be modeled using \psharp machines, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
@@ -54,9 +20,72 @@ To solve this problem, and allow \psharp to be used for testing legacy distribut
 \item Any other source of nondeterminism in the system or the environment (e.g. failures and timers), must be explicitly modeled using the available \psharp APIs. This would allow \psharp to capture the nondeterminism and control it during systematic testing.
 \end{enumerate}
 
-In the remaining of this section, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp. In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool. We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
+In Section~\ref{sec:method}, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp.
+In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool.
+We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
 
 We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test other distributed systems besides vNext (see Section~\ref{sec:exp}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes (e.g. \emph{virtual method dispatch}), which significantly lowers the bar for product groups to embrace \psharp for testing.
 
-In Section~\ref{sec:psharp} we will present more specifics of how the \psharp bug-finding runtime works and extensions that we did since the original work~\cite{deligiannis2015psharp} to be able to use \psharp to systematically test production code.
+\subsection{Specifications}
+\label{sec:bg:bugs}
 
+We can classify most distributed system bugs in two categories: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
+
+\begin{description}
+\item[Safety] A safety property checks that an erroneous program state is \emph{never} reached, and is satisfied if it \emph{always} holds in each possible program execution.
+A safety property can be specified using an \emph{assertion} that fails if the property gets violated in some program state. An example of a generic safety property for message passing systems is to assert that whenever a message gets dequeued there must be an action that can handle the received message.
+
+\item[Liveness] A liveness property checks that some progress \emph{will} happen, and is satisfied if it \emph{always eventually} holds in each possible program execution.
+Liveness properties are much harder to specify and check since they apply over entire program executions and not just individual program states. The liveness property that must be always eventually satisfied in the Azure Storage vNext system is that a user-defined $N$ number of extent nodes must be always eventually available with the latest extent. There was an actual bug in the system, that led this property to fail for some very rare executions. Although this buggy behavior would be observed from time to time during stress testing, there was no way to reproduce the bug until we tested vNext using the \psharp systematic testing engine.
+\end{description}
+
+We now describe how safety and liveness specifications are provided in our system.
+
+\subsubsection{Safety}
+\label{sec:psharp:safety}
+
+Safety property specifications can be encoded in \psharp by using the provided \texttt{Assert(...)} method. This method takes as argument a predicate, which if evaluates to false denotes a safety property violation. The programmer is also free to use other custom assertion APIs (as \psharp executes actual code), but to enable \psharp to recognize such APIs, the suggested approach is to override them to call the \psharp \texttt{Assert(...)} method.
+
+\psharp also provides a way to specify global assertions by using \emph{monitors}, special state machines that
+can only receive events, but not send. To declare a monitor, the programmer has to inherit from the \psharp \texttt{Monitor} class. A \texttt{Machine} does not need to have a reference to a \texttt{Monitor} to send an event to it; as long as a \texttt{Monitor} has been created, any \texttt{Machine} can invoke it by calling \texttt{Monitor<M>(...)}, where \texttt{M} is the identifier name of the \texttt{Monitor}, and the parameter is an event and an optional payload. This call is also synchronous, in contrast to the regular asynchronous \texttt{Send(...)} method calls, as the monitor has to be called deterministically (and not be interleaved).
+
+\subsubsection{Liveness}
+\label{sec:psharp:liveness}
+
+Liveness property specifications are in principle harder to encode since they apply over entire program executions instead of individual program states. Normally, liveness checking requires the identification of an infinite fair execution that never satisfies the liveness property~\cite{schuppan2004efficient, musuvathi2008fair}. Prior work~\cite{schuppan2004efficient} has proposed that assuming a program with finite state space, a liveness property can be converted into a safety property. Other researchers proposed the use of heuristics and only exploring finite executions of an infinite state space system using random walks to identify if a liveness property is violated~\cite{killian2007life}.
+
+The \psharp developer can write liveness properties using a \emph{liveness monitor}, which is a special type of monitor that can contain three types of states: regular ones; \emph{hot} states; and \emph{cold} states. A state annotated with the \texttt{Hot} attribute denotes a state where the liveness property is not satisfied (e.g. a node has failed but a new one has not come up yet). A state annotated with the \texttt{Cold} attribute denotes a state where the liveness property is satisfied.
+
+One can imagine a liveness monitor as a \emph{thermometer}: as the program executes and the liveness property is not satisfied, the liveness monitor stays in the hot state, which infinitely raises the temperature. If the liveness property is ever satisfied, and thus the liveness monitor transitions to a cold state, the temperature is instantly reduced to normal levels. Encoding liveness properties using hot and cold states enables the programmer to specify arbitrary LTL properties. The liveness monitors in \psharp are based on previous work~\cite{?}.
+
+\subsection{Systematic testing}
+In this section, we present more specifics of how the \psharp bug-finding runtime works and extensions that we did since the original work~\cite{deligiannis2015psharp} to be able to use \psharp to systematically test production code.
+
+A key capability of the \psharp runtime is that it can run in \emph{bug-finding mode}, where an embedded systematic testing engine captures and takes control of all sources of nondeterminism (such as event handler interleavings, failures, and client requests) in a \psharp program, and then systematically explores all possible executions to discover bugs.
+
+The \psharp runtime is a lightweight layer build on top of the Task Parallel Library (TPL) of .NET that implements the semantics of \psharp: creating state machines, executing them concurrently using the default task scheduler of TPL, and sending events and enqueueing them in the appropriate machines. A key capability of the \psharp runtime is that it can execute in bug-finding mode for systematically testing a \psharp program to find bugs, such as assertion violations and uncaught exceptions. We now give an overview of how this works, while more details can be found in the original paper~\cite{deligiannis2015psharp}.
+
+When the \psharp runtime runs in bug-finding mode, an embedded \emph{systematic testing engine} captures and takes control of all sources of non-determinism that are \emph{known} to the \psharp runtime. The engine attempts to detect asynchronous bugs by systematically scheduling machines to execute their event handlers in a different order. This approach is based on systematic concurrency testing~\cite{godefroid1997verisoft, musuvathi2008finding, emmi2011delay} (SCT) techniques that have been previously developed for testing shared memory programs.
+
+The systematic testing engine serializes the program execution, takes control of the synchronization and nondeterministic choice points, and at each \emph{step} of the execution it invokes a systematically chosen \psharp machine to execute its next event handler. The engine will repeatedly execute a program from start to completion, each time exploring a potentially different set of interleavings, until it either reaches a bound (in number of iterations or time), or it hits an assertion failure. The testing is fully automatic, has no false-positives (assuming an accurate environmental model), and can reproduce found bugs by replaying buggy schedules.
+
+We have implemented two schedulers inside the \psharp systematic testing engine: \emph{random} and \emph{probabilistic concurrency testing} (PCT)~\cite{burckhardt2010pct}. The random scheduler takes a completely random decision at every scheduling point, whereas the PCT scheduler uses randomization in a disciplined fashion to provide a probabilistic guarantee of finding a bug. It is straightforward to create a new scheduler by implementing the \texttt{ISchedulingStrategy} interface exposed by the \psharp libraries. The interface exposes callbacks that are invoked by the \psharp runtime for taking decisions regarding which machine to schedule next, and can be used for developing both generic and application-specific schedulers, although we have experimented only with generic schedulers so far. Exposing an easy-to-use interface for creating new schedulers is inspired by previous work~\cite{DesaiQS15}.
+
+We designed the systematic testing engine in a way that enables easy debugging: after a bug is found, the engine can generate a trace that represents the buggy schedule. Note that this trace (in contrast to typical logs generating during production) is sequential.
+
+\subsection{Handling intra-machine concurrency}
+\label{sec:psharp:async}
+
+Vanilla \psharp is able to capture and take control of the \emph{inter-machine concurrency} due to message passing, but is unable to systematically explore any interleavings due to \emph{intra-machine concurrency} (e.g. async/await or TPL). This is problematic as nowadays, with multicore machines being a commodity, programmers tend to write multithreaded code to exploit shared memory architectures and increase the performance of individual components of a distributed system.
+
+As an example, the Live Azure Migration system uses the \texttt{async} and \texttt{await} \csharp 5.0 language primitives. Asynchronous code using async/await is more readable because it looks like traditional procedural code, but it is translated by the compiler to an event-driven state machine that is built on top of TPL to achieve performance. The key idea behind async/await is that a method declared as \texttt{async} can use internally the \texttt{await} keyword which allows the thread executing the method to wait on a TPL task, or any other \emph{awaitable} object, \emph{without} blocking. This is achieved as follows. When an \texttt{await} statement is executed, the code following the await is wrapped as a TPL task \emph{continuation} and the method returns to the caller. This continuation executes when the awaitable object has completed.
+
+Developing a fully automatic and universal approach to handle intra-machine concurrency in .NET is very challenging, because there are many APIs that can be used for concurrency and synchronization (e.g. \texttt{System.Threading}, TPL, async/await, locks, semaphores) and each one has its own complexities. Although developers are willing to model the top-level message passing communication using \psharp, they are resistant in modeling the low-level threading and synchronization methods as this would be a very invasive procedure and such refactoring is unlikely to scale for legacy code.
+
+To test our case studies, we decided to focus our efforts in handling async/await as providing a robust solution for a subset of the .NET threading APIs is more feasible than trying to handle arbitrary threading and synchronization. Our solution involves using a custom task scheduler whenever the bug-finding mode of the \psharp runtime is enabled, instead of the default TPL task scheduler. The \psharp task scheduler inherits from the \texttt{TaskScheduler} class, a low-level API that is responsible for enqueueing TPL tasks into threads.
+
+Our approach works as follows. We start the task of the \emph{root} \psharp machine in our custom task scheduler. As long as any child tasks spawned by the root machine task do not explicitly start in another scheduler (including the default TPL scheduler), then they will be scheduled for execution in our custom task scheduler. Our custom scheduler intercepts the call to enqueue a task, creates a special machine called \texttt{TaskMachine} and \emph{wraps} the enqueued task inside this machine. The constructor of a \texttt{TaskMachine} takes as an argument a TPL task and stores it in an field. The \texttt{TaskMachine} has only a single state and when it is scheduled for execution by the \psharp systematic testing scheduler it will start executing the wrapped task and then immediately wait on its completion. This forces the lifetime of the task to become the lifetime of the machine and vice versa. Thus, when the \psharp systematic testing scheduler schedules the \texttt{TaskMachine}, it will also schedule the corresponding task. This means that when a \psharp program makes a call to an \texttt{async} method, then the task created in the backend will be automatically wrapped and scheduled.
+
+For \texttt{await} statements, no special treatment is required because \texttt{await} statements are compiled into a continuation. The task associated with the continuation will also be wrapped and scheduled accordingly.
+
+Regarding support for handling non-async/await concurrency primitives, we are currently investigate feasible approaches.
