@@ -118,7 +118,7 @@ which is not documented for use externally.
 Eventually, we will lift the model
 to higher layers
 but for this paper we study internally-developed services
-that directly target the the lowest layer. 
+that target the lowest layer. 
 
 %\PTComment{Cut: prior work created a Fabric model\ldots}
 % Prior work~\cite{deligiannis2015psharp}
@@ -298,17 +298,18 @@ CScale contains inter-service communication.
 % that resolves services
 % via Fabric but communicates
 % using a non-Fabric remote procedure call protocol.
-In order to close the system,
+To close the system,
 %\PTComment{Cut: we implemented service resolution}
 % we first implemented service resolution in our Fabric model,
 % which resolves Fabric service names to IP addresses.
 %We then replaced 
-we replaced
-the inter-service communication
-classes in CScale with our own;
-our replacement includes the ability to map
-URLs to \psharp{} machines
-so that remote procedure calls are now implemented
+we 
+replaced the relevant classes
+% replaced the inter-service communication classes with our own,
+% ;
+% our replacement includes the ability to map
+% URLs to \psharp{} machines
+so that remote procedure calls are implemented
 by sending and receiving \psharp{} events.
 Thus,
 we converted a distributed system
