@@ -4,8 +4,6 @@
 
 \textsc{Fate} and \textsc{Destini} is a framework for systematically injecting (combination of) failures in distributed systems~\cite{gunawi2011fate}. This framework focuses in exercising failure scenarios, whereas \psharp can be used for testing generic safety and liveness properties of distributed systems. \psharp also provides language extensions and modeling capabilities that further differentiate it from prior work.
 
-DieCast~\cite{gupta2008diecast}
-
 A completely different approach for reasoning about the correctness of distributed systems is to use formal methods.  A notable example is TLA+~\cite{lamport1994temporal}, a formal specification language that can be used to design and verify concurrent programs via model checking. Amazon recently published an article describing their use of TLA+ in Amazon Web Services to verify distributed protocols~\cite{newcombe2015aws}. A limitation of TLA+, as well as other similar specification languages, is that they are applied on a model of the system and not the actual system. Even if the model is verified, the gap between a real-world implementation and the verified model is still significant, so implementation bugs are still a realistic concern.
 
-Another approach is Verdi~\cite{wilcox2015verdi}, where a distributed system is written and verified in Coq, and then OCaml code is produced for execution. Verdi cannot find liveness bugs. \psharp is also more production-friendly: it works on \csharp, which is a mainstream language.
+Another relevant approach is Verdi~\cite{wilcox2015verdi}, where a distributed system is written and verified in Coq, and then OCaml code is produced for execution. Verdi cannot find liveness bugs. \psharp is also more production-friendly: it works on \csharp, which is a mainstream language.
