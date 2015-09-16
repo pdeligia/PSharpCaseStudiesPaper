@@ -2,7 +2,7 @@ Distributed systems are notoriously hard to design, implement and test~\cite{cav
 All these sources of nondeterminism translate into \emph{exponentially} many execution paths that a distributed system might potentially execute.
 A bug might hide deep inside one of these paths and only manifest under extremely rare corner cases~\cite{gray1986computers, musuvathi2008finding}, but the consequence can be catastrophic~\cite{amazon2012aws, google2014outage}.
 
-Implementors of production distributed systems use many techniques to test their systems,
+Developers of production distributed systems use many techniques to test their systems,
 such as unit testing, integration testing, stress testing, and fault injection.
 In spite of extensive use of these testing methods,
 many bugs that arise from subtle combinations of concurrency and failure events
@@ -10,12 +10,15 @@ are missed during testing and get exposed only after a system has been put in pr
 Discovering and fixing bugs in production, though, is bad for business as it can cost a lot of money~\cite{tassey2002economic} 
 and many dissatisfied customers~\cite{amazon2012aws, google2014outage}.
 
-We interviewed engineers from the Microsoft Azure team regarding the top problems in distributed system development.
+We interviewed technical leaders and senior managers in the Microsoft Azure team regarding the top problems in distributed system development.
 The consensus was that the most critical problem today is how to improve \emph{testing coverage} to find bugs \emph{before} a system goes in production.
 The need for better testing techniques is not specific to Microsoft;
-other companies, such as Amazon and Google, have acknowledged~\cite{chandra2007paxos,newcombe2015aws} that testing methodologies have to improve to be able to reason about the correctness of increasingly more complex distributed systems. 
+other companies, such as Amazon and Google, have acknowledged~\cite{chandra2007paxos,newcombe2015aws} that testing methodologies have to improve to be able to reason about the correctness of increasingly more complex distributed systems.
 
-In this work, our goal is to \emph{test what is being executed}.
+Arguably, the most advanced practice in industry so far appeals in Amazon Web Services where ``engineers use TLA+ to prevent serious but subtle bugs from reaching production''. The gist of this approach is to extract high level logic from production systems, represent the logic as specification in an expressive language (such as TLA+), and verify the specification using a model checker. While highly effective, as demonstrated by the numerous successes in AWS, this approach falls short of ``verifying that executable code correctly implements the high-level specification'' and the AWS team admits that ``we are not aware of any such tools that can handle distributed systems as large and complex as those being built at Amazon''~\ref{}.
+
+In our opinion, high level specification is necessary but not sufficient, due to the gap between the specification and the executable code that ultimately powers the distributed systems. In this work, our goal is to bridge this gap with a new framework that allows verification techniques for high level specification directly applicable in the executable code. Instead of requiring developers to switch to unfamiliar special programming language~\ref{}, or manually annotate and instrument their code~\ref{}, we allow the developers to {\em test unmodified production code} by writing testing harness in our framework with familiar programming language. Based on our experiences, this significantly lowered acceptance barrier and was the key to the adoption of the framework in the Microsoft Azure team.
+
 We present a new method for testing an implementation of a distributed system and uncovering bugs before the system is released in the wild.
 We have implemented our testing method in \psharp~\cite{deligiannis2015psharp}, an extension of the mainstream language \csharp that provides
 support for modeling, specification, and systematic testing of asynchronous systems.
