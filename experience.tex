@@ -91,7 +91,7 @@ Each \texttt{Service} machine issues a random sequence of input calls to its Mig
 
 \emph{Azure Service Fabric}\footnote{\url{http://azure.microsoft.com/en-gb/campaigns/service-fabric/}} (or \emph{Fabric} for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
 %The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
-In order to make the user-written service \emph{reliable}, Fabric launches several copies (\emph{replicas}) of the service, where each copy runs as a separate process on a different node in the cluster.
+In order to make the user-written service \emph{reliable}, Fabric launches several \emph{replicas} (copies) of the service, where each replica runs as a separate process on a different node in the cluster.
 %\PTComment{Cut: description of primary and secondaries, and electing a new primary.}
 %One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary replicates state changes to the secondaries by sending \emph{replication requests} so that all replicas eventually have the same state. If the primary fails (e.g.\ if the node on which the primary is running crashes), Fabric elects one of the secondaries to be the new primary and launches another secondary; the new secondary will receive a full or partial copy (depending on whether persistent storage is used) of the state of the new primary in order to ``catch up'' with the other secondaries. Fabric provides a name-resolution service so that clients can always find the current primary.
 The state of the service is replicated from the \emph{primary} replica to the other \emph{secondary} replicas for redundancy.
@@ -117,7 +117,7 @@ Note that we model the lowest Fabric API layer (\texttt{Fabric.dll})
 which is not documented for use externally.
 Eventually, we will lift the model
 to higher layers
-but, for this paper, we study internally-developed services
+but for this paper we study internally-developed services
 that directly target the the lowest layer. 
 
 %\PTComment{Cut: prior work created a Fabric model\ldots}
