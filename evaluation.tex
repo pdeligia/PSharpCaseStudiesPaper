@@ -27,9 +27,14 @@ Environmental modeling is a core activity of using \psharp. It is required for \
 
 Modeling the environment of the Extent Manager in the Azure Storage vNext system required approximately 2 weeks of part-time developing. The \psharp model for testing this system is the smallest (in lines of code) from all three case studies. This was because the modeling effort was targeting the particular liveness bug that was haunting the developers of vNext. We are currently in the process of modeling other components of vNext, such as a ChainReplication and a Paxos system.
 
-Modeling the Live Migration Table required \PDComment{waiting confirmation from Matt}. This case study is interesting because the development of the actual system and its \psharp environmental model occurred side-by-side. This is in contrast with the other two case studies discussed in this paper, where the modeling activity occurred independently and at a later stage of the development process.
+Modeling the Live Migration Table required \PDComment{waiting confirmation from
+Matt}. The modeling effort was done in parallel with the development of the actual system. 
+This is in contrast with the other two case studies discussed in this paper, where the modeling 
+activity occurred independently and at a later stage of the development process.
 
-Modeling Fabric required approximately 4-5 months. Although this is a significant amount of time, it is a one time effort activity. Our plan is to reuse the developed Fabric model for testing arbitrary user services built for the Azure Service Fabric system.
+Modeling Fabric required approximately 5 person months. Although this is a
+significant amount of time, it is a one time effort (once per release). Our plan is to reuse the developed Fabric model 
+for testing arbitrary user services built for the Azure Service Fabric system.
 
 \subsection{Cost of systematic testing}
 \label{sec:eval:machine_cost}
@@ -50,7 +55,7 @@ Using \psharp we managed to uncover more than 10 serious bugs in our case studie
 
 Table~\ref{tab:testing} presents the results from running the \psharp systematic testing engine on each case study with a re-introduced bug using the random and PCT schedulers. We chose to use controlled random scheduling, because it has proven to be efficient for finding concurrency bugs~\cite{thomson2014sct, deligiannis2015psharp}. The CS column shows which case study corresponds to each bug: 1 is for the Azure Storage vNext; and 2 is for the Live Migration Table. \PDComment{update with 3 for Fabric}
 
-We performed all experiments using the Windows PowerShell tool on a 2.50GHz Intel Core i5-4300U CPU with 8GB RAM running Windows 10 Pro 64-bit. We configured the engine to perform 100,000 iterations. The random seed for both schedulers was generated in each iteration using the \texttt{DateTime.Now.Millisecond} API which returns the current time in milliseconds. The PCT scheduler was further configured with a bug depth of 2 and a max number of scheduling steps to execute of 500. All reported times are in seconds.
+We performed all experiments using the Windows PowerShell tool on a 2.50GHz Intel Core i5-4300U CPU with 8GB RAM running Windows 10 Pro 64-bit. We configured the engine to perform 100,000 iterations. The random seed for both schedulers was generated in each iteration using the \texttt{DateTime.Now.Millisecond} API which returns the current time in milliseconds. The PCT scheduler was further configured with a bug depth of 2 and a max number of scheduling steps of 500. All reported times are in seconds.
 
 For the vNext case study, the random scheduler was able to reproduce the bug in less than 10 seconds. The reason that the number of scheduling steps to find the bug is much higher than the rest of the bugs in the table is that this bug is a liveness violation: as discussed in Section~\ref{} we leave the program to run for a long time before checking if the liveness property holds. The PCT scheduler was unable to find the bug using the bug depth of 2, which suggests that the bug requires a larger depth bound to be found.
 

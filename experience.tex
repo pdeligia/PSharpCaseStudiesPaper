@@ -3,7 +3,18 @@ The modeling and testing approach described in earlier sections of the paper is 
 \subsection{Live Azure Table Migration}
 \label{sec:cases:migration}
 
-The Live Azure Table Migration (MigratingTable) is a library for \emph{transparently migrating} a data set between tables in an Azure Storage service \emph{while} an application is accessing this data set. This case study is interesting because its developers built the \psharp model of the system while developing the library to increase confidence in its implementation; indeed they discovered many bugs during this \emph{co-development} process (see Section~\ref{}). Another interesting aspect of this system is that it heavily uses the \texttt{async}/\texttt{await} primitives, which were not supported in the original \psharp runtime, and thus required us to extend \psharp with support for intra-machine concurrency (see Section~\ref{}). Finally, a lot of complex safety properties were written to test MigratingTable with \psharp, whereas the vNext model focused on a single liveness property.
+The Live Azure Table Migration (MigratingTable) is a library for
+\emph{transparently migrating} a data set between tables in an Azure Storage
+service \emph{while} an application is accessing this data set. This case study
+is interesting because its developers built the \psharp model of the system
+while developing the library to increase confidence in its implementation;
+indeed they discovered many bugs during this \emph{co-development} process (see
+Section~\ref{}). Another interesting aspect of this system is that it heavily
+uses the \texttt{async}/\texttt{await} primitives, which were not supported in
+the original \psharp runtime, and thus required us to extend \psharp with
+support for intra-machine concurrency (see Section~\ref{}). Finally, multiple 
+complex safety properties were written to test MigratingTable with \psharp, 
+whereas the vNext model focused on a single liveness property.
 
 \begin{figure}[t]
 \centering
@@ -14,7 +25,7 @@ The Live Azure Table Migration (MigratingTable) is a library for \emph{transpare
 
 MigratingTable provides a \emph{virtual table} that has a similar interface to an ordinary Azure table. This interface is named \texttt{IChainTable}. The virtual table is backed by a pair of \emph{old} and \emph{new} tables. A background \emph{migrator} job is responsible for moving all data from the old table to the new table. Meanwhile, each read and write operation issued to the virtual table is translated to a sequence of reads and writes on the backend tables according to a protocol that guarantees linearizability of operations on the virtual table across multiple application processes, assuming that the backend tables respect their own linearizability guarantees.
 
-The \psharp testing goal was to ensure that when multiple application processes, implementing the \texttt{IChainTable} interface, issue read and write operations to their own MigratingTable instances with the same backend tables, the behavior complies with the specification of \texttt{IChainTable} for the combined \emph{input history}.
+The testing goal was to ensure that when multiple application processes, implementing the \texttt{IChainTable} interface, issue read and write operations to their own MigratingTable instances with the same backend tables, the behavior complies with the specification of \texttt{IChainTable} for the combined \emph{input history}.
 
 %\begin{figure}[t]
 %\centering
