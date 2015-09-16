@@ -83,12 +83,6 @@ Each \texttt{Service} machine issues a random sequence of input calls to its Mig
 \subsection{Azure Service Fabric}
 \label{sec:cases:fabric}
 
-- \psharp generalized beyond vNext. \psharp is not only applicable to vNext but in many systems.\\
-- (Advanced) safety properties?\\
-- What we developed is a model that other people can reuse. Plugin the model and test the user application.\\
-- Example of advanced modeling capability of \psharp. One component talks to another sophisticated API. We demonstrate environmental modeling expressivity in system engineering.
-
-
 \emph{Azure Service Fabric}\footnote{\url{http://azure.microsoft.com/en-gb/campaigns/service-fabric/}} (or \emph{Fabric} for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
 %The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
 In order to make the user-written service \emph{reliable}, Fabric launches several \emph{replicas} (copies) of the service, where each replica runs as a separate process on a different node in the cluster.
