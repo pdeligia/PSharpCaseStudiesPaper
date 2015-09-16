@@ -8,11 +8,11 @@ The Live Azure Table Migration (MigratingTable) is a library for
 service \emph{while} an application is accessing this data set. This case study
 is interesting because its developers built the \psharp model of the system
 while developing the library to increase confidence in its implementation;
-indeed they discovered many bugs during this \emph{co-development} process (see
-Section~\ref{}). Another interesting aspect of this system is that it heavily
+indeed they discovered many bugs during this \emph{co-development} process.
+Another interesting aspect of this system is that it heavily
 uses the \texttt{async}/\texttt{await} primitives, which were not supported in
 the original \psharp runtime, and thus required us to extend \psharp with
-support for intra-machine concurrency (see Section~\ref{}). Finally, multiple 
+support for intra-machine concurrency (see Section~\ref{sec:psharp:async}). Finally, multiple 
 complex safety properties were written to test MigratingTable with \psharp, 
 whereas the vNext model focused on a single liveness property.
 
@@ -283,7 +283,8 @@ that target the lowest layer.
 
 % \subsubsection{CScale}
 
-The main system that we tested is \emph{CScale}~\cite{X},
+The main system that we tested is 
+\emph{CScale}~\cite{faleiro2012},
 a big data-stream processing system that chains multiple Fabric services
 in a directed acyclic graph.
 A key challenge was that
