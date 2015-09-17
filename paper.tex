@@ -98,16 +98,14 @@ $^\dagger$Imperial College London, $^\diamond$Massachusetts Institute of Technol
 
 
 \subsection*{Abstract}
-Testing distributed systems is challenging due to multiple sources of nondeterminism in the execution, e.g., arbitrary interleavings between event handlers and unexpected node failures.
-State-of-the-art testing methods commonly used in industry today---unit, integration, and stress testing---are unable to cover many behaviors, which results in tricky bugs being missed during testing and getting exposed in production.
-In this paper, we present a new approach to testing distributed storage systems.
-Our approach enables the developer to \emph{test what is being executed} and is engineered to work on production code.
-It significantly improves coverage of important system behaviors and allows us to discover during testing errors that are often caught after deployment.
+Testing distributed systems is challenging due to multiple sources of nondeterminism. Conventional testing approaches are ineffective in preventing serious but subtle bugs from reaching production. Advanced industry practice, such as AWS using formal methods~\ref{}, only verifies high level specification and falls short of checking executable code. In this paper, we present a new framework for testing distributed storage systems.
+Our approach makes verification techniques for high level specification directly applicable to the executable code.
+It therefore significantly improves coverage of important system behaviors and uncovers during testing subtle bugs that are often caught after deployment.
 
-We have used our approach to test three distributed storage systems implemented inside Microsoft for the Windows Azure cloud computing platform.
-In the process, we found, reproduced, and fixed numerous bugs in these systems.
+Our framework has been applied to three distributed storage systems in the Microsoft Azure platform.
+In the process, numerous bugs were identified, reproduced, fixed and confirmed.
 The bugs discovered by our method are exhibited by executions with subtle combination of concurrency and failures,
-making them extremely difficult to find with traditional testing techniques.
+making them extremely difficult to find with conventional testing techniques.
 An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace,
 which dramatically increases the productivity of debugging.
 
