@@ -147,7 +147,7 @@ class ExtentManagerMachine : Machine {
 
 Messages coming from the ENs do {\em not} go through the mocked network engine. They are delivered to the \texttt{ExtentManager} machine directly and trigger an action that invokes the messages on the internal ExtMgr with \texttt{extMgr.ProcessSingleMessage}. The benefit of this approach is that ExtMgr is unaware of the testing harness and behaves as if it running in a real distributed environment and communicating with real ENs.
 
-All internal timers of ExtMgr are disabled, because it is crucial to delegate all non-determinism to \psharp. Instead, the EN expiration loop and the extent repair loop are driven by external timers provided by \psharp. Note that system correctness should {\em not} hinge on the frequency of any individual timer. Hence, \psharp has the complete freedom to schedule arbitrary interleavings between the timers.
+All internal timers of ExtMgr are disabled, because it is crucial to delegate all non-determinism to \psharp. Instead, the EN expiration loop and the extent repair loop are driven by external timers modeled in \psharp. Note that system correctness should {\em not} hinge on the frequency of any individual timer. Hence, the \psharp systematic testing engine has the complete freedom to schedule arbitrary interleavings between the timers.
 
 \subsection{The ExtentNode machine}
 \label{sec:method:mock_en}

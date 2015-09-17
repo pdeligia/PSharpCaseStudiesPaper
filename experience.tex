@@ -47,7 +47,7 @@ The main challenge behind testing MigratingTable is that there are many possible
 
 \subsubsection{Testing the MigratingTable library}
 
-Towards testing the MigratingTable library, the developers wrote an in-memory reference implementation of the \texttt{IChainTable} interface, called \texttt{SpecTable}, which can be used for comparing the output of MigratingTable on an arbitrary input history. This enabled sampling from a distribution, which was defined over all possible input histories within certain bounds. \psharp takes control of the choice of input history, so that it can systematically explore different input scenarios.
+Towards testing the MigratingTable library, the developers wrote an in-memory reference implementation of the \texttt{IChainTable} interface, called \texttt{SpecTable}, which can be used for comparing the output of MigratingTable on an arbitrary input history. This enabled sampling from a distribution that was defined over all possible input histories within certain bounds. The \psharp systematic testing engine automatically takes care of enumerating different input histories.
 
 %\psharp takes control of the choice of input history, as well as the schedule, so both can be reproduced using a single random seed. Then, under the \emph{small scope hypothesis} that any bug in MigratingTable leads to incorrect output for at least one input history in our distribution, we have a positive probability of detecting this incorrect output on each iteration of the \psharp test.
 
