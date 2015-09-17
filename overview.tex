@@ -2,56 +2,52 @@ Distributed systems typically consist of two or more components that communicate
 
 In a distributed system, message handlers can interleave in arbitrary order, because of the asynchronous nature of message-based communication. To complicate matters further, unexpected failures are the norm in production systems: nodes in a cluster might fail at any moment, and thus programmers have to implement sophisticated mechanisms that can deal with these failures and recover the state of the system. Moreover, with multicore machines having become a commodity, individual components of a distributed system are commonly implemented using multithreaded code, which adds another source of nondeterminism.
 
-All the above sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix, without using advanced \emph{asynchrony-aware} testing techniques. Techniques such as unit testing, integration testing and stress testing are heavily used in industry today for finding bugs in production code. However, these techniques are not effective for testing distributed systems, as they are not able to capture and control the many sources of nondeterminism.
+All the above sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{Heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix. Techniques such as unit testing, integration testing and stress testing are heavily used in industry today for finding bugs in production code. However, these techniques are not effective for testing distributed systems, as they are not able to control the many sources of nondeterminism.
 
-Our goal in this work is to \emph{test what is being executed}. To achieve this we use \psharp~\cite{deligiannis2015psharp}, a framework that provides: (i) an \emph{event-driven asynchronous programming} language for developing and modeling distributed systems; and (ii) a \emph{systematic concurrency testing} engine that can systematically explore all interleavings between asynchronous event handlers, as well as other nondeterministic events such as failures and timeouts.
-
-The \psharp language is an extension of \csharp, built on top of Microsoft's Roslyn\footnote{\url{https://github.com/dotnet/roslyn}} compiler, that enables asynchronous programming using communicating state-machines. \psharp machines can interact asynchronously by sending and receiving events,\footnote{We use the word ``event'' and ``message'' interchangeably.} an approach commonly used to develop distributed systems. This programming model is similar to actor-based approaches provided by other asynchronous programming languages (e.g. Scala~\cite{odersky2008programming} and Erlang~\cite{armstrong1996erlang}).
+The goal of our work is to develop testing techniques to detect and debug Heisenbugs in distributed storage systems prior to deployment.
+To achieve our goal, we use \psharp~\cite{deligiannis2015psharp}, a framework that provides: (i) an \emph{event-driven asynchronous programming} language for developing and modeling distributed systems; and (ii) a \emph{systematic concurrency testing} engine that can systematically explore all interleavings between asynchronous event handlers, as well as other nondeterministic events such as failures and timeouts.
 
 A \psharp machine consists of an input event queue, states, state transitions, event handlers, fields and methods. Machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking an appropriate event handler. This handler might update a field, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the message is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it. All this functionality is provided in a lightweight runtime library, build on top of Microsoft's Task Parallel Library~\cite{leijen2009tpl}.
 
-Our approach of testing existing distributed systems using \psharp requires the developer to perform three key modeling tasks:
-
+Our approach of testing distributed systems using \psharp requires the developer to perform three key modeling tasks;
+these tasks are illustrated in Section~\ref{sec:method} using the Azure Storage vNext as a case study.
 \begin{enumerate}
-\item \psharp operates in the level of communicating state machines, and thus the environment of the system-under-test must be modeled using \psharp machines, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
+\item
+The computation model underlying \psharp is communicating state machines.
+The environment of the system-under-test must be modeled using \psharp machines,
+while the real components of the system must be wrapped inside \psharp machines.
+We call this modeled environment the \psharp test harness.
 
-\item The top level asynchrony due to message passing, must be exposed as event sending using the \psharp APIs. If the communication layer is not based on message passing, then additional effort must be spent into refactoring the system to use message passing. This step allows the \psharp runtime to capture and control the nondeterminism due to message passing interleavings during systematic testing.
+\item
+The asynchrony due to message passing must be exposed using the \psharp APIs for sending events.
+Similarly, other sources of nondeterministically-generated events, such as failures and timer expiration,
+must also be explicitly modeled using the available \psharp APIs;
+This step allows the \psharp runtime to explore the nondeterministic choices during testing.
 
-\item Any other source of nondeterminism in the system or the environment (e.g. failures and timers), must be explicitly modeled using the available \psharp APIs. This would allow \psharp to capture the nondeterminism and control it during systematic testing.
+\item
+The correctness of each execution generated during testing must be specified.
+Specifications can be either \emph{safety} and \emph{liveness}~\cite{lamport1977proving}.
+A safety specification is a generalization of assertions;
+a safety violation is a finite trace leading to an erroneous state.
+A liveness specification is a generalization of nontermination;
+a liveness violation is an infinite trace that exhibits lack of progress.
 \end{enumerate}
+In principle, this modeling methodology is not specific to \psharp but can be used in combination with any other programming framework
+with equivalent capabilities.
 
-In Section~\ref{sec:method}, we will use the Azure Storage vNext case study as a running example of how to model a typical distributed system using \psharp.
-In principle, this modeling methodology is not specific to \psharp but can be used in combination with any systematic testing tool.
-We decided to use \psharp as it is a mature tool that provides a lot of modeling power via its \csharp language extensions and has an embedded systematic concurrency testing engine inside its runtime.
-
-We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test other distributed systems besides vNext (see Section~\ref{sec:cases}). Furthermore, the language features that are required to be used to connect the real code with the modeled code, are already being heavily used in production for testing purposes (e.g. \emph{virtual method dispatch}), which significantly lowers the bar for product groups to embrace \psharp for testing.
+We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{generic} since a programmer can build on top of it to test other distributed systems besides vNext (see Section~\ref{sec:cases}). Furthermore, the language features that are required to be used to connect the real code with the modeled code (e.g., \emph{virtual method dispatch}), are already being heavily used in production for testing purposes , which significantly lowers the bar for practitioners to embrace \psharp for testing.
 
 \subsection{Specifications}
 \label{sec:bg:bugs}
+In  this section, we describe how safety and liveness specifications are expressed in our system.
 
-We can classify most distributed system bugs in two categories: \emph{safety} and \emph{liveness} property violations~\cite{lamport1977proving}.
-
-\begin{description}
-\item[Safety] A safety property checks that an erroneous program state is \emph{never} reached, and is satisfied if it \emph{always} holds in each possible program execution.
-A safety property can be specified using an \emph{assertion} that fails if the property gets violated in some program state. An example of a generic safety property for message passing systems is to assert that whenever a message gets dequeued there must be an action that can handle the received message.
-
-\item[Liveness] A liveness property checks that some progress \emph{will} happen, and is satisfied if it \emph{always eventually} holds in each possible program execution.
-Liveness properties are much harder to specify and check since they apply over entire program executions and not just individual program states. The liveness property that must be always eventually satisfied in the Azure Storage vNext system is that a user-defined $N$ number of extent nodes must be always eventually available with the latest extent. There was an actual bug in the system, that led this property to fail for some very rare executions. Although this buggy behavior would be observed from time to time during stress testing, there was no way to reproduce the bug until we tested vNext using the \psharp systematic testing engine.
-\end{description}
-
-We now describe how safety and liveness specifications are provided in our system.
-
-\subsubsection{Safety}
-\label{sec:psharp:safety}
-
+{\bf Safety}.
 Safety property specifications can be encoded in \psharp by using the provided \texttt{Assert(...)} method. This method takes as argument a predicate, which if evaluates to false denotes a safety property violation. The programmer is also free to use other custom assertion APIs (as \psharp executes actual code), but to enable \psharp to recognize such APIs, the suggested approach is to override them to call the \psharp \texttt{Assert(...)} method.
 
 \psharp also provides a way to specify global assertions by using \emph{monitors}, special state machines that
 can only receive events, but not send. To declare a monitor, the programmer has to inherit from the \psharp \texttt{Monitor} class. A \texttt{Machine} does not need to have a reference to a \texttt{Monitor} to send an event to it; as long as a \texttt{Monitor} has been created, any \texttt{Machine} can invoke it by calling \texttt{Monitor<M>(...)}, where \texttt{M} is the identifier name of the \texttt{Monitor}, and the parameter is an event and an optional payload. This call is also synchronous, in contrast to the regular asynchronous \texttt{Send(...)} method calls, as the monitor has to be called deterministically (and not be interleaved).
 
-\subsubsection{Liveness}
-\label{sec:psharp:liveness}
-
+{\bf Liveness}.
 Liveness property specifications are in principle harder to encode since they apply over entire program executions instead of individual program states. Normally, liveness checking requires the identification of an infinite fair execution that never satisfies the liveness property~\cite{schuppan2004efficient, musuvathi2008fair}. Prior work~\cite{schuppan2004efficient} has proposed that assuming a program with finite state space, a liveness property can be converted into a safety property. Other researchers proposed the use of heuristics and only exploring finite executions of an infinite state space system using random walks to identify if a liveness property is violated~\cite{killian2007life}.
 
 The \psharp developer can write liveness properties using a \emph{liveness monitor}, which is a special type of monitor that can contain three types of states: regular ones; \emph{hot} states; and \emph{cold} states. A state annotated with the \texttt{Hot} attribute denotes a state where the liveness property is not satisfied (e.g. a node has failed but a new one has not come up yet). A state annotated with the \texttt{Cold} attribute denotes a state where the liveness property is satisfied.
