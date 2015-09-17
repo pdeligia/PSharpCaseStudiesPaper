@@ -83,7 +83,7 @@ Each \texttt{Service} machine issues a random sequence of input calls to its Mig
 \subsection{Azure Service Fabric}
 \label{sec:cases:fabric}
 
-\emph{Azure Service Fabric}\footnote{\url{http://azure.microsoft.com/en-gb/campaigns/service-fabric/}} (or \emph{Fabric} for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
+Azure Service Fabric\footnote{\url{azure.microsoft.com/campaigns/service-fabric/}} (or Fabric for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
 %The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
 In order to make the user-written service \emph{reliable}, Fabric launches several \emph{replicas} (copies) of the service, where each replica runs as a separate process on a different node in the cluster.
 %\PTComment{Cut: description of primary and secondaries, and electing a new primary.}
