@@ -9,7 +9,7 @@ The testing harness consists of the following \psharp machines (as shown in Figu
 
 \item[TestingDriver] communicates with all other machines, relays messages between the \texttt{ExtentManager} and the \texttt{ExtentNode} machines, and is responsible for driving testing scenarios.
 
-\item[RepairMonitor] collects states from all \texttt{ExtentNode} machines in the testing harness and verifies desired properties, such as that an extent is replicated or repaired at the expected ENs.
+\item[RepairMonitor] collects states from all \texttt{ExtentNode} machines in the testing harness and checks desired properties, such as that an extent is replicated or repaired at the expected ENs.
 \end{description}
 
 \begin{figure}[t]
@@ -290,15 +290,15 @@ The \texttt{TestingDriver} machine drives two testing scenarios. In the first sc
 \subsection{The RepairMonitor machine}
 \label{sec:method:monitor}
 
-The \texttt{RepairMonitor} machine transitions between a cold state and a hot state. Whenever an extent node fails, \texttt{RepairMonitor} is notified. As soon as the number of extent replicas falls below a specified target, \texttt{RepairMonitor} transitions into the hot \emph{repairing} state, where the missing replica is being repaired. Whenever a replica is repaired, the \texttt{RepairMonitor} machine is also notified. It transitions into the cold \emph{repaired} state, when the replica number reaches the target again, as illustrated in Figure~\ref{fig:monitor}.
+\texttt{RepairMonitor} is a monitor machine (see Section~\ref{sec:bg:bugs}) that transitions between a cold state and a hot state. Whenever an extent node fails, \texttt{RepairMonitor} is notified. As soon as the number of extent replicas falls below a specified target, \texttt{RepairMonitor} transitions into the hot \emph{repairing} state, where the missing replica is being repaired. Whenever a replica is repaired, the \texttt{RepairMonitor} machine is also notified. It transitions into the cold \emph{repaired} state, when the replica number reaches the target again, as illustrated in Figure~\ref{fig:monitor}.
 
-%It verifies the property that the number of extent replica {\em eventually} reaches the target.
+%It checks the property that the number of extent replica {\em eventually} reaches the target.
 
-In the extent repair testing scenarios, \texttt{RepairMonitor} verifies that it should {\em always eventually} end up in the cold repaired state. Otherwise, the \texttt{RepairMonitor} machine is stuck in the hot repairing state for {\em infinitely} long. This indicates that the corresponding execution sequence results in an extent replica never being repaired, which is a liveness bug!
+In the extent repair testing scenarios, \texttt{RepairMonitor} checks that it should {\em always eventually} end up in the cold repaired state. Otherwise, the \texttt{RepairMonitor} machine is stuck in the hot repairing state for {\em infinitely} long. This indicates that the corresponding execution sequence results in an extent replica never being repaired, which is a liveness bug!
 
 \begin{figure}[t]
 \begin{lstlisting}
-class RepairMonitor : Machine {
+class RepairMonitor : Monitor {
   // true: EN has replica, false: EN has no replica
   private Dictionary<Machine, bool> ExtentNode2Replica;
 
@@ -341,7 +341,7 @@ The liveness bug occurs in the second testing scenario, where the \texttt{Testin
 
 Here is one particular execution sequence resulting in the bug. $i)$ EN$_0$ fails and is detected by the EN expiration loop; $ii)$ EN$_0$ is removed from the EN map; $iii)$ the extent center is updated and the replica count drops from 3, the target, to 2; $iv)$ \texttt{ExtMgr} receives a sync report from EN$_0$; $v)$ the extent center is updated and the replica count increases from 2 to 3 again. This is problematic because, on one hand, the replica count is equal to the target, so the extent repair loop never schedules any repair task. On the other hand, there are only two true replicas in the system, one fewer than the target. This execution sequence leads to one replica missing. Conceivably, repeating this another two times would result in all replicas missing, while \texttt{ExtMgr} still thinks all replicas are healthy. If deployed in production, such bug would have caused a very serious incident of customer data loss.
 
-The culprit is in $iv)$, where \texttt{ExtMgr} receives a sync report from EN$_0$ after deleting the EN. This may occur in \psharp because of arbitrary message interleaving. It may also occur, albeit much less frequently, in the stress testing due to messages being delayed in the network. This explains why the bug only occurs from time to time in the stress testing and also takes long execution to trigger. In contrast, \psharp allows the bug to manifest quickly, the developers to iterate rapidly, the culprit identified promptly, and the fix solution verified effectively, all of which should vastly increase the productivity of distributed storage system development. 
+The culprit is in $iv)$, where \texttt{ExtMgr} receives a sync report from EN$_0$ after deleting the EN. This may occur in \psharp because of arbitrary message interleaving. It may also occur, albeit much less frequently, in the stress testing due to messages being delayed in the network. This explains why the bug only occurs from time to time in the stress testing and also takes long execution to trigger. In contrast, \psharp allows the bug to manifest quickly, the developers to iterate rapidly, the culprit identified promptly, and the fix solution tested effectively and thoroughly, all of which should vastly increase the productivity of distributed storage system development. 
 
 %%\subsection{Modeling the environment}
 %\subsection{Test Harness}
