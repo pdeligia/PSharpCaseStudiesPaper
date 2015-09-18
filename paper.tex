@@ -98,16 +98,9 @@ $^\dagger$Imperial College London, $^\diamond$Massachusetts Institute of Technol
 
 
 \subsection*{Abstract}
-Testing distributed systems is challenging due to multiple sources of nondeterminism. Conventional testing approaches are ineffective in preventing serious but subtle bugs from reaching production. Formal techniques, such as the use of TLA+ in AWS~\cite{newcombe2015aws}, only verifies high level specification and falls short of checking executable code. In this paper, we present a new framework for testing distributed storage systems.
-Our approach applies verification techniques for high-level specifications directly on the executable code and
-significantly improves coverage of important system behaviors.
+Testing distributed systems is challenging due to multiple sources of nondeterminism. Conventional testing approaches are ineffective in preventing serious but subtle bugs from reaching production. Formal techniques, such as the use of TLA+ in Amazon Web Services, can only verify high-level specifications of systems at the level of logic-based models, and fall short of checking executable code. In this paper, we present a new framework for testing distributed storage systems. Our approach applies verification techniques for high-level specifications directly on the executable code and significantly improves coverage of important system behaviors.
 
-Our framework has been applied to three distributed storage systems in the Microsoft Azure platform.
-In the process, numerous bugs were identified, reproduced, confirmed and fixed.
-These bugs required subtle combination of concurrency and failures,
-making them extremely difficult to find with conventional testing techniques.
-An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace,
-which dramatically increases the productivity of debugging.
+Our framework has been applied to three distributed storage systems in the Microsoft Azure platform. In the process, numerous bugs were identified, reproduced, confirmed and fixed. These bugs required subtle combination of concurrency and failures, making them extremely difficult to find with conventional testing techniques. An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace, which dramatically increases the productivity of debugging.
 
 \section{Introduction}
 \label{sec:intro}
