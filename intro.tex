@@ -1,23 +1,22 @@
-Distributed systems are notoriously hard to design, implement and test~\cite{cavage2013there, laguna2015debugging, maddox2015test}. This is due to many well-known sources of \emph{nondeterminism}~\cite{chandra2007paxos}, such as race conditions in the asynchronous interaction between system components, the use of multithreaded code inside a component, unexpected node failures, unreliable communication channels and data losses, and interaction with (human) clients.
+Distributed systems are notoriously hard to design, implement and test~\cite{cavage2013there, laguna2015debugging, maddox2015test}. This is due to many well-known sources of \emph{nondeterminism}~\cite{chandra2007paxos}, such as race conditions in the asynchronous interaction between system components, the use of multithreaded code inside components, unexpected node failures, data losses due to unreliable communication channels, and interaction with (human) clients.
 All these sources of nondeterminism translate into \emph{exponentially} many execution paths that a distributed system might potentially execute.
-A bug might hide deep inside one of these paths and only manifest under extremely rare corner cases~\cite{gray1986computers, musuvathi2008finding}, but the consequence can be catastrophic~\cite{amazon2012aws, google2014outage}.
+A bug might hide deep inside one of these paths and only manifest under extremely rare conditions~\cite{gray1986computers, musuvathi2008finding}, but the consequence can be catastrophic~\cite{amazon2012aws, google2014outage}.
 
-Developers of production distributed systems use many techniques to test their systems,
+Developers of production distributed systems use many testing techniques,
 such as unit testing, integration testing, stress testing, and fault injection.
 In spite of extensive use of these testing methods,
 many bugs that arise from subtle combinations of concurrency and failure events
-are missed during testing and get exposed only after a system has been put in production.
-Discovering and fixing bugs in production, though, is bad for business as it can cost a lot of money~\cite{tassey2002economic} 
-and many dissatisfied customers~\cite{amazon2012aws, google2014outage}.
+are missed during testing and get exposed only after a system has been put into production.
+However, allowing bugs to reach production, before they are found and fixed, can cost organizations a lot of money~\cite{tassey2002economic} and lead to customer dissatisfaction~\cite{amazon2012aws, google2014outage}.
 
 We interviewed technical leaders and senior managers in the Microsoft Azure team regarding the top problems in distributed system development.
 The consensus was that one of the most critical problems today is how to improve \emph{testing coverage} to find bugs \emph{before} a system goes to production.
 The need for better testing techniques is not specific to Microsoft;
 other companies, such as Amazon and Google, have acknowledged~\cite{chandra2007paxos,newcombe2015aws} that testing methodologies have to improve to be able to reason about the correctness of increasingly more complex distributed systems.
 
-Recently, Amazon Web Services used formal methods, where ``engineers use TLA+ to prevent serious but subtle bugs from reaching production''~\cite{newcombe2015aws}. The gist of their approach is to extract high-level logic from production systems, represent the logic as specification in an expressive language (such as TLA+), and verify the specification using a model checker. While highly effective, as demonstrated by the numerous successes in AWS, this approach falls short of ``verifying that executable code correctly implements the high-level specification'' and the AWS team admits that ``we are not aware of any such tools that can handle distributed systems as large and complex as those being built at Amazon''~\cite{newcombe2015aws}.
+Recently, Amazon Web Services (AWS) used formal methods, where ``engineers use TLA+ to prevent serious but subtle bugs from reaching production''~\cite{newcombe2015aws}. The gist of their approach is to extract high-level logic from production systems, represent the logic as specification in an expressive language (such as TLA+), and verify the specification using a model checker. While highly effective, as demonstrated by the numerous successes in AWS, this approach falls short of ``verifying that executable code correctly implements the high-level specification'' and the AWS team admits that ``we are not aware of any such tools that can handle distributed systems as large and complex as those being built at Amazon''~\cite{newcombe2015aws}.
 
-We have found that high-level specifications are necessary but not sufficient, due to the gap between the specification and the executable code.
+We have found that checking high-level specifications is necessary but not sufficient, due to the gap between the specification and the executable code.
 %that ultimately powers the distributed systems.
 Our goal is to bridge this gap. We propose a new framework that
 applies verification techniques for high-level specifications directly
@@ -33,7 +32,7 @@ Microsoft Azure team.
 %We present a new method for testing an implementation of a distributed system and uncovering bugs before the system is released in the wild.
 Our framework is based on \psharp~\cite{deligiannis2015psharp}, an extension of the mainstream language \csharp that provides support for modeling, specification, and systematic testing of asynchronous systems.
 To test a distributed system with the \psharp framework, the programmer augments the system code with three artifacts -- a model of the nondeterministic execution environment of the system, a concurrent test harness that drives the system towards interesting behaviors, and safety or liveness specifications.
-The \psharp testing engine then systematically explores all behaviors exercised by the test harness and validates them against the provided specifications.
+The \psharp systematic testing engine then systematically explores all behaviors exercised by the test harness and validates them against the provided specifications.
 
 We have applied our framework to three distributed storage systems in Microsoft Azure: Azure Storage vNext, Azure Table Live Migration, 
 and Azure Service Fabric.
@@ -46,8 +45,8 @@ they can be reproduced in small settings with easy to understand traces.
 
 To summarize, our contributions are as follows:
 \begin{itemize}
-\item We present a methodology that allows flexible modeling of the environment of a distributed system using simple language mechanisms.
-\item Our infrastructure can test production code written in \csharp.
+\item We present a methodology that allows flexible modeling of the environment of a distributed system using simple language mechanisms in \psharp.
+\item Because \psharp is an extension of \csharp, our infrastructure can test production code written in \csharp.
 \item We present three case studies of using \psharp to test production distributed systems, finding bugs that could not be found with traditional testing techniques.
 \item We show that we can reproduce bugs in production systems in a small setting with easy to understand traces.
 \end{itemize}
