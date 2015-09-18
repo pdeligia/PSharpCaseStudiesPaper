@@ -22,7 +22,7 @@ The testing harness consists of the following \psharp machines (as shown in Figu
 \subsection{The ExtentManager machine}
 \label{sec:method:wrap_target}
 
-The component under test, the real ExtMgr in vNext, is wrapped inside the \texttt{ExtentManager} \psharp machine in the testing harness.
+The system-under-test, the real ExtMgr in vNext, is wrapped inside the \texttt{ExtentManager} \psharp machine in the testing harness.
 
 \subsubsection{Internals of the real Extent Manager}
 
@@ -42,7 +42,7 @@ The ExtMgr runs internally a periodic {\em EN expiration loop} that is responsib
 
 %Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
 
-%Using method dispatch for modeling is straightforward. The system under test exposes a set of APIs as \emph{virtual methods}. The developer can then \emph{override} these APIs and replace them with \emph{mocks} that will execute instead of the original implementations during systematic testing with \psharp.
+%Using method dispatch for modeling is straightforward. The system-under-test exposes a set of APIs as \emph{virtual methods}. The developer can then \emph{override} these APIs and replace them with \emph{mocks} that will execute instead of the original implementations during systematic testing with \psharp.
 
 %\begin{figure}[t]
 %\begin{lstlisting}
@@ -54,7 +54,7 @@ The ExtMgr runs internally a periodic {\em EN expiration loop} that is responsib
 %
 %// The mocked network engine used during testing
 %class MockedNetEngine : NetworkEngine {
-  %ExtentManager EM; // Handle to actual system under test
+  %ExtentManager EM; // Handle to actual system-under-test
   %MachineId Env; // Handle to modeled environment
   %
   %public MockedNetEngine(ExtentManager em, MachineId env) {
@@ -140,7 +140,7 @@ class ExtentManagerMachine : Machine {
 }
 \end{lstlisting}
 \vspace{-2mm}
-\caption{Component under test: the real Extent Manager wrapped inside an \texttt{ExtentManager} \psharp machine.}
+\caption{System-under-test: instance of the real Extent Manager wrapped inside the \texttt{ExtentManager} machine.}
 \label{fig:wrap_target}
 %\vspace{-2mm}
 \end{figure}
