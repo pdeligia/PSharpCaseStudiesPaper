@@ -7,53 +7,33 @@ All the above sources of nondeterminism (as well as nondeterminism due to timeou
 The goal of our work is to develop testing techniques to detect and debug Heisenbugs in distributed storage systems prior to deployment.
 To achieve our goal, we use \psharp~\cite{deligiannis2015psharp}, a framework that provides: (i) an \emph{event-driven asynchronous programming} language for developing and modeling distributed systems; and (ii) a \emph{systematic concurrency testing} engine that can systematically explore all interleavings between asynchronous event handlers, as well as other nondeterministic events such as failures and timeouts.
 
-A \psharp machine consists of an input event queue, states, state transitions, event handlers, fields and methods. Machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking an appropriate event handler. This handler might update a field, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the message is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it. All this functionality is provided in a lightweight runtime library, build on top of Microsoft's Task Parallel Library~\cite{leijen2009tpl}.
+A \psharp program consists of multiple \emph{state machines} that communicate with each other \emph{asynchronously} by sending and receiving \emph{events}, which may contain an optional \emph{payload}. A \psharp machine is similar to a class in \csharp: it can contain any number of fields and methods, but it also contains an input event queue, and one or more states. Each state can register \emph{actions} to handle incoming events. \psharp machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking the registered action. This action might access a field, call a method, transition the machine to a new state, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the event is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it. All this functionality is provided in a lightweight runtime library, build on top of Microsoft's Task Parallel Library~\cite{leijen2009tpl}.
 
-Our approach of testing distributed systems using \psharp requires the developer to perform three key modeling tasks;
-these tasks are illustrated in Section~\ref{sec:method} using the Azure Storage vNext as a case study.
+Our approach of using \psharp to test distributed systems, implemented in the .NET framework, requires the developer to perform the following three key modeling tasks. These tasks are illustrated in Section~\ref{sec:method} using the Azure Storage vNext as a running example.
 \begin{enumerate}
 \item
-The computation model underlying \psharp is communicating state machines.
-The environment of the system-under-test must be modeled using \psharp machines,
-while the real components of the system must be wrapped inside \psharp machines.
-We call this modeled environment the \psharp test harness.
+The computation model underlying \psharp is communicating state machines. The environment of the system-under-test must be modeled using the \psharp APIs, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
 
 \item
-The asynchrony due to message passing must be exposed using the \psharp APIs for sending events.
-Similarly, other sources of nondeterministically-generated events, such as failures and timer expiration,
-must also be explicitly modeled using the available \psharp APIs;
-This step allows the \psharp runtime to explore the nondeterministic choices during testing.
+All the asynchrony due to message passing between system components must become explicit and be modeled using the \psharp event-sending APIs. Similarly, all other sources of nondeterminism (e.g. failures and timer expiration) must be modeled using appropriate \psharp APIs. This step allows the \psharp runtime to systematically explore all asynchronous event handler interleavings and all other sources of nondeterminism during testing.
 
 \item
-The correctness of each execution generated during testing must be specified.
-Specifications can be either \emph{safety} and \emph{liveness}~\cite{lamport1977proving}.
-A safety specification is a generalization of assertions;
-a safety violation is a finite trace leading to an erroneous state.
-A liveness specification is a generalization of nontermination;
-a liveness violation is an infinite trace that exhibits lack of progress.
+The criteria for correctness of an execution must be specified. Specifications in \psharp can encode either \emph{safety} or \emph{liveness}~\cite{lamport1977proving} properties. Safety specifications generalize the notion of source code assertions; a safety violation is a finite trace leading to an erroneous state. Liveness specifications generalize nontermination; a liveness violation is an infinite trace that exhibits lack of progress.
 \end{enumerate}
-In principle, this modeling methodology is not specific to \psharp but can be used in combination with any other programming framework
-with equivalent capabilities.
 
-We argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing. We also argue that our approach is \emph{general} since a programmer can build on top of it to test other distributed systems besides vNext (see Section~\ref{sec:cases}). Furthermore, the language features that are required to be used to connect the real code with the modeled code (e.g., \emph{virtual method dispatch}), are already being heavily used in production for testing purposes , which significantly lowers the bar for practitioners to embrace \psharp for testing.
+\psharp uses modern languages features such as \emph{interfaces} and \emph{virtual method dispatch} to connect the real code with the modeled code. Programmers in industry are used to work with such features, and heavily use them in production for testing purposes. In our experience, this significantly lowers the bar for product teams inside Microsoft to embrace \psharp for testing.
+
+In principle, our modeling methodology is \emph{not specific} to \psharp and the .NET framework, and can be used in combination with any other programming framework that has equivalent capabilities. We also argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing.
 
 \subsection{Specifications}
 \label{sec:bg:bugs}
-In  this section, we describe how safety and liveness specifications are expressed in our system.
+In  this section, we describe how safety and liveness specifications are expressed in \psharp.
 
 {\bf Safety}.
-In  addition to the usual assertions useful for stating local safety properties of a machine, 
-\psharp also provides a way to specify global assertions by using a \emph{safety monitor},
-which is a special state machine that can receive but not send events.
-A safety monitor maintain local state that is modified in response to messages received from ordinary machines.
-This local state is used to maintain a history of the computation that is relevant to the property being specified.
-An erroneous global behavior is flagged via an assertion on the private state of the monitor.
+In addition to the usual assertions that can be used to write safety properties that are local to a machine, \psharp also provides a way to specify global assertions by using a \emph{safety monitor}~\cite{desai2015building}, which is a special \psharp machine that can receive, but not send, events. A safety monitor maintain local state that is modified in response to events received from regular (i.e. non-monitor) machines. This local state is used to maintain a history of the computation that is relevant to the property being specified. An erroneous global behavior is flagged via an assertion on the private state of the safety monitor.
 
-To declare a monitor, the programmer inherits from the \psharp \texttt{Monitor} class.
-A machine does not need a reference to a \texttt{Monitor} object to send an event to it.
-If an instance of \texttt{M}, a class that inherits from \texttt{Monitor}, has been created,
-a machine can invoke it by calling \texttt{Monitor<M>(e)},
-where the parameter \texttt{e} is an event together with an optional payload.
+To declare a monitor, the programmer inherits from the \psharp \texttt{Monitor} class. Monitors in \psharp are singleton instances and, thus, a regular machine does not need a reference to a monitor to send an event to it.
+A regular machine can send an event to a monitor by calling \texttt{Monitor<M>(e, p)}, where the parameter \texttt{e} is the event being send together with an optional payload \texttt{p}.
 
 {\bf Liveness}.
 Liveness property specifications are more difficult to encode since they are intended to capture program progress
@@ -62,7 +42,7 @@ Violation of a liveness property can only be demonstrated by an infinite executi
 Usually, a liveness property is specified via a temporal logic formula~\cite{Pnueli1977,lamport1994temporal}.
 We take a different approach and allow the programmer to write a \emph{liveness monitor}.
 Similar to a safety monitor, a liveness monitor receives events but does not send them.
-Unlike a safety monitor, a liveness monitor~\cite{Desai:EECS-2015-198}
+Unlike a safety monitor, a liveness monitor~\cite{desai2015building}
 contains three types of states---\emph{ordinary}, \emph{hot}, and \emph{cold}.
 A hot state denotes a point in the execution where progress is required but has not happened yet,
 e.g., a node has failed but a new one has not come up yet.
@@ -87,7 +67,7 @@ When the \psharp runtime runs in bug-finding mode, an embedded \emph{systematic 
 ~\cite{godefroid1997verisoft, musuvathi2008finding, emmi2011delay} captures and takes control of all sources
 of non-determinism that are \emph{known} to the \psharp runtime.
 In particular, the runtime is aware of nondeterminism due to interleaving of event handlers in different machines.
-Each send operation to an ordinary (non-monitor) machine and each create opetion of an ordinary (non-monitor) machine creates an
+Each send operation to an ordinary (non-monitor) machine and each create operation of an ordinary (non-monitor) machine creates an
 interleaving point where the runtime makes a scheduling decision.
 The engine will repeatedly execute a program from start to completion, each time exploring a potentially different set of interleavings,
 until it either reaches a bound (in number of iterations or time), or it hits a property violation.
@@ -100,7 +80,7 @@ and is easy to debug.
 We have implemented two schedulers inside the \psharp systematic testing engine:
 a \emph{random} scheduler that makes each nondeterministic choice randomly
 and \emph{PCT} scheduler~\cite{burckhardt2010pct}.
-It is straightforward to create a new scheduler by implementing the \texttt{ISchedulingStrategy} interface~\cite{DesaiQS15}
+It is straightforward to create a new scheduler by implementing the \texttt{ISchedulingStrategy} interface~\cite{desai2015systematic}
 exposed by the \psharp libraries.
 The interface exposes callbacks that are invoked by the \psharp runtime for taking decisions regarding which machine to schedule next,
 and can be used for developing both generic and application-specific schedulers.
