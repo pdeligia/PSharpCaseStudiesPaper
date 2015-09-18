@@ -18,7 +18,7 @@ We report our experience of applying \psharp on the three case studies discussed
 \centering
 \input{experiments/tables/statistics.tex}
 \end{tabular}
-\caption{Statistics from modeling the environment of the three Microsoft Azure-based systems under test.}
+\caption{Statistics from modeling the environment of the three Microsoft Azure-based systems under test. The ($\star$) denotes ``awaiting confirmation''.}
 \label{tab:stats}
 %\vspace{-3mm}
 \end{table}
@@ -32,9 +32,8 @@ Matt}. The modeling effort was done in parallel with the development of the actu
 This is in contrast with the other two case studies discussed in this paper, where the modeling 
 activity occurred independently and at a later stage of the development process.
 
-Modeling Fabric required approximately 5 person months. Although this is a
-significant amount of time, it is a one time effort (once per release). \PDComment{should say that 5 months is required for release 1.0, subsequent releases should be much faster} Our plan is to reuse the developed Fabric model 
-for testing arbitrary user services built for the Azure Service Fabric system.
+Modeling Fabric required approximately $5$ person months. Although this is a
+significant amount of time, it is a one time effort, which only needs incremental refinement with each release.
 
 \subsection{Cost of systematic testing}
 \label{sec:eval:machine_cost}
