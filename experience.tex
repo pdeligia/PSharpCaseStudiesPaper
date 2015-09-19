@@ -82,8 +82,18 @@ Azure Service Fabric\footnote{\url{azure.microsoft.com/campaigns/service-fabric/
 %The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
 In order to make the user-written service \emph{reliable}, Fabric launches several \emph{replicas} (copies) of the service, where each replica runs as a separate process on a different node in the cluster.
 %\PTComment{Cut: description of primary and secondaries, and electing a new primary.}
-%One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary replicates state changes to the secondaries by sending \emph{replication requests} so that all replicas eventually have the same state. If the primary fails (e.g.\ if the node on which the primary is running crashes), Fabric elects one of the secondaries to be the new primary and launches another secondary; the new secondary will receive a full or partial copy (depending on whether persistent storage is used) of the state of the new primary in order to ``catch up'' with the other secondaries. Fabric provides a name-resolution service so that clients can always find the current primary.
-The state of the service is replicated from the \emph{primary} replica to the other \emph{secondary} replicas for redundancy.
+\PTComment{Re-added the detail here so we can discuss the bug below:}
+One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary replicates state changes to the secondaries 
+%by sending them \emph{replication requests}.
+so that all replicas eventually have the same state. 
+If the primary fails,
+% (e.g.\ if the node on which the primary is running crashes), 
+Fabric elects one of the secondaries to be the new primary and launches another secondary; the new secondary will receive 
+%a full or partial copy (depending on whether persistent storage is used) 
+a copy
+of the state of the new primary in order to ``catch up'' with the other secondaries. 
+%Fabric provides a name-resolution service so that clients can always find the current primary.
+%The state of the service is replicated from the \emph{primary} replica to the other \emph{secondary} replicas for redundancy.
 User-written Fabric services are complex asynchronous and distributed applications, and are thus challenging to test.
 % They are interesting targets for systematic testing with \psharp{}.
 
@@ -101,10 +111,32 @@ Note that we model the lowest Fabric API layer (\texttt{Fabric.dll})
 which is currently not documented for use externally.
 We target internally-developed services that invoke the lowest layer. 
 
+\PTComment{Changed this para; added detail about the bug: }
 \psharp's systematic testing was very helpful in debugging the model itself.
-Without systematic testing, we feel even catching bugs in the model 
-would have been difficult.
-\PDComment{See Ally's feedback and maybe try to address this as we now have some extra space in the paper: ``\psharp systematic testing was very helpful in debugging the model itself.'' this short paragraph is very intriguing, and begs a little more elaboration about what sorts of bugs you typically found in the model.}
+% Without systematic testing, we feel even catching bugs in the model 
+% would have been difficult.
+In order to perform systematic testing on our model,
+we wrote a simple service in \psharp{}
+that runs on our Fabric model.
+%made up of a single machine
+% and executed it on the Fabric model,
+% thus yielding a pure \psharp{} system.
+We tested a scenario where the primary replica
+fails at some non-deterministic point
+within the execution.
+One such bug that we found
+involved
+the primary replica
+failing
+when a secondary replica
+was about to receive a copy of the state;
+the secondary was then elected to be the new primary
+and yet, because the secondary stopped waiting for
+a copy of the state, it was
+also promoted to be an \emph{active} secondary
+(one that has caught up with the other secondaries).
+This caused an assertion failure in our model
+allowing us to detect and fix this incorrect behaviour.
 
 
 %\PTComment{Cut: prior work created a Fabric model\ldots}
