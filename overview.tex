@@ -26,13 +26,13 @@ In principle, our modeling methodology is \emph{not specific} to \psharp and the
 
 In  this section, we describe how safety and liveness specifications are expressed in \psharp.
 
-\textbf{Safety}.
-In addition to the usual assertions that can be used to write safety properties that are local to a machine, \psharp also provides a way to specify global assertions by using a \emph{safety monitor}~\cite{desai2015building}, which is a special machine that can receive, but not send, events. A safety monitor maintain local state that is modified in response to events received from ordinary (i.e. non-monitor) machines. This local state is used to maintain a history of the computation that is relevant to the property being specified. An erroneous global behavior is flagged via an assertion on the private state of the safety monitor. 
+\textbf{Safety specifications}.
+In addition to the usual assertions that can be used to write safety properties that are local to a machine, \psharp also provides a way to specify global assertions by using a \emph{safety monitor}~\cite{desai2015building}, which is a special machine that can receive, but not send, events. A safety monitor maintains local state that is modified in response to events received from ordinary (non-monitor) machines. This local state is used to maintain a history of the computation that is relevant to the property being specified. An erroneous global behavior is flagged via an assertion on the private state of the safety monitor. 
 Thus, a monitor cleanly separates instrumentation state required for specification (inside the monitor) from program state (outside the monitor).
 
 To declare a monitor, the programmer inherits from the \psharp \texttt{Monitor} class. Monitors in \psharp are singleton instances, which means that an ordinary machine does not need a reference to a monitor to send it an event. An ordinary machine can send an event to a monitor by calling \texttt{Monitor<M>(e, p)}, where the parameter \texttt{e} is the event being send together with an optional payload \texttt{p}.
 
-\textbf{Liveness}.
+\textbf{Liveness specifications}.
 Liveness property specifications are more difficult to encode since they are intended to capture program progress
 over infinite executions.
 Violation of a liveness property can only be demonstrated by an infinite execution.
@@ -70,7 +70,7 @@ The \psharp runtime is a lightweight layer build on top of the Task Parallel Lib
 
 When the \psharp runtime executes in bug-finding mode, an embedded \emph{systematic concurrency testing engine}~\cite{godefroid1997verisoft, musuvathi2008finding, emmi2011delay} captures and takes control of all sources of non-determinism that are \emph{known} to the \psharp runtime. In particular, the runtime is aware of nondeterminism due to the interleaving of event handlers in different machines. Each send operation to an ordinary (non-monitor) machine, and each create operation of an ordinary machine, creates an interleaving point where the runtime makes a scheduling decision. The runtime is also aware of all nondeterministic events (e.g. failures) that were captured during the modeling process.
 
-The \psharp systematic testing engine will repeatedly execute a program from start to completion, each time exploring a different set of scheduling decisions, until it either reaches a bound (in number of iterations or time), or it hits a property violation. This testing process is fully automatic, has no false-positives (assuming an accurate environmental model), and can reproduce found bugs by replaying buggy schedules. After a bug is found, the engine generates a trace that represents the buggy schedule. In contrast to logs typically generating during production, this log provides a global order of all communication events and, thus, is easier to debug.
+The \psharp systematic testing engine will repeatedly execute a program from start to completion, each time exploring a potentially different set of scheduling decisions, until it either reaches a bound (in number of iterations or time), or it hits a property violation. This testing process is fully automatic, has no false-positives (assuming an accurate environmental model), and can reproduce found bugs by replaying buggy schedules. After a bug is found, the engine generates a trace that represents the buggy schedule. In contrast to logs typically generating during production, this log provides a global order of all communication events and, thus, is easier to debug.
 
 We have implemented two different schedulers inside the \psharp systematic testing engine: a \emph{random} scheduler that makes each nondeterministic choice randomly and a \emph{probabilistic concurrency testing}~\cite{burckhardt2010pct} (PCT) scheduler. It is straightforward to create a new scheduler by implementing the \texttt{ISchedulingStrategy} interface~\cite{desai2015systematic} exposed by the \psharp libraries. The interface exposes callbacks that are invoked by the \psharp runtime for taking decisions regarding which machine to schedule next, and can be used for developing both generic and application-specific schedulers.
 

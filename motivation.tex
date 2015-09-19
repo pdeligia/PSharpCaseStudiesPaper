@@ -15,9 +15,9 @@ To ensure correctness, the developers of vNext have instrumented extensive, mult
 \begin{enumerate}
 \item \emph{Unit testing}, in which emulated heartbeats and sync reports are sent to an ExtMgr. These tests check that the messages are processed as expected.
 
-\item \emph{Integration testing}, in which an ExtMgr in launched together with multiple ENs. An EN failure is subsequently injected. These tests check that the affected extents are eventually repaired.
+\item \emph{Integration testing}, in which an ExtMgr is launched together with multiple ENs. An EN failure is subsequently injected. These tests check that the affected extents are eventually repaired.
 
-\item \emph{Stress testing}, in which an ExtMgr in launched together with multiple ENs and multiple extents. The test keeps repeating the following process: injecting an EN failure, launching a new EN and checking that the affected extents are eventually repaired.
+\item \emph{Stress testing}, in which an ExtMgr is launched together with multiple ENs and multiple extents. The test keeps repeating the following process: injecting an EN failure, launching a new EN and checking that the affected extents are eventually repaired.
 \end{enumerate}
 
 \noindent
