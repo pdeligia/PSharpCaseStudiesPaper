@@ -24,8 +24,6 @@ The testing harness consists of the following \psharp machines (as shown in Figu
 
 The system-under-test, the real ExtMgr in vNext, is wrapped inside the \texttt{ExtentManager} \psharp machine in the testing harness.
 
-\subsubsection{Internals of the real Extent Manager}
-
 \begin{figure*}[t]
 \centering
 \includegraphics[width=.9\linewidth]{img/extent_manager}
@@ -33,12 +31,13 @@ The system-under-test, the real ExtMgr in vNext, is wrapped inside the \texttt{E
 \label{fig:extentmanager}
 \end{figure*}
 
+\textbf{Internals of the real Extent Manager}.
 Inside the real ExtMgr, there are two data structures related to extent replication and repair: \texttt{ExtentCenter} and \texttt{ExtentNodeMap}. The \texttt{ExtentCenter} maintains the mapping records from extents to their hosting ENs. It is updated upon the periodic sync reports from the ENs. Recall that the sync report from a particular EN lists all the extents stored at the EN. Its purpose is to update extent manager's possible out-of-date view of the EN with the ground truth. The EN map records the latest heartbeat time from every EN.
 
 The ExtMgr runs internally a periodic {\em EN expiration loop} that is responsible for removing ENs that have been missing heartbeats for an extended period, as well as cleaning up the corresponding records in the \texttt{ExtentCenter}. In addition, the ExtMgr runs a periodic {\em extent repair loop} that examines all the \texttt{ExtentCenter} records, identifies extents with missing replicas, schedules extent repair tasks and sends them to the ENs.
 
-\subsubsection{Intercepting messages between machines}
-\label{sec:method:model:dispath}
+\textbf{Intercepting messages between machines}.
+The real ExtMgr uses a network engine to send messages to the ENs. The testing harness mocks the original network engine in vNext and overrides its interface. In this way, the mocked network engine intercepts all outbound messages and relays them to the \texttt{TestingDriver} machine, which is responsible for dispatching the messages to the corresponding \texttt{ExtentNode} machines. As shown in Figure~\ref{fig:enginecode}, the mocked network engine intercepts the outbound messages from the ExtMgr and invokes \texttt{PSharpRuntime.Send(...)} to asynchronously relay the messages to \texttt{TestingDriver}. Conceivably, the mocked network engine could leverage the non-determinism support in \psharp and choose to drop the messages in a non-deterministic fashion, in case emulating message loss is desirable. \CHComment{only if non-determinism is already covered in the previous section.}
 
 %Method dispatch is the process of selecting which method, from a set of available methods with the same interface, should be invoked during a program's execution. There are two types of method dispatch: \emph{static}, which is resolved during compilation; and \emph{dynamic}, which is resolved in runtime.  \csharp (and thus \psharp) supports both static and dynamic dispatch, and provide the \texttt{virtual} modifier that can be used to declare a method which can be \emph{overridden} during runtime by an inheriting class. This capability is provided by the common language runtime (CLR) of Microsoft's .NET framework, and is a key feature of \csharp as well as other mainstream object-oriented languages.
 
@@ -77,8 +76,6 @@ The ExtMgr runs internally a periodic {\em EN expiration loop} that is responsib
 %%\vspace{-2mm}
 %\end{figure}
 
-The real ExtMgr uses a network engine to send messages to the ENs. The testing harness mocks the original network engine in vNext and overrides its interface. In this way, the mocked network engine intercepts all outbound messages and relays them to the \texttt{TestingDriver} machine, which is responsible for dispatching the messages to the corresponding \texttt{ExtentNode} machines. As shown in Figure~\ref{fig:enginecode}, the mocked network engine intercepts the outbound messages from the ExtMgr and invokes \texttt{PSharpRuntime.Send(...)} to asynchronously relay the messages to \texttt{TestingDriver}. Conceivably, the mocked network engine could leverage the non-determinism support in \psharp and choose to drop the messages in a non-deterministic fashion, in case emulating message loss is desirable. \CHComment{only if non-determinism is already covered in the previous section.}
-
 \begin{figure}[t]
 \begin{lstlisting}
 // network interface in vNext
@@ -105,8 +102,7 @@ class MockedNetEngine : NetworkEngine {
 
 %For mocking the receive operation, we take advantage of the implicit receive of events in \psharp machines. When a extent node machine receives an event, an appropriate event handler is invoked, which extracts the original message from the payload and then handles it accordingly.
 
-\subsubsection{Specifics of the ExtentManager machine}
-
+\textbf{Specifics of the ExtentManager machine}.
 Figure~\ref{fig:wrap_target} shows code snippets from the \texttt{ExtentManager} \psharp machine. \texttt{ExtentManager} is a thin wrapper of the real ExtMgr. The mocked network engine replaces the real one in ExtMgr, intercepts all the outbound messages from ExtMgr and relays them to \texttt{TestingDriver}.
 
 %A typical wrapper machine contains a handle (as a field) to the system component that is being wrapped (in our case the real Extent Manager object) and the event handlers are responsible for translating any received events to method calls in the real code that is being tested. The \texttt{ExtentManager} is accompanied by a mocked version of the real Network Engine class. The real Extent Manager is communicating with the outside world via remote procedure calls, but in \psharp harness we want to capture this communicating and expose it as calls to \psharp communicating primitives. This is discussed in detail in Section~\ref{sec:method:model:dispath}.

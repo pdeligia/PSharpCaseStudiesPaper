@@ -10,6 +10,7 @@ To achieve our goal, we use \psharp~\cite{deligiannis2015psharp}, a framework th
 A \psharp program consists of multiple \emph{state machines} that communicate with each other \emph{asynchronously} by sending and receiving \emph{events}, which may contain an optional \emph{payload}. A \psharp machine is similar to a class in \csharp: it can contain any number of fields and methods, but it also contains an input event queue, and one or more states. Each state can register \emph{actions} to handle incoming events. \psharp machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking the registered action. This action might access a field, call a method, transition the machine to a new state, create a new machine, or send an event to another machine. In \psharp, a send operation is non-blocking; the event is simply enqueued into the input queue of the target machine, and it is up to the operating system scheduler to decide when to dequeue an event and handle it. All this functionality is provided in a lightweight runtime library, build on top of Microsoft's Task Parallel Library~\cite{leijen2009tpl}.
 
 Our approach of using \psharp to test distributed systems, implemented in the .NET framework, requires the developer to perform the following three key modeling tasks. These tasks are illustrated in Section~\ref{sec:method} using the Azure Storage vNext as a running example.
+
 \begin{enumerate}
 \item
 The computation model underlying \psharp is communicating state machines. The environment of the system-under-test must be modeled using the \psharp APIs, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
@@ -21,6 +22,7 @@ All the asynchrony due to message passing between system components must become 
 The criteria for correctness of an execution must be specified. Specifications in \psharp can encode either \emph{safety} or \emph{liveness}~\cite{lamport1977proving} properties. Safety specifications generalize the notion of source code assertions; a safety violation is a finite trace leading to an erroneous state. Liveness specifications generalize nontermination; a liveness violation is an infinite trace that exhibits lack of progress.
 \end{enumerate}
 
+\noindent
 \psharp uses modern languages features such as \emph{interfaces} and \emph{virtual method dispatch} to connect the real code with the modeled code. Programmers in industry are used to work with such features, and heavily use them in production for testing purposes. In our experience, this significantly lowers the bar for product teams inside Microsoft to embrace \psharp for testing.
 
 In principle, our modeling methodology is \emph{not specific} to \psharp and the .NET framework, and can be used in combination with any other programming framework that has equivalent capabilities. We also argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing.

@@ -20,6 +20,7 @@ To ensure correctness, the developers of vNext have instrumented extensive, mult
 \item \emph{Stress testing}, in which an ExtMgr in launched together with multiple ENs and multiple extents. The test keeps repeating the following process: injecting an EN failure, launching a new EN and checking that the affected extents are eventually repaired.
 \end{enumerate}
 
+\noindent
 Despite of the extensive testing efforts, the vNext developers have been plagued by what appears to be an elusive bug in the ExtMgr logic. All the unit test and integration test suites successfully pass every single time. However, the stress test suite fails {\em from time to time} after very long executions, manifested as the replicas of some extents remain missing while never being repaired. The bug has proven to be difficult to identify, reproduce and troubleshoot. First, it takes very long executions to trigger. Second, an extent not being repaired is {\em not} a property that can be easily verified. In practice, the developers rely on very large time-out period to detect the bug. Finally, by the time that the bug is detected, very long execution traces have been collected, which makes manual inspection tedious and ineffective.
 
 To uncover this bug and many other similar ones, the developers are in constant search of a generic and systematic approach for testing distributed storage systems.
