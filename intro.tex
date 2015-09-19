@@ -17,26 +17,14 @@ other companies, such as Amazon and Google, have acknowledged~\cite{chandra2007p
 
 Recently, Amazon Web Services (AWS) used formal methods, where ``engineers use TLA+ to prevent serious but subtle bugs from reaching production''~\cite{newcombe2015aws}. The gist of their approach is to extract high-level logic from production systems, represent the logic as specification in an expressive language (such as TLA+), and verify the specification using a model checker. While highly effective, as demonstrated by the numerous successes in AWS, this approach falls short of ``verifying that executable code correctly implements the high-level specification'' and the AWS team admits that ``we are not aware of any such tools that can handle distributed systems as large and complex as those being built at Amazon''~\cite{newcombe2015aws}.
 
-We have found that checking high-level specifications is necessary but not sufficient, due to the gap between the specification and the executable code.
-%that ultimately powers the distributed systems.
-Our goal is to bridge this gap. We propose a new framework that
-validates high-level specifications directly
-on the executable code. Our framework is different from prior
-approaches where the developers were required to either switch to an
-unfamiliar special programming language~\ref{}, or manually annotate
-and instrument code~\ref{}. Instead, we allow developers to test
-{\em unmodified production code} by writing test harnesses in a
-mainstream programming language. This
-significantly lowered the acceptance barrier for adoption by the
-Microsoft Azure team.
+We have found that checking high-level specifications is necessary but not sufficient, due to the gap between the specification and the executable code. Our goal is to bridge this gap. We propose a new framework that validates high-level specifications directly on the executable code. Our framework is different from prior approaches that required developers to either switch to an unfamiliar domain specific language~\cite{killian2007life, desai2015building}, or manually annotate and instrument their code~\cite{}. Instead, we allow developers to test \emph{unmodified production code} by writing test harnesses in \csharp, a mainstream programming language. This significantly lowered the acceptance barrier for adoption by the Microsoft Azure team.
 
 %We present a new method for testing an implementation of a distributed system and uncovering bugs before the system is released in the wild.
-Our framework is based on \psharp~\cite{deligiannis2015psharp}, an extension of the mainstream language \csharp that provides support for modeling, specification, and systematic testing of asynchronous systems.
-To test a distributed system with the \psharp framework, the programmer augments the system code with three artifacts -- a model of the nondeterministic execution environment of the system, a concurrent test harness that drives the system towards interesting behaviors, and safety or liveness specifications.
-The \psharp systematic testing engine then systematically explores all behaviors exercised by the test harness and validates them against the provided specifications.
+Our framework is based on \psharp~\cite{deligiannis2015psharp}, an extension of \csharp that provides support for modeling, specification, and systematic testing of distributed systems written in Microsoft's .NET framework.
+To test a distributed system with \psharp, the programmer augments the original system code with three artifacts -- a model of the nondeterministic execution environment of the system, a concurrent test harness that drives the system towards interesting behaviors, and safety or liveness specifications.
+The \psharp testing engine then systematically explores all behaviors exercised by the test harness and validates them against the provided specifications.
 
-We have applied our framework to three distributed storage systems in Microsoft Azure: Azure Storage vNext, Azure Table Live Migration, 
-and Azure Service Fabric.
+We have applied \psharp to three distributed storage systems in Microsoft Azure: Azure Storage vNext, Azure Table Live Migration, and Azure Service Fabric.
 %a distributed storage system; a system for migrating data across partitions; and a big-data computing system.
 We uncovered numerous bugs in these systems, including, most notably, a subtle liveness bug that only intermittently 
 manifested during stress testing for months without being fixed.
