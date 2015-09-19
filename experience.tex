@@ -82,7 +82,6 @@ Azure Service Fabric\footnote{\url{azure.microsoft.com/campaigns/service-fabric/
 %The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
 In order to make the user-written service \emph{reliable}, Fabric launches several \emph{replicas} (copies) of the service, where each replica runs as a separate process on a different node in the cluster.
 %\PTComment{Cut: description of primary and secondaries, and electing a new primary.}
-\PTComment{Re-added the detail here so we can discuss the bug below:}
 One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary replicates state changes to the secondaries 
 %by sending them \emph{replication requests}.
 so that all replicas eventually have the same state. 
@@ -111,7 +110,6 @@ Note that we model the lowest Fabric API layer (\texttt{Fabric.dll})
 which is currently not documented for use externally.
 We target internally-developed services that invoke the lowest layer. 
 
-\PTComment{Changed this para; added detail about the bug: }
 \psharp's systematic testing was very helpful in debugging the model itself.
 % Without systematic testing, we feel even catching bugs in the model 
 % would have been difficult.
