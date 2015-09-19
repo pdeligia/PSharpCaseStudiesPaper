@@ -1,9 +1,3 @@
-Distributed systems typically consist of two or more components that communicate \emph{asynchronously} by sending and receiving messages through a network layer~\cite{lamport1978time}. Each component has its own input message queue, and when a message arrives, the component responds by executing an appropriate \emph{message handler}. Such a handler consists of a sequence of program statements that might update the internal state of the component, send a message to another component in the system, or even create an entirely new component.
-
-In a distributed system, message handlers can interleave in arbitrary order, because of the asynchronous nature of message-based communication. To complicate matters further, unexpected failures are the norm in production systems: nodes in a cluster might fail at any moment, and thus programmers have to implement sophisticated mechanisms that can deal with these failures and recover the state of the system. Moreover, with multicore machines having become a commodity, individual components of a distributed system are commonly implemented using multithreaded code, which adds another source of nondeterminism.
-
-All the above sources of nondeterminism (as well as nondeterminism due to timeouts, message losses and client requests) can easily create \emph{Heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix. Techniques such as unit testing, integration testing and stress testing are heavily used in industry today for finding bugs in production code. However, these techniques are not effective for testing distributed systems, as they are not able to control the many sources of nondeterminism.
-
 The goal of our work is to develop testing techniques to detect and debug Heisenbugs in distributed storage systems prior to deployment.
 To achieve our goal, we use \psharp~\cite{deligiannis2015psharp}, a framework that provides: (i) an \emph{event-driven asynchronous programming} language for developing and modeling distributed systems; and (ii) a \emph{systematic concurrency testing} engine that can systematically explore all interleavings between asynchronous event handlers, as well as other nondeterministic events such as failures and timeouts.
 
@@ -33,7 +27,8 @@ In principle, our modeling methodology is \emph{not specific} to \psharp and the
 In  this section, we describe how safety and liveness specifications are expressed in \psharp.
 
 \textbf{Safety}.
-In addition to the usual assertions that can be used to write safety properties that are local to a machine, \psharp also provides a way to specify global assertions by using a \emph{safety monitor}~\cite{desai2015building}, which is a special machine that can receive, but not send, events. A safety monitor maintain local state that is modified in response to events received from ordinary (i.e. non-monitor) machines. This local state is used to maintain a history of the computation that is relevant to the property being specified. An erroneous global behavior is flagged via an assertion on the private state of the safety monitor.
+In addition to the usual assertions that can be used to write safety properties that are local to a machine, \psharp also provides a way to specify global assertions by using a \emph{safety monitor}~\cite{desai2015building}, which is a special machine that can receive, but not send, events. A safety monitor maintain local state that is modified in response to events received from ordinary (i.e. non-monitor) machines. This local state is used to maintain a history of the computation that is relevant to the property being specified. An erroneous global behavior is flagged via an assertion on the private state of the safety monitor. 
+Thus, a monitor cleanly separates instrumentation state required for specification (inside the monitor) from program state (outside the monitor).
 
 To declare a monitor, the programmer inherits from the \psharp \texttt{Monitor} class. Monitors in \psharp are singleton instances, which means that an ordinary machine does not need a reference to a monitor to send it an event. An ordinary machine can send an event to a monitor by calling \texttt{Monitor<M>(e, p)}, where the parameter \texttt{e} is the event being send together with an optional payload \texttt{p}.
 
@@ -60,6 +55,14 @@ A liveness error happens if the temperature becomes infinite.
 %The distinction between ordinary and cold states is useful for modeling progress for each instance of an infinite stream of events,
 %such as a periodic request or a periodic timer expiration.
 
+A liveness violation is witnessed by an infinite execution in which all concurrently executing \psharp machines are scheduled fairly.
+Unfortunately, it is clearly not possible to generate an infinite execution by executing a program for a finite amount of time.
+Therefore, our implementation of liveness checking approximates an infinite execution using several heuristics.
+One heuristic considers an execution longer than a large user-supplied bound as an ``infinite'' execution~\cite{killian2007life, musuvathi2008fair}.
+Another heuristic maintains a cache of (pieces of) the state of the \psharp program obtained at each step in the execution
+and reports an ``infinite'' execution when the latest step results in a cache hit, thus approximating a cycle in the state
+graph of the program.
+
 \subsection{Systematic testing}
 \label{sec:psharp:testing}
 
@@ -71,18 +74,18 @@ The \psharp systematic testing engine will repeatedly execute a program from sta
 
 We have implemented two different schedulers inside the \psharp systematic testing engine: a \emph{random} scheduler that makes each nondeterministic choice randomly and a \emph{probabilistic concurrency testing}~\cite{burckhardt2010pct} (PCT) scheduler. It is straightforward to create a new scheduler by implementing the \texttt{ISchedulingStrategy} interface~\cite{desai2015systematic} exposed by the \psharp libraries. The interface exposes callbacks that are invoked by the \psharp runtime for taking decisions regarding which machine to schedule next, and can be used for developing both generic and application-specific schedulers.
 
-Normally, liveness checking requires the identification of an infinite fair execution that never satisfies the liveness property~\cite{schuppan2004efficient, musuvathi2008fair}. Prior work~\cite{schuppan2004efficient} has proposed that assuming a program with finite state space, a liveness property can be converted into a safety property. Other researchers proposed the use of heuristics and only exploring finite executions of an infinite state space system using random walks to identify if a liveness property is violated~\cite{killian2007life}.
-
-\subsection{Handling intra-machine concurrency}
+\subsubsection{Handling \csharp 5.0 asynchrony}
 \label{sec:psharp:async}
 
-The original implementation of \psharp is able to capture and take control of the \emph{inter-machine concurrency} due to message passing, but is unable to systematically explore any interleavings due to \emph{intra-machine concurrency} (e.g. async/await, which we discuss below). This is problematic since programmers often write multithreaded code that exploits shared memory multicore architectures, to increase the performance of individual components of a distributed system.
-
-As an example, the Live Azure Migration system uses the \texttt{async} and \texttt{await} \csharp 5.0 language primitives. Asynchronous code using async/await is more readable than older asynchronous programming libraries in .NET, because it looks like traditional procedural code, but it is translated by the compiler to an event-driven state machine that is built on top of TPL to achieve performance. The key idea behind async/await is that a method declared as \texttt{async} can use internally the \texttt{await} keyword which allows the thread executing the method to wait on a TPL task, or any other \emph{awaitable} object, \emph{without} blocking. This is achieved as follows. When an \texttt{await} statement is executed, the code following the await is wrapped as a TPL task \emph{continuation} and the method returns to the caller. This continuation executes when the awaitable object has completed.
-
-Developing a fully automatic and universal approach to handle intra-machine concurrency in .NET is very challenging, because there are many APIs that can be used for concurrency and synchronization (e.g. \texttt{System.Threading}, TPL, async/await, locks, semaphores) and each one has its own complexities. Although developers are willing to model the top-level message passing communication using \psharp, in our experience they are resistant to modeling the low-level threading and synchronization methods as this would be a very invasive procedure and such refactoring is unlikely to scale for legacy code.
-
-To test our case studies, we decided to focus our efforts in handling async/await as providing a robust solution for a subset of the .NET threading APIs is more feasible than trying to handle arbitrary threading and synchronization. By choosing to focus on async/await, we cannot currently systematically test programs that use other mechanisms for intra-machine concurrency.  We can still apply \psharp on them, but we lose the benefit of systematic testing. In future work, we plan to investigate support for non-async/await concurrency primitives.
+The Live Azure Migration system (Section~\ref{sec:cases:migration}) uses the \texttt{async} and \texttt{await} \csharp 5.0 language primitives.
+An \texttt{async} procedure is allowed to perform \texttt{await} on a TPL task without blocking the current thread.
+The \csharp compiler achieves this non-blocking behavior by wrapping the \emph{continuation} of the \texttt{await} statement
+in a TPL task and returning it to the caller.
+The TPL scheduler executes this task when the task being awaited has completed.
+In principle, this asynchrony can be modeled using the \psharp primitives for machine creation and message passing.
+However, in our experience, refactoring code to model in \psharp the asynchrony in async/await is difficult and unlikely
+to scale for large code bases.
+Therefore, our implementation automatically captures asychronously created tasks in .NET runtime as \psharp machines.
 
 Our solution involves using a custom task scheduler whenever the bug-finding mode of the \psharp runtime is enabled, instead of the default TPL task scheduler. The \psharp task scheduler inherits from the \texttt{TaskScheduler} class, a low-level API that is responsible for enqueueing TPL tasks into threads. Our approach works as follows. We start the task of the \emph{root} \psharp machine in our custom task scheduler. As long as any child tasks spawned by the root machine task do not explicitly start in another scheduler (including the default TPL scheduler), then they will be scheduled for execution in our custom task scheduler. Our custom scheduler intercepts the call to enqueue a task, creates a special machine (only internally available to \psharp) called \texttt{TaskMachine} and \emph{wraps} the enqueued task inside this machine. The constructor of a \texttt{TaskMachine} takes as an argument a TPL task and stores it in an field. The \texttt{TaskMachine} has only a single state and when it is scheduled for execution by the \psharp systematic testing scheduler it starts executing the wrapped task and then immediately waits on its completion. This forces the lifetime of the task to become the lifetime of the machine and vice versa. Thus, when the \psharp systematic testing scheduler schedules the \texttt{TaskMachine}, it will also schedule the corresponding task. This means that when a \psharp program makes a call to an \texttt{async} method, then the task created in the backend will be automatically wrapped and scheduled.
 

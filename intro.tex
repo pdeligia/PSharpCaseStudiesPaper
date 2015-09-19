@@ -1,6 +1,7 @@
-Distributed systems are notoriously hard to design, implement and test~\cite{cavage2013there, laguna2015debugging, maddox2015test}. This is due to many well-known sources of \emph{nondeterminism}~\cite{chandra2007paxos}, such as race conditions in the asynchronous interaction between system components, the use of multithreaded code inside components, unexpected node failures, data losses due to unreliable communication channels, and interaction with (human) clients.
-All these sources of nondeterminism translate into \emph{exponentially} many execution paths that a distributed system might potentially execute.
-A bug might hide deep inside one of these paths and only manifest under extremely rare conditions~\cite{gray1986computers, musuvathi2008finding}, but the consequence can be catastrophic~\cite{amazon2012aws, google2014outage}.
+Distributed systems are notoriously hard to design, implement and test~\cite{cavage2013there, laguna2015debugging, maddox2015test}.
+This challenge is due to many well-known sources of \emph{nondeterminism}~\cite{chandra2007paxos}, such as race conditions in the asynchronous interaction between system components, the use of multithreaded code inside components, unexpected node failures, data losses due to unreliable communication channels, and interaction with (human) clients.
+All these sources of nondeterminism can easily create \emph{Heisenbugs}~\cite{gray1986computers, musuvathi2008finding}, which are corner-case bugs that are difficult to detect, diagnose and fix. 
+A Heisenbug might hide deep inside one of these paths and only manifest under extremely rare conditions~\cite{gray1986computers, musuvathi2008finding}, but the consequence can be catastrophic~\cite{amazon2012aws, google2014outage}.
 
 Developers of production distributed systems use many testing techniques,
 such as unit testing, integration testing, stress testing, and fault injection.
