@@ -14,7 +14,7 @@
 	<key>BackgroundGraphic</key>
 	<dict>
 		<key>Bounds</key>
-		<string>{{0, 0}, {1133.8582763671875, 340.157470703125}}</string>
+		<string>{{0, 0}, {1133.8582763671875, 325.9842529296875}}</string>
 		<key>Class</key>
 		<string>SolidGraphic</string>
 		<key>FontInfo</key>
@@ -61,7 +61,7 @@
 	<key>CanvasOrigin</key>
 	<string>{0, 0}</string>
 	<key>CanvasSize</key>
-	<string>{1133.8582763671875, 340.157470703125}</string>
+	<string>{1133.8582763671875, 325.9842529296875}</string>
 	<key>ColumnAlign</key>
 	<integer>1</integer>
 	<key>ColumnSpacing</key>
@@ -449,8 +449,8 @@
 			<integer>686</integer>
 			<key>Points</key>
 			<array>
-				<string>{80.363093919224198, 34.444963256535232}</string>
-				<string>{80.363093919224198, 133.6949578921151}</string>
+				<string>{80.363093919224198, 31.206926147160232}</string>
+				<string>{80.363093919224198, 130.4569207827401}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -481,8 +481,8 @@
 			<integer>685</integer>
 			<key>Points</key>
 			<array>
-				<string>{200.1644287109375, 225.2092399597168}</string>
-				<string>{462.17807149887051, 293.87589022848374}</string>
+				<string>{198.1644287109375, 225.2092399597168}</string>
+				<string>{463.17807149887051, 283.87589022848374}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -513,8 +513,8 @@
 			<integer>684</integer>
 			<key>Points</key>
 			<array>
-				<string>{200.16445922851562, 104.2092399597168}</string>
-				<string>{466.27227783203125, 37.444961667061335}</string>
+				<string>{199.16445922851562, 101.2092399597168}</string>
+				<string>{465.27227783203125, 37.444961667061335}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -533,7 +533,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{205.71836105982476, 157.48860181702477}, {144, 40}}</string>
+			<string>{{205.71836105982476, 154.25056470764977}, {144, 40}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -591,7 +591,7 @@ ENs (on demand)}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{88.385022772683087, 253.16200735833945}, {143, 40}}</string>
+			<string>{{88.385022772683087, 249.92397024896445}, {143, 40}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -661,8 +661,8 @@ ENs (every 5 sec)}</string>
 			<integer>680</integer>
 			<key>Points</key>
 			<array>
-				<string>{80.36309144232014, 298.01535922952598}</string>
-				<string>{80.36309144232014, 198.76536459394612}</string>
+				<string>{80.36309144232014, 294.77732212015098}</string>
+				<string>{80.36309144232014, 195.52732748457112}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1058,7 +1058,7 @@ ENs (every 5 sec)}</string>
 			<key>Points</key>
 			<array>
 				<string>{618.88786570231036, 254.03158703115258}</string>
-				<string>{618.88786570231036, 334.28158226278185}</string>
+				<string>{618.88786570231036, 322.28158226278185}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1077,7 +1077,7 @@ ENs (every 5 sec)}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{635, 304.78533935546875}, {120, 20}}</string>
+			<string>{{635, 295}, {120, 20}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1200,7 +1200,7 @@ updated upon Heartbeat}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{776.68588530368788, 73.542572140694404}, {279.81170654296875, 212.61943054199219}}</string>
+			<string>{{776.68588530368788, 73.542572140694418}, {279.81170654296875, 202.45742568942583}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -1310,7 +1310,7 @@ updated upon SyncReport}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{479.48200360572855, 73.542574544681145}, {279.81170654296875, 212.61943054199219}}</string>
+			<string>{{479.48200360572855, 73.542574429784182}, {279.81170654296875, 202.45742568942583}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -1354,7 +1354,7 @@ updated upon SyncReport}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{88.38502785894606, 41.158844086859048}, {150, 40}}</string>
+			<string>{{88.38502785894606, 37.920806977484048}, {150, 40}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1412,7 +1412,7 @@ ENs (every 5 min)}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{471.27227783203034, 37.444961667061335}, {600, 257.43093872070312}}</string>
+			<string>{{471.27227783203034, 37.444961667061335}, {600, 247.55503845214844}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -1472,7 +1472,7 @@ ENs (every 5 min)}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{62.585955407884228, 106.16042595439487}, {130.48431396484375, 120}}</string>
+			<string>{{62.585955407884228, 102.92238884501987}, {130.48431396484375, 120}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -1538,8 +1538,8 @@ ENs (every 5 min)}</string>
 			<integer>682</integer>
 			<key>Points</key>
 			<array>
-				<string>{177.71836119227964, 148.07192513678405}</string>
-				<string>{299.9683553642659, 148.07192513678405}</string>
+				<string>{177.71836119227964, 144.83388802740905}</string>
+				<string>{299.9683553642659, 144.83388802740905}</string>
 			</array>
 			<key>Rotation</key>
 			<real>90</real>
@@ -1606,7 +1606,7 @@ ENs (every 5 min)}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-09-13 01:06:21 +0000</string>
+	<string>2015-09-20 08:38:44 +0000</string>
 	<key>Modifier</key>
 	<string>Pantazis Deligiannis</string>
 	<key>NotesVisible</key>
@@ -1637,7 +1637,7 @@ ENs (every 5 min)}</string>
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>53633C87-EF89-4FD9-9935-0158A79BEEA9</string>
+			<string>0550E753-F979-43EE-8B0E-0396636AA1D2</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
@@ -1706,15 +1706,15 @@ ENs (every 5 min)}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{47, -153}, {999, 648}}</string>
+		<string>{{3.0612244302161002, -167}, {1019.3877352619613, 661.22447692667743}}</string>
 		<key>Zoom</key>
-		<real>1</real>
+		<real>0.98000001907348633</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>
 				<string>Canvas 1</string>
+				<real>0.98000001907348633</real>
 				<real>1</real>
-				<real>0.60000002384185791</real>
 			</array>
 		</array>
 	</dict>
