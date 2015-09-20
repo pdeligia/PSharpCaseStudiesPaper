@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Set the module name and root directory -->
+  <PropertyGroup>
+    <ModuleName>$([MSBuild]::MakeRelative($([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.props)), $(MSBuildThisFileDirectory)).TrimEnd('\').Replace('\', '.'))</ModuleName>
+    <ModulePath>$(MSBuildThisFileDirectory)</ModulePath>
+  </PropertyGroup>
+
+  <!-- Import the build settings file. -->
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.props))\build.props" />
+</Project>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Import the targets -->
+  <Import Project="$(BuildPath)\Build.targets" />
+
+  <!-- Inject toolsets used by this module. -->
+  <Import Project="$(BuildPath)\Toolsets\Copyproj\CopyFile.targets" Condition="Exists('$(BuildPath)\Toolsets\Copyproj\CopyFile.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\EmbeddedVersionInfo\EmbeddedVersionInfo.targets" Condition="Exists('$(BuildPath)\Toolsets\EmbeddedVersionInfo\EmbeddedVersionInfo.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\EtwManifest\EtwManifest.targets" Condition="Exists('$(BuildPath)\Toolsets\EtwManifest\EtwManifest.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\GenHeader\GenHeader.targets" Condition="Exists('$(BuildPath)\Toolsets\GenHeader\GenHeader.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\GenResourceClass\GenResourceClass.targets" Condition="Exists('$(BuildPath)\Toolsets\GenResourceClass\GenResourceClass.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\GZip\GZip.targets" Condition="Exists('$(BuildPath)\Toolsets\\GZip\GZip.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\GzipResources\GzipResources.targets" Condition="Exists('$(BuildPath)\Toolsets\GzipResources\GzipResources.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\ImageSprite\ImageSprite.targets" Condition="Exists('$(BuildPath)\Toolsets\ImageSprite\ImageSprite.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\Localization\Localization.targets" Condition="Exists('$(BuildPath)\Toolsets\Localization\Localization.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\Preprocess\Preprocess.targets" Condition="Exists('$(BuildPath)\Toolsets\Preprocess\Preprocess.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\QtResxFile\QtResxFile.targets" Condition="Exists('$(BuildPath)\Toolsets\QtResxFile\QtResxFile.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\ReferenceAssemblies\ReferenceAssemblies.targets" Condition="Exists('$(BuildPath)\Toolsets\ReferenceAssemblies\ReferenceAssemblies.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\ResgenClass\ResgenClass.targets" Condition="Exists('$(BuildPath)\Toolsets\ResgenClass\ResgenClass.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\Servicing\Servicing.targets" Condition="Exists('$(BuildPath)\Toolsets\Servicing\Servicing.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\Signing\Signing.targets" Condition="Exists('$(BuildPath)\Toolsets\Signing\Signing.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\Sql\Sql.targets" Condition=" '$(TfsScriptBaseName)' != '' and Exists('$(BuildPath)\Toolsets\Sql\Sql.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\TextTemplating\Microsoft.TextTemplating.targets" Condition="Exists('$(BuildPath)\Toolsets\TextTemplating\Microsoft.TextTemplating.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\TfsPreprocess\TfsPreprocess.targets" Condition="Exists('$(BuildPath)\Toolsets\TfsPreprocess\TfsPreprocess.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\TrackedExec\TrackedExec.targets" Condition="Exists('$(BuildPath)\Toolsets\TrackedExec\TrackedExec.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\TypeLibraries\TypeLibraries.targets" Condition="Exists('$(BuildPath)\Toolsets\TypeLibraries\TypeLibraries.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\TypeScript\TypeScript.targets" Condition="Exists('$(BuildPath)\Toolsets\TypeScript\TypeScript.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\WebAccess\WebAccess.BuildTasks.targets" Condition="Exists('$(BuildPath)\Toolsets\WebAccess\WebAccess.BuildTasks.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\Win32Resources\Win32Resources.targets" Condition="Exists('$(BuildPath)\Toolsets\Win32Resources\Win32Resources.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\ZipArchive\ZipArchive.targets" Condition="Exists('$(BuildPath)\Toolsets\ZipArchive\ZipArchive.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\Detokenizer\Detokenizer.targets" Condition="Exists('$(BuildPath)\Toolsets\Detokenizer\Detokenizer.targets')" />
+
+  <!-- VsIntegration toolsets -->
+  <Import Project="$(BuildPath)\Toolsets\CompileColorsToPkgdef\CompileColorsToPkgdef.targets" Condition="Exists('$(BuildPath)\Toolsets\CompileColorsToPkgdef\CompileColorsToPkgdef.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\GenerateIconStrips\GenerateIconStrips.targets" Condition="Exists('$(BuildPath)\Toolsets\GenerateIconStrips\GenerateIconStrips.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\GeneratePackageCmdID\GeneratePackageCmdID.targets" Condition="Exists('$(BuildPath)\Toolsets\GeneratePackageCmdID\GeneratePackageCmdID.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\ResXFilesGeneration\ResXFilesGeneration.targets" Condition="Exists('$(BuildPath)\Toolsets\ResXFilesGeneration\ResXFilesGeneration.targets')" />
+  <Import Project="$(BuildPath)\Toolsets\VSCTCompiler\VSCTCompiler.targets" Condition="Exists('$(BuildPath)\Toolsets\VSCTCompiler\VSCTCompiler.targets')" />
+</Project>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build;DetectConflicts" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), Build.props))\Build.props" />
+  <PropertyGroup>
+    <SkipNonExistentProjects>true</SkipNonExistentProjects>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectFile Include="library\Microsoft.Azure.Toolkit.Replication.csproj" />
+    <ProjectFile Include="ChainTableInterface\ChainTableInterface.csproj" />
+    <ProjectFile Include="ChainTableFactory\ChainTableFactory.csproj" />
+	<ProjectFile Include="Migration\Migration.csproj" />
+  </ItemGroup>
+  <Import Project="$(BuildPath)\Build.Traversal.targets" />
+</Project>

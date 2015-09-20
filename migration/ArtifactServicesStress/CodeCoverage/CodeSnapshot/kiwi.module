@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module Name="Kiwi.Library">
+  <Dependencies>
+<!--
+   <DependsOn ModuleName="ArtifactServices.ServiceShared" />
+    <DependsOn ModuleName="ArtifactServices.Shared" />
+    <DependsOn ModuleName="BlobStore.Client" />
+    <DependsOn ModuleName="BlobStore.ServiceShared" />
+    <DependsOn ModuleName="ItemStore.ServiceShared" />
+    <DependsOn ModuleName="ItemStore.Shared" />
+-->
+  </Dependencies>
+  <Exports>
+    <!-- Add an Export element here for each artifact (i.e. a DLL) that this module exposes for other modules to consume via ModuleItemReference. -->
+    <Export Artifact="Migration.dll" Project="Migration\Migration.csproj" />
+	<Export Artifact="ChainTableFactory.dll" Project="ChainTableFactory\ChainTableFactory.csproj" />
+	<Export Artifact="ChainTableInterface.dll" Project="ChainTableInterface\ChainTableInterface.csproj" />
+	<Export Artifact="Microsoft.Azure.Toolkit.Replication.dll" Project="library\Microsoft.Azure.Toolkit.Replication.csproj" />
+  </Exports>
+</Module>
