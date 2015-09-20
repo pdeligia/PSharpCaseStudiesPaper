@@ -3,18 +3,7 @@ The modeling and testing approach described in earlier sections of the paper is 
 \subsection{Live Azure Table Migration}
 \label{sec:cases:migration}
 
-The Live Azure Table Migration (MigratingTable) is a library for
-\emph{transparently migrating} a data set between tables in an Azure Storage
-service \emph{while} an application is accessing this data set. This case study
-is interesting because its developers built the \psharp model of the system
-while developing the library to increase confidence in its implementation;
-indeed they discovered many bugs during this \emph{co-development} process.
-Another interesting aspect of this system is that it heavily
-uses the \texttt{async}/\texttt{await} primitives, which were not supported in
-the original \psharp runtime, and thus required us to extend \psharp with
-support for intra-machine concurrency (see Section~\ref{sec:psharp:async}). Finally, multiple 
-complex safety properties were written to test MigratingTable with \psharp, 
-whereas the vNext model focused on a single liveness property.
+The Live Azure Table Migration (MigratingTable) is a library for \emph{transparently migrating} a data set between tables in an Azure Storage service \emph{while} an application is accessing this data set. This case study is particularly interesting because its developers \emph{co-developed} the system with its \psharp model to increase confidence in the former's implementation. Indeed, this co-development process resulted in many tricky bugs discovered before the system went into production (see \S\ref{sec:eval}). The MigratingTable modeling effort differs from the vNext case study: the vNext developers focused on specifying a single liveness property; whereas the MigratingTable developers had to write many complex safety properties. MigratingTable is also interesting because it heavily uses the \texttt{async} and \texttt{await} \csharp 5.0 primitives, which were not originally supported in \psharp. To be able to test MigratingTable, as well as other systems written in \csharp 5.0, we had to extend \psharp with support for intra-machine concurrency (see \S\ref{sec:psharp:testing}).
 
 \begin{figure}[t]
 \centering
@@ -73,7 +62,7 @@ The \psharp test harness of MigratingTable consists of a \texttt{Tables} machine
 
 %We use the \psharp random scheduling strategy; we were afraid that an exhaustive strategy would only be feasible within bounds so low that we would miss some bugs.
 
-%We wanted to implement the core MigratingTable algorithms in \csharp ``async/await'' code, like most of Artifact Services, to achieve both good readability and good performance.  We used a method similar to that described in Section~\ref{sec:psharp:async} to bring the generated TPL tasks under the control of the \psharp scheduler.  Then we implemented an ``async'' RPC mechanism based on the .NET RealProxy class that automates the generation of proxies for objects hosted by other \psharp machines (in our setting, the service machines use proxies for the \texttt{SpecTable}s and various auxiliary objects hosted by the tables machine).  When a machine calls a method on a proxy, the proxy sends a \psharp message to the host machine, causing it to execute the method call on the original object and send back the result, which the proxy then returns.  Thus, the use of these proxies as \texttt{IChainTable} backends is transparent to the MigratingTable library, thanks to dynamic dispatch.
+%We wanted to implement the core MigratingTable algorithms in \csharp ``async/await'' code, like most of Artifact Services, to achieve both good readability and good performance.  We used a method similar to that described in \S\ref{sec:psharp:async} to bring the generated TPL tasks under the control of the \psharp scheduler.  Then we implemented an ``async'' RPC mechanism based on the .NET RealProxy class that automates the generation of proxies for objects hosted by other \psharp machines (in our setting, the service machines use proxies for the \texttt{SpecTable}s and various auxiliary objects hosted by the tables machine).  When a machine calls a method on a proxy, the proxy sends a \psharp message to the host machine, causing it to execute the method call on the original object and send back the result, which the proxy then returns.  Thus, the use of these proxies as \texttt{IChainTable} backends is transparent to the MigratingTable library, thanks to dynamic dispatch.
 
 \subsection{Azure Service Fabric}
 \label{sec:cases:fabric}
