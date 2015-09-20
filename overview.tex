@@ -26,41 +26,20 @@ In principle, our modeling methodology is \emph{not specific} to \psharp and the
 In  this section, we describe how safety and liveness specifications are expressed in \psharp.
 
 \textbf{Safety specifications}.
-In addition to the usual assertions that can be used to write safety properties that are local to a machine, \psharp also provides a way to specify global assertions by using a \emph{safety monitor}~\cite{desai2015building}, which is a special machine that can receive, but not send, events. A safety monitor maintains local state that is modified in response to events received from ordinary (non-monitor) machines. This local state is used to maintain a history of the computation that is relevant to the property being specified. An erroneous global behavior is flagged via an assertion on the private state of the safety monitor. 
-Thus, a monitor cleanly separates instrumentation state required for specification (inside the monitor) from program state (outside the monitor).
+In addition to the usual assertions for stating safety properties that are local to a machine, \psharp also provides a way to specify global assertions by using a \emph{safety monitor}~\cite{desai2015building}, which is a special machine that can receive, but not send, events.
 
-To declare a monitor, the programmer inherits from the \psharp \texttt{Monitor} class. Monitors in \psharp are singleton instances, which means that an ordinary machine does not need a reference to a monitor to send it an event. An ordinary machine can send an event to a monitor by calling \texttt{Monitor<M>(e, p)}, where the parameter \texttt{e} is the event being send together with an optional payload \texttt{p}.
+A safety monitor maintains local state that is modified in response to events received from ordinary (non-monitor) machines. This local state is used to maintain a history of the computation that is relevant to the property being specified. An erroneous global behavior is flagged via an assertion on the private state of the safety monitor. Thus, a \psharp monitor cleanly separates instrumentation state required for specification (inside the monitor) from program state (outside the monitor).
 
 \textbf{Liveness specifications}.
-Liveness property specifications are more difficult to encode since they are intended to capture program progress
-over infinite executions.
-Violation of a liveness property can only be demonstrated by an infinite execution.
-Usually, a liveness property is specified via a temporal logic formula~\cite{Pnueli1977,lamport1994temporal}.
-We take a different approach and allow the programmer to write a \emph{liveness monitor}.
-Similar to a safety monitor, a liveness monitor receives events but does not send them.
-Unlike a safety monitor, a liveness monitor~\cite{desai2015building}
-contains three types of states---\emph{ordinary}, \emph{hot}, and \emph{cold}.
-A hot state denotes a point in the execution where progress is required but has not happened yet,
-e.g., a node has failed but a new one has not come up yet.
-A liveness monitor enters a hot state upon receiving notification of an event that requires the system
-to make progress and leaves the hot state upon receiving another event notifying it of progress.
-An infinite execution is erroneous if the liveness monitor is in a hot state infinitely often but in a cold state only finitely often.
-Our liveness monitors can encode arbitrary temporal logic properties.
+Liveness property specifications are more difficult to encode since they are intended to capture program progress over infinite executions. Violation of a liveness property can only be demonstrated by an infinite execution. Usually, a liveness property is specified via a temporal logic formula~\cite{Pnueli1977,lamport1994temporal}. We take a different approach and allow the programmer to write a \emph{liveness monitor}~\cite{desai2015building}. Similar to a safety monitor, a liveness monitor can receive, but not send, events. Unlike a safety monitor, a liveness monitor contains two types of states: \emph{hot} and \emph{cold}.
 
-A thermometer analogy is useful for understanding a liveness monitor.
-A hot state increases the temperature by a small value.
-A cold state resets the temperature to zero.
-A liveness error happens if the temperature becomes infinite.
-%The distinction between ordinary and cold states is useful for modeling progress for each instance of an infinite stream of events,
-%such as a periodic request or a periodic timer expiration.
+A hot state denotes a point in the execution where progress is required but has not happened yet, for example a node has failed but a new one has not come up yet. A liveness monitor enters a hot state upon receiving notification of an event that requires the system to make progress. The liveness monitor leaves the hot state and enters a cold state upon receiving another event notifying it of progress. An infinite execution is erroneous if the liveness monitor is in a hot state infinitely often but in a cold state only finitely often. Our liveness monitors can encode arbitrary temporal logic properties. A thermometer analogy is useful for understanding liveness monitors: a hot state increases the temperature by a small value; a cold state resets the temperature to zero; a liveness error happens if the temperature becomes infinite.
+%The distinction between ordinary and cold states is useful for modeling progress for each instance of an infinite stream of events, such as a periodic request or a periodic timer expiration.
 
-A liveness violation is witnessed by an infinite execution in which all concurrently executing \psharp machines are scheduled fairly.
-Unfortunately, it is clearly not possible to generate an infinite execution by executing a program for a finite amount of time.
-Therefore, our implementation of liveness checking approximates an infinite execution using several heuristics.
-One heuristic considers an execution longer than a large user-supplied bound as an ``infinite'' execution~\cite{killian2007life, musuvathi2008fair}.
-Another heuristic maintains a cache of (pieces of) the state of the \psharp program obtained at each step in the execution
-and reports an ``infinite'' execution when the latest step results in a cache hit, thus approximating a cycle in the state
-graph of the program.
+A liveness violation is witnessed by an \emph{infinite} execution in which all concurrently executing \psharp machines are \emph{fairly} scheduled. Unfortunately, it is clearly not possible to generate an infinite execution by executing a program for a finite amount of time. Therefore, our implementation of liveness checking in \psharp approximates an infinite execution using several heuristics. One such heuristic considers an execution longer than a large user-supplied bound as an ``infinite'' execution~\cite{killian2007life, musuvathi2008fair}. Another heuristic maintains a cache of (pieces of) the state of the \psharp program obtained at each step in the execution, and reports an ``infinite'' execution when the latest step results in a cache hit, thus approximating a cycle in the state graph of the program.
+
+\textbf{Using monitors}.
+To declare a safety or a liveness monitor, the programmer must inherit from the \psharp \texttt{Monitor} class. \psharp monitors are singleton instances and, thus, an ordinary machine does not need a reference to a monitor to send it an event. Instead, an ordinary machine can invoke a monitor by calling \texttt{Monitor<M>(e, p)}, where the parameter \texttt{e} is the event being send, and the parameter \texttt{p} is an optional payload.
 
 \subsection{Systematic testing}
 \label{sec:psharp:testing}
