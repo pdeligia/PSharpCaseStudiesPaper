@@ -4,9 +4,9 @@ To uncover the elusive extent repair bug in Azure Storage vNext, its developers 
 
 \item[ExtentNode] is a simple model of an EN (see \S\ref{sec:method:mock_en}).
 
-\item[TestingDriver] is responsible for driving testing scenarios, relaying messages between machines, and injecting failures (see \S\ref{sec:method:driver}).
-
 \item[Timer] exploits the nondeterministic choice generation available in \psharp to model timeouts (see \S\ref{sec:method:timer}).
+
+\item[TestingDriver] is responsible for driving testing scenarios, relaying messages between machines, and injecting failures (see \S\ref{sec:method:driver}).
 
 \item[RepairMonitor] collects EN-related state to check if the desired liveness property is satisfied (see \S\ref{sec:method:monitor}).
 \end{description}
@@ -61,7 +61,7 @@ The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the 
 \includegraphics[width=.9\linewidth]{img/extent_manager}
 \caption{Internal components of the real Extent Manager in Azure Storage vNext.}
 \label{fig:extentmanager}
-\vspace{-3mm}
+\vspace{-5mm}
 \end{figure*}
 
 \textbf{Internals of the real Extent Manager}.
@@ -88,7 +88,7 @@ class MockedNetEngine : NetworkEngine {
   }
 }
 \end{lstlisting}
-\vspace{-3mm}
+\vspace{-4mm}
 \caption{Mocked network engine in vNext.}
 \label{fig:enginecode}
 \vspace{-2mm}
@@ -138,7 +138,7 @@ class ExtentNodeMachine : Machine {
   }
 }
 \end{lstlisting}
-\vspace{-3mm}
+\vspace{-4mm}
 \caption{The modeled EN in vNext.}
 \label{fig:mocked_en}
 \vspace{-2mm}
@@ -149,34 +149,6 @@ The \texttt{ExtentNode} machine is a simplified version of the original EN. The 
 The \psharp test harness leverages components of the real vNext system whenever it is appropriate. For example, \texttt{ExtentNode} re-uses the \texttt{ExtentCenter} data structure, which is used inside a real EN for extent bookkeeping. In the modeled extent repair logic, \texttt{ExtentNode} takes action upon receiving an extent repair request from the \texttt{ExtentManager} machine. It sends a copy request to a source \texttt{ExtentNode} machine where a replica is stored. After receiving an \texttt{ExtentCopyRespEvent} event from the source machine, it updates the \texttt{ExtentCenter}, as illustrated in Figure~\ref{fig:mocked_en}. 
 
 In the modeled EN sync logic, the machine is driven by an external timer modeled in \psharp (see \S\ref{sec:method:timer}). It prepares a sync report with \texttt{extCtr.GetSyncReport(...)}, and then asynchronously sends the report to \texttt{ExtentManager} using \texttt{PSharpRuntime.Send(...)}. The \texttt{ExtentNode} machine also includes failure-related logic, which is discussed in detail in \S\ref{sec:method:driver}.
-
-\subsection{The TestingDriver machine}
-\label{sec:method:driver}
-
-\begin{figure}[t]
-\begin{lstlisting}
-// machine for driving testing scenarios in vNext
-class TestingDriver : Machine {
-  private HashSet<MachineId> ExtentNodes; // EN machines
-  
-  // other test harness driving logic
-  ...
-  void InjectNodeFailure() {
-    // nondeterministically choose an EN using P#
-    var node = (MachineId)this.Nondet(ExtentNodes);    
-    this.Send(node, new FailEvent()); // fail the chosen EN
-  }
-}
-\end{lstlisting}
-\vspace{-3mm}
-\caption{The TestingDriver machine in vNext.}
-\label{fig:testing_driver}
-\vspace{-2mm}
-\end{figure}
-
-The \texttt{TestingDriver} machine drives two testing scenarios. In the first scenario, \texttt{TestingDriver} launches one \texttt{ExtentManager} and three \texttt{ExtentNode} machines, with a single extent on one of the ENs. \texttt{TestingDriver} then waits for the extent to be replicated at the remaining ENs. In the second testing scenario, \texttt{TestingDriver} fails one of the \texttt{ExtentNode} machines and launches a new one. \texttt{TestingDriver} then waits for the extent to be repaired on the newly launched \texttt{ExtentNode} machine.
-
-Figure~\ref{fig:testing_driver} illustrates how \psharp can be used to inject a nondeterministic failure. \texttt{TestingDriver} can call the \texttt{InjectNodeFailure} method, which invokes the \psharp method \texttt{Nondet()} to nondeterministically choose an \texttt{ExtentNode} from the set of available \texttt{ExtentNode} machines. \texttt{TestingDriver} then sends the chosen machine a \texttt{FailEvent} event. The chosen \texttt{ExtentNode} handles this event (see Figure~\ref{fig:mocked_en}) by wrapping the \texttt{ExtentNodeDeletion} message, which is a failure notification, to the \texttt{ENMsgEvent} and sends it to the \texttt{ExtentManager} machine. \texttt{ExtentNodeDeletion} is the same message that is used by the real vNext for unit testing, which maximizes code re-use. Next, the chosen \texttt{ExtentNode} notifies the liveness monitor that an EN has failed. Finally, the chosen \texttt{ExtentNode} calls the \psharp method \texttt{Halt()}, which causes the machine to terminate. \psharp is able to not only enumerate interleavings of asynchronous event handlers, but also calls to \texttt{Nondet()}, and thus failure injections.
 
 \subsection{The Timer machine}
 \label{sec:method:timer}
@@ -196,7 +168,7 @@ class Timer : Machine {
   }
 }
 \end{lstlisting}
-\vspace{-3mm}
+\vspace{-4mm}
 \caption{Modeling timer expiration using \psharp.}
 \label{fig:mocked_timer}
 \vspace{-2mm}
@@ -205,6 +177,34 @@ class Timer : Machine {
 System correctness should \emph{not} hinge on the frequency of any individual timer. Instead, all nondeterminism due to timing-related events must be delegated to \psharp. To achieve this, all timers inside ExtMgr are disabled (see Figure~\ref{fig:wrap_target}), and the EN expiration loop and the extent repair loop are driven instead by timers modeled in \psharp, an approach that was used in previous work~\cite{desai2015building}. Similarly, the timers in all \texttt{ExtentNode} machines are disabled and replaced by \psharp models.
 
 Figure~\ref{fig:mocked_timer} shows the \texttt{Timer} machine of vNext. \texttt{Timer} invokes the \psharp method \texttt{Nondet()} which generates a nondeterministic choice that is controlled by the \psharp runtime. Using \texttt{Nondet()} allows the machine to nondeterministically send a timeout event to a target machine. The \psharp testing engine has the freedom to schedule arbitrary interleavings between these timeout events and all other regular system events.
+
+\subsection{The TestingDriver machine}
+\label{sec:method:driver}
+
+\begin{figure}[t]
+\begin{lstlisting}
+// machine for driving testing scenarios in vNext
+class TestingDriver : Machine {
+  private HashSet<MachineId> ExtentNodes; // EN machines
+  
+  // other test harness driving logic
+  ...
+  void InjectNodeFailure() {
+    // nondeterministically choose an EN using P#
+    var node = (MachineId)this.Nondet(ExtentNodes);    
+    this.Send(node, new FailEvent()); // fail the chosen EN
+  }
+}
+\end{lstlisting}
+\vspace{-4mm}
+\caption{The TestingDriver machine in vNext.}
+\label{fig:testing_driver}
+\vspace{-2mm}
+\end{figure}
+
+The \texttt{TestingDriver} machine drives two testing scenarios. In the first scenario, \texttt{TestingDriver} launches one \texttt{ExtentManager} and three \texttt{ExtentNode} machines, with a single extent on one of the ENs. \texttt{TestingDriver} then waits for the extent to be replicated at the remaining ENs. In the second testing scenario, \texttt{TestingDriver} fails one of the \texttt{ExtentNode} machines and launches a new one. \texttt{TestingDriver} then waits for the extent to be repaired on the newly launched \texttt{ExtentNode} machine.
+
+Figure~\ref{fig:testing_driver} illustrates how \psharp can be used for injecting nondeterministic failures. The \texttt{TestingDriver} machine can invoke the \psharp method \texttt{Nondet()} to nondeterministically choose an \texttt{ExtentNode} from the set of all available \texttt{ExtentNode}machines. Let $n_f$ be this chosen machine. \texttt{TestingDriver} can emulate a failure by sending $n_f$ a \texttt{FailEvent} event. The $n_f$ machine handles this event by wrapping the \texttt{ExtentNodeDeletion} message, which is a failure notification, to the \texttt{ENMsgEvent} and sending it to the \texttt{ExtentManager} machine (see Figure~\ref{fig:mocked_en}). \texttt{ExtentNodeDeletion} is the same message that is used by the real vNext for unit testing, which maximizes code re-use. Next, $n_f$ notifies the liveness monitor that it has failed. Finally, $n_f$ calls the \psharp method \texttt{Halt()}, which causes $n_f$ to terminate. \psharp is able to not only enumerate interleavings of asynchronous event handlers, but also calls to \texttt{Nondet()}, and thus failure injections.
 
 \subsection{The RepairMonitor liveness monitor}
 \label{sec:method:monitor}
@@ -241,7 +241,7 @@ class RepairMonitor : Monitor {
   }
 }
 \end{lstlisting}
-\vspace{-3mm}
+\vspace{-4mm}
 \caption{The RepairMonitor liveness monitor.}
 \label{fig:monitor}
 \vspace{-2mm}
