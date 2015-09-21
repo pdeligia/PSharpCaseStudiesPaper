@@ -3,12 +3,12 @@ The modeling and testing approach described in earlier sections of the paper is 
 \subsection{Live Azure Table Migration}
 \label{sec:cases:migration}
 
-The Live Azure Table Migration library (MigratingTable) is designed to transparently migrate a data set between tables in an Azure Storage service while an application is accessing this data set. This case study is particularly interesting because its developers \emph{co-developed} the system with its \psharp test to increase confidence in the system. Indeed, this co-development process resulted in the discovery of several tricky bugs before the system went into production (see \S\ref{sec:eval}). The MigratingTable testing effort differs from the vNext case study: the vNext developers focused on specifying a single liveness property, while the MigratingTable test checks complete compliance with an interface specification. MigratingTable is also interesting because it heavily uses the \texttt{async} and \texttt{await} \csharp 5.0 primitives, which were not originally supported in \psharp. To be able to test MigratingTable, as well as other systems written in \csharp 5.0, we had to extend \psharp with support for intra-machine concurrency (see \S\ref{sec:psharp:testing}).
+The Live Azure Table Migration library (MigratingTable) is designed to transparently migrate a data set between tables in an Azure Storage service while an application is accessing this data set. This case study is particularly interesting because its developers \emph{co-developed} the system with its \psharp test to increase confidence in the system. Indeed, this co-development process resulted in the discovery of several tricky bugs before the system went into production (see \S\ref{sec:eval}). The MigratingTable testing effort differs from the vNext case study: the vNext developers focused on specifying a single liveness property, while the MigratingTable test checks complete compliance with an interface specification.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{img/mocked_migration}
-\caption{Environmental model of MigratingTable (each box with a dotted line represents one \psharp machine).}
+\caption{Environment model of MigratingTable (each box with a dotted line represents one \psharp machine).}
 \label{fig:mockedmigration}
 \end{figure}
 

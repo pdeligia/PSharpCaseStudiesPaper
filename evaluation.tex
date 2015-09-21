@@ -6,7 +6,7 @@ We report our experience of applying \psharp on the three case studies discussed
 \item How much computational time was spent in systematically testing a distributed system using \psharp?
 \end{enumerate}
 
-\subsection{Cost of environmental modeling}
+\subsection{Cost of environment modeling}
 \label{sec:eval:human_cost}
 
 \newcommand{\colspacing}{\hspace{1.8em}}
@@ -23,7 +23,7 @@ We report our experience of applying \psharp on the three case studies discussed
 %\vspace{-3mm}
 \end{table}
 
-Environmental modeling is a core activity of using \psharp. It is required for \emph{closing the environment} of a system to make it amenable to systematic testing. Table~\ref{tab:stats} presents program statistics for the three case studies. The columns under ``System'' refer to the real system-under-test, while the columns under ``\psharp model'' refer to the \psharp test harness. We report: lines of code for the system-under-test (\#LoC); number of bugs found in the system-under-test (\#B); lines of \psharp code for the test harness (\#LoC); number of machines (\#M); number of state transitions (\#ST); and number of action handlers (\#AH).
+Environment modeling is a core activity of using \psharp. It is required for \emph{closing} a system to make it amenable to systematic testing. Table~\ref{tab:stats} presents program statistics for the three case studies. The columns under ``System'' refer to the real system-under-test, while the columns under ``\psharp model'' refer to the \psharp test harness. We report: lines of code for the system-under-test (\#LoC); number of bugs found in the system-under-test (\#B); lines of \psharp code for the test harness (\#LoC); number of machines (\#M); number of state transitions (\#ST); and number of action handlers (\#AH).
 
 Modeling the environment of the Extent Manager in the Azure Storage vNext system required approximately two weeks of part-time developing. The \psharp model for testing this system is the smallest (in lines of code) from the three case studies. This was because this modeling exercise aimed to reproduce the particular liveness bug that was haunting the developers of vNext.
 
