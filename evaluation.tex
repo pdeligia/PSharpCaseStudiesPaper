@@ -18,14 +18,14 @@ We report our experience of applying \psharp on the three case studies discussed
 \centering
 \input{experiments/tables/statistics.tex}
 \end{tabular}
-\caption{Statistics from modeling the environment of the three Microsoft Azure-based systems under test. The ($\star$) denotes ``awaiting confirmation''.}
+\caption{Statistics from modeling the environment of the three \Microsoft MyCloud-based systems under test. The ($\star$) denotes ``awaiting confirmation''.}
 \label{tab:stats}
 %\vspace{-3mm}
 \end{table}
 
 Environment modeling is a core activity of using \psharp. It is required for \emph{closing} a system to make it amenable to systematic testing. Table~\ref{tab:stats} presents program statistics for the three case studies. The columns under ``System'' refer to the real system-under-test, while the columns under ``\psharp Test Harness'' refer to the environment model written in \psharp. We report: lines of code for the system-under-test (\#LoC); number of bugs found in the system-under-test (\#B); lines of \psharp code for the test harness (\#LoC); number of machines (\#M); number of state transitions (\#ST); and number of action handlers (\#AH).
 
-Modeling the environment of the Extent Manager in the Azure Storage vNext system required approximately two person weeks of part-time developing. The \psharp test harness for this system is the smallest (in lines of code) from the three case studies. This was because this modeling exercise aimed to reproduce the particular liveness bug that was haunting the developers of vNext.
+Modeling the environment of the Extent Manager in the \Azure Storage vNext system required approximately two person weeks of part-time developing. The \psharp test harness for this system is the smallest (in lines of code) from the three case studies. This was because this modeling exercise aimed to reproduce the particular liveness bug that was haunting the developers of vNext.
 
 Developing both the MigratingTable system and its \psharp test harness took approximately five person weeks. The \psharp test harness was developed in parallel with the actual system. This is in contrast with the other two case studies discussed in this paper, where the modeling activity occurred independently and after the development process had finished.
 
@@ -48,7 +48,7 @@ Modeling Fabric required approximately five person months, an effort undertaken 
 
 Using \psharp we managed to uncover 8 serious bugs in our case studies. As discussed earlier in the paper, these bugs were hard to find with traditional testing techniques, but \psharp managed to uncover them and reproduce them in a small setting. According to the developers, the traces of \psharp were useful, as it allowed them to understand the source of the bug and fix it in a timely manner. After the developers fixed all the discovered bugs, we optionally reintroduced them one-by-one to evaluate the effectiveness of different \psharp systematic testing strategies in finding these bugs.
 
-Table~\ref{tab:testing} presents the results from running the \psharp systematic testing engine on each case study with a re-introduced bug using the random and PCT schedulers. We chose to use controlled random scheduling, because it has proven to be efficient for finding concurrency bugs~\cite{thomson2014sct, deligiannis2015psharp}. The CS column shows which case study corresponds to each bug: ``1'' is for the Azure Storage vNext; and ``2'' is for MigratingTable. We do not include the Fabric case study, as we are awaiting confirmation of the found bug (see \S\ref{sec:cases:fabric}).
+Table~\ref{tab:testing} presents the results from running the \psharp systematic testing engine on each case study with a re-introduced bug using the random and PCT schedulers. We chose to use controlled random scheduling, because it has proven to be efficient for finding concurrency bugs~\cite{thomson2014sct, deligiannis2015psharp}. The CS column shows which case study corresponds to each bug: ``1'' is for the \Azure Storage vNext; and ``2'' is for MigratingTable. We do not include the Fabric case study, as we are awaiting confirmation of the found bug (see \S\ref{sec:cases:fabric}).
 
 We performed all experiments using the Windows PowerShell tool on a 2.50GHz Intel Core i5-4300U CPU with 8GB RAM running Windows 10 Pro 64-bit. We configured the engine to perform 100,000 iterations. The random seed for both schedulers was generated using the current time. The PCT scheduler was further configured with a bug depth of 2 and a max number of scheduling steps of 500. All reported times are in seconds.
 

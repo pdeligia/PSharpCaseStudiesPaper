@@ -4,7 +4,7 @@ A \psharp program consists of multiple \emph{state machines} that communicate wi
 
 \psharp machines run concurrently with each other, each executing an event handling loop that dequeues an event from the input queue and handles it by invoking the registered action. This action might access a field, call a method, transition the machine to a new state, create a new machine, or send an event to another machine. In \psharp, a send operation is \emph{non-blocking}; the event is simply enqueued into the input queue of the target machine, which will dequeue and handle the event concurrently. All this functionality is provided in a lightweight runtime library, built on top of Microsoft's Task Parallel Library~\cite{leijen2009tpl}.
 
-Our approach of using \psharp to test distributed systems, implemented in .NET, requires the developer to perform the following three key modeling tasks. These tasks are illustrated in \S\ref{sec:method} for the Azure Storage vNext system.
+Our approach of using \psharp to test distributed systems, implemented in .NET, requires the developer to perform the following three key modeling tasks. These tasks are illustrated in \S\ref{sec:method} for the \Azure Storage vNext system.
 
 \begin{enumerate}
 \item The real components of a distributed system must be wrapped inside \psharp machines. In addition, all the asynchrony due to message passing in the system must be modeled using the \psharp event-sending APIs. 
@@ -18,7 +18,7 @@ Our approach of using \psharp to test distributed systems, implemented in .NET, 
 
 \noindent
 We collectively refer to the environment model of a system and its wrapped components as the \psharp \emph{test harness}. This test harness can be used by \psharp to drive the system towards interesting behaviors.
-\psharp uses modern object-oriented language features such as \emph{interfaces} and \emph{virtual method dispatch} to connect the real code with the modeled code. Programmers in industry are used to working with such features, and heavily use them in production for testing purposes. In our experience, this significantly lowers the bar for product teams inside Microsoft to embrace \psharp for testing.
+\psharp uses modern object-oriented language features such as \emph{interfaces} and \emph{virtual method dispatch} to connect the real code with the modeled code. Programmers in industry are used to working with such features, and heavily use them in production for testing purposes. In our experience, this significantly lowers the bar for engineering teams inside \Microsoft to embrace \psharp for testing.
 
 In principle, our modeling methodology is \emph{not specific} to \psharp and the .NET framework, and can be used in combination with any other programming framework that has equivalent capabilities. We also argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing.
 

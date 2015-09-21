@@ -1,9 +1,9 @@
-The modeling and testing approach described in the earlier sections of the paper is not specific to the vNext system. \psharp is a generic framework for .NET distributed systems. We showcase this capability by presenting developer experience of using \psharp to model and test two other systems used in production inside Microsoft.
+The modeling and testing approach described in the earlier sections of the paper is not specific to the vNext system. \psharp is a generic framework for .NET distributed systems. We showcase this capability by presenting developer experience of using \psharp to model and test two other systems used in production inside \Microsoft.
 
-\subsection{Live Azure Table Migration}
+\subsection{Live \Azure Table Migration}
 \label{sec:cases:migration}
 
-The Live Azure Table Migration library (MigratingTable) is designed to transparently migrate a data set between tables in an Azure Storage service while an application is accessing this data set. This case study is particularly interesting because its developers \emph{co-developed} the system with its \psharp test to increase confidence in the system. Indeed, this co-development process resulted in the discovery of several tricky bugs before the system went into production (see \S\ref{sec:eval}). The MigratingTable testing effort differs from the vNext case study: the vNext developers focused on specifying a single liveness property, while the MigratingTable test checks complete compliance with an interface specification.
+The Live \Azure Table Migration library (MigratingTable) is designed to transparently migrate a data set between tables in an \Azure Storage service while an application is accessing this data set. This case study is particularly interesting because its developers \emph{co-developed} the system with its \psharp test to increase confidence in the system. Indeed, this co-development process resulted in the discovery of several tricky bugs before the system went into production (see \S\ref{sec:eval}). The MigratingTable testing effort differs from the vNext case study: the vNext developers focused on specifying a single liveness property, while the MigratingTable test checks complete compliance with an interface specification.
 
 \begin{figure}[t]
 \centering
@@ -12,7 +12,7 @@ The Live Azure Table Migration library (MigratingTable) is designed to transpare
 \label{fig:mockedmigration}
 \end{figure}
 
-MigratingTable provides a \emph{virtual table} that has a similar interface to an ordinary Azure table. This interface is named \texttt{IChainTable}. The virtual table is backed by a pair of \emph{old} and \emph{new} tables, which must also implement \texttt{IChainTable}. A background \emph{migrator} job is responsible for moving all data from the old table to the new table. Meanwhile, each read and write operation issued to the virtual table is translated to a sequence of reads and writes on the backend tables according to a protocol, which is intended to guarantee that when multiple application processes issue \emph{input} operations to their own MigratingTable instances with the same backend tables, the output of the MigratingTable instances is compliant with the specification of \texttt{IChainTable} for the combined \emph{input history} as if all the operations were done on a single table. The goal of the \psharp test was to verify this property.
+MigratingTable provides a \emph{virtual table} that has a similar interface to an ordinary \Azure table. This interface is named \texttt{IChainTable}. The virtual table is backed by a pair of \emph{old} and \emph{new} tables, which must also implement \texttt{IChainTable}. A background \emph{migrator} job is responsible for moving all data from the old table to the new table. Meanwhile, each read and write operation issued to the virtual table is translated to a sequence of reads and writes on the backend tables according to a protocol, which is intended to guarantee that when multiple application processes issue \emph{input} operations to their own MigratingTable instances with the same backend tables, the output of the MigratingTable instances is compliant with the specification of \texttt{IChainTable} for the combined \emph{input history} as if all the operations were done on a single table. The goal of the \psharp test was to verify this property.
 
 %\begin{figure}[t]
 %\centering
@@ -63,10 +63,12 @@ The \psharp test harness of MigratingTable consists of a \texttt{Tables} machine
 
 %We wanted to implement the core MigratingTable algorithms in \csharp ``async/await'' code, like most of Artifact Services, to achieve both good readability and good performance.  We used a method similar to that described in \S\ref{sec:psharp:async} to bring the generated TPL tasks under the control of the \psharp scheduler.  Then we implemented an ``async'' RPC mechanism based on the .NET RealProxy class that automates the generation of proxies for objects hosted by other \psharp machines (in our setting, the service machines use proxies for the \texttt{SpecTable}s and various auxiliary objects hosted by the tables machine).  When a machine calls a method on a proxy, the proxy sends a \psharp message to the host machine, causing it to execute the method call on the original object and send back the result, which the proxy then returns.  Thus, the use of these proxies as \texttt{IChainTable} backends is transparent to the MigratingTable library, thanks to dynamic dispatch.
 
-\subsection{Azure Service Fabric}
+\subsection{\Azure Service Fabric}
 \label{sec:cases:fabric}
 
-Azure Service Fabric\footnote{\url{azure.microsoft.com/campaigns/service-fabric/}} (or Fabric for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
+\Azure Service Fabric
+%\footnote{\url{azure.microsoft.com/campaigns/service-fabric/}}
+(or Fabric for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
 %The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
 In order to make the user-written service \emph{reliable}, Fabric launches several \emph{replicas} (copies) of the service, where each replica runs as a separate process on a different node in the cluster.
 %\PTComment{Cut: description of primary and secondaries, and electing a new primary.}

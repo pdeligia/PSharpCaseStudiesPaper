@@ -1,4 +1,4 @@
-To uncover the elusive extent repair bug in Azure Storage vNext, its developers wrote a test harness using \psharp. The developers expected that it was more likely for the bug to occur in the ExtMgr logic, rather than in the EN logic. Hence, they focused on testing the real ExtMgr using modeled ENs. The test harness for vNext consists of the following \psharp machines (as shown in Figure~\ref{fig:azurestoremodel}):
+To uncover the elusive extent repair bug in \Azure Storage vNext, its developers wrote a test harness using \psharp. The developers expected that it was more likely for the bug to occur in the ExtMgr logic, rather than in the EN logic. Hence, they focused on testing the real ExtMgr using modeled ENs. The test harness for vNext consists of the following \psharp machines (as shown in Figure~\ref{fig:azurestoremodel}):
 \begin{description}
 \item[ExtentManager] acts as a thin wrapper machine for the real ExtMgr component in vNext (see \S\ref{sec:method:wrap_target}).
 
@@ -59,7 +59,7 @@ The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=.9\linewidth]{img/extent_manager}
-\caption{Internal components of the real Extent Manager in Azure Storage vNext.}
+\caption{Internal components of the real Extent Manager in \Azure Storage vNext.}
 \label{fig:extentmanager}
 \vspace{-5mm}
 \end{figure*}
@@ -247,7 +247,7 @@ class RepairMonitor : Monitor {
 \vspace{-2mm}
 \end{figure}
 
-\subsection{Liveness Bug in Azure Storage vNext}
+\subsection{Liveness Bug in \Azure Storage vNext}
 \label{sec:method:azurestore}
 
 It took less than ten seconds for the \psharp testing engine to report the first occurrence of a liveness bug in vNext (see \S\ref{sec:eval}). Upon examining the debug trace, the developers of vNext were able to quickly confirm the bug.
