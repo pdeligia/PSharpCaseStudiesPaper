@@ -23,13 +23,13 @@ We report our experience of applying \psharp on the three case studies discussed
 %\vspace{-3mm}
 \end{table}
 
-Environment modeling is a core activity of using \psharp. It is required for \emph{closing} a system to make it amenable to systematic testing. Table~\ref{tab:stats} presents program statistics for the three case studies. The columns under ``System'' refer to the real system-under-test, while the columns under ``\psharp model'' refer to the \psharp test harness. We report: lines of code for the system-under-test (\#LoC); number of bugs found in the system-under-test (\#B); lines of \psharp code for the test harness (\#LoC); number of machines (\#M); number of state transitions (\#ST); and number of action handlers (\#AH).
+Environment modeling is a core activity of using \psharp. It is required for \emph{closing} a system to make it amenable to systematic testing. Table~\ref{tab:stats} presents program statistics for the three case studies. The columns under ``System'' refer to the real system-under-test, while the columns under ``\psharp Test Harness'' refer to the environment model written in \psharp. We report: lines of code for the system-under-test (\#LoC); number of bugs found in the system-under-test (\#B); lines of \psharp code for the test harness (\#LoC); number of machines (\#M); number of state transitions (\#ST); and number of action handlers (\#AH).
 
-Modeling the environment of the Extent Manager in the Azure Storage vNext system required approximately two weeks of part-time developing. The \psharp model for testing this system is the smallest (in lines of code) from the three case studies. This was because this modeling exercise aimed to reproduce the particular liveness bug that was haunting the developers of vNext.
+Modeling the environment of the Extent Manager in the Azure Storage vNext system required approximately two person weeks of part-time developing. The \psharp test harness for this system is the smallest (in lines of code) from the three case studies. This was because this modeling exercise aimed to reproduce the particular liveness bug that was haunting the developers of vNext.
 
-Developing MigratingTable and its \psharp test harness took about five weeks. The test harness was developed in parallel with the actual system. This is in contrast with the other two case studies discussed in this paper, where the modeling activity occurred independently and at a later stage of the development process.
+Developing both the MigratingTable system and its \psharp test harness took approximately five person weeks. The \psharp test harness was developed in parallel with the actual system. This is in contrast with the other two case studies discussed in this paper, where the modeling activity occurred independently and after the development process had finished.
 
-Modeling Fabric required approximately five person months. Although this is a significant amount of time, it is a one-time effort, which only needs incremental refinement with each release.
+Modeling Fabric required approximately five person months, an effort undertaken by the authors of \psharp. In contrast the other two systems discussed in this paper were modeled and tested by their corresponding developers. Although modeling Fabric required a significant amount of time, it is a one-time effort, which only needs incremental refinement with each release.
 
 \subsection{Cost of systematic testing}
 \label{sec:eval:machine_cost}
