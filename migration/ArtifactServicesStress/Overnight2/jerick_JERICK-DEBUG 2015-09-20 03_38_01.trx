@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="40ec8849-dd79-445f-bec6-0ea45fac2943" name="jerick@JERICK-DEBUG 2015-09-20 03:38:01" runUser="REDMOND\jerick" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2015-09-20T03:38:01.0675968-07:00" queuing="2015-09-20T03:38:01.0675968-07:00" start="2015-09-20T03:38:01.0715939-07:00" finish="2015-09-20T03:38:03.4396990-07:00" />
+  <TestSettings name="default" id="18c49bd3-79f8-47d8-b92e-ad748217a48a">
+    <Execution>
+      <TestTypeSpecific />
+    </Execution>
+    <Deployment runDeploymentRoot="jerick_JERICK-DEBUG 2015-09-20 03_38_01" />
+    <Properties />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a549c899-04be-475e-a871-94963405b0e6" testId="f3099256-bb2c-cc17-9f10-9e68cdcc0764" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:16.2114707" startTime="2015-09-20T03:36:42.7897524-07:00" endTime="2015-09-20T03:37:59.5123431-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a549c899-04be-475e-a871-94963405b0e6">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="889fa74b-a118-4d32-adc8-2b49e43c869a" testId="d462c53a-1744-7cc3-ae07-8b374f7d0810" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:16.4205145" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:37:59.7000152-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="889fa74b-a118-4d32-adc8-2b49e43c869a">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="68e851b4-4c30-43fd-81a5-9cd51742fd9c" testId="c1e6b25f-25d9-cb6a-a208-ba8b01bd50a4" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:16.9068145" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:38:00.1856899-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="68e851b4-4c30-43fd-81a5-9cd51742fd9c">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9f7c38ca-33f7-4040-8d84-522f69df6f06" testId="12481cf1-7455-4710-7a10-f1bb4f40b9ef" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:17.2863913" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:38:00.5653896-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f7c38ca-33f7-4040-8d84-522f69df6f06">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3e639e7f-3050-41f9-9340-7cc160e23014" testId="b8159cc6-344a-6c9e-23f9-3a418274c9a6" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:17.4366055" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:38:00.7154060-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e639e7f-3050-41f9-9340-7cc160e23014">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="896d1cca-366a-4ddd-aac9-80427d0f53c8" testId="7faa7f9b-4702-50c0-ff7b-491534a1aa22" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:17.4480296" startTime="2015-09-20T03:36:42.7917550-07:00" endTime="2015-09-20T03:38:00.7274072-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="896d1cca-366a-4ddd-aac9-80427d0f53c8">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5986c3a4-310c-4d31-9932-23dd95e22e0d" testId="836b3c16-7665-2572-3f85-38231c175bff" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:17.7941007" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:38:01.0735974-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5986c3a4-310c-4d31-9932-23dd95e22e0d">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="08d21b1e-8460-4f7e-9582-c644edc3e91e" testId="e67cd4fb-2705-ba86-f550-699ae079a2b6" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:18.1801728" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:38:01.4597872-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="08d21b1e-8460-4f7e-9582-c644edc3e91e">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8f69084a-48ff-4403-9891-f8a09fe4fe72" testId="5fee29a3-664b-6067-26ff-9f54bbe7090e" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:18.2418546" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:38:01.5207921-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8f69084a-48ff-4403-9891-f8a09fe4fe72">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3fdbb8b3-e1ac-449b-a8c2-ff076ad675a4" testId="ee6f6197-8d67-150a-6767-af946a2ce1a4" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:18.2908377" startTime="2015-09-20T03:36:42.7897524-07:00" endTime="2015-09-20T03:38:01.5697937-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3fdbb8b3-e1ac-449b-a8c2-ff076ad675a4">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f82a53fa-227e-4e50-9bac-4a9c5d831bc1" testId="dc26e5ce-3411-c7c2-ecbc-fba46c19ac22" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:18.7635713" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:38:02.0429134-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f82a53fa-227e-4e50-9bac-4a9c5d831bc1">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="07e16675-e398-4512-9753-734aef291532" testId="6e56bd79-865d-64e1-19f0-a8f47910cbb7" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:19.1006344" startTime="2015-09-20T03:36:42.7897524-07:00" endTime="2015-09-20T03:38:02.3801159-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="07e16675-e398-4512-9753-734aef291532">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="02003f17-deb0-4571-a140-def1f0a7f468" testId="443db2cd-c77d-3596-095d-d9bbfc4a7038" testName="RacePutAndRemoveRef" computerName="JERICK-DEBUG" duration="00:01:19.4283848" startTime="2015-09-20T03:36:42.7907552-07:00" endTime="2015-09-20T03:38:02.7076435-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02003f17-deb0-4571-a140-def1f0a7f468">
+      <Output>
+        <StdOut>Initial Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+
+Migrating Ranges
+
+Final Key Ranges
+[0000000000000000,a93bc2cc10a445e2]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)
+[a93bc2cc10a445e3,beffbb75dcdb50c5]=&gt;'crteststorage1'[0000/0001](beffbb75dcdb50c5)
+[beffbb75dcdb50c6,ffffffffffffffff]=&gt;'crteststorage1'[0001/0001](a93bc2cc10a445e2)</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="f3099256-bb2c-cc17-9f10-9e68cdcc0764">
+      <Execution id="a549c899-04be-475e-a871-94963405b0e6" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug2" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="d462c53a-1744-7cc3-ae07-8b374f7d0810">
+      <Execution id="889fa74b-a118-4d32-adc8-2b49e43c869a" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug0" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="c1e6b25f-25d9-cb6a-a208-ba8b01bd50a4">
+      <Execution id="68e851b4-4c30-43fd-81a5-9cd51742fd9c" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug9" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="12481cf1-7455-4710-7a10-f1bb4f40b9ef">
+      <Execution id="9f7c38ca-33f7-4040-8d84-522f69df6f06" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug10" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="b8159cc6-344a-6c9e-23f9-3a418274c9a6">
+      <Execution id="3e639e7f-3050-41f9-9340-7cc160e23014" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug3" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="7faa7f9b-4702-50c0-ff7b-491534a1aa22">
+      <Execution id="896d1cca-366a-4ddd-aac9-80427d0f53c8" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug5" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="836b3c16-7665-2572-3f85-38231c175bff">
+      <Execution id="5986c3a4-310c-4d31-9932-23dd95e22e0d" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug4" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="e67cd4fb-2705-ba86-f550-699ae079a2b6">
+      <Execution id="08d21b1e-8460-4f7e-9582-c644edc3e91e" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="5fee29a3-664b-6067-26ff-9f54bbe7090e">
+      <Execution id="8f69084a-48ff-4403-9891-f8a09fe4fe72" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug1" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="ee6f6197-8d67-150a-6767-af946a2ce1a4">
+      <Execution id="3fdbb8b3-e1ac-449b-a8c2-ff076ad675a4" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug8" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="dc26e5ce-3411-c7c2-ecbc-fba46c19ac22">
+      <Execution id="f82a53fa-227e-4e50-9bac-4a9c5d831bc1" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug6" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="6e56bd79-865d-64e1-19f0-a8f47910cbb7">
+      <Execution id="07e16675-e398-4512-9753-734aef291532" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug7" name="RacePutAndRemoveRef" />
+    </UnitTest>
+    <UnitTest name="RacePutAndRemoveRef" storage="microsoft.visualstudio.services.blobstore.server.l0.tests.dll" id="443db2cd-c77d-3596-095d-d9bbfc4a7038">
+      <Execution id="02003f17-deb0-4571-a140-def1f0a7f468" />
+      <TestMethod codeBase="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug11" name="RacePutAndRemoveRef" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="f3099256-bb2c-cc17-9f10-9e68cdcc0764" executionId="a549c899-04be-475e-a871-94963405b0e6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d462c53a-1744-7cc3-ae07-8b374f7d0810" executionId="889fa74b-a118-4d32-adc8-2b49e43c869a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c1e6b25f-25d9-cb6a-a208-ba8b01bd50a4" executionId="68e851b4-4c30-43fd-81a5-9cd51742fd9c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="12481cf1-7455-4710-7a10-f1bb4f40b9ef" executionId="9f7c38ca-33f7-4040-8d84-522f69df6f06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b8159cc6-344a-6c9e-23f9-3a418274c9a6" executionId="3e639e7f-3050-41f9-9340-7cc160e23014" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7faa7f9b-4702-50c0-ff7b-491534a1aa22" executionId="896d1cca-366a-4ddd-aac9-80427d0f53c8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="836b3c16-7665-2572-3f85-38231c175bff" executionId="5986c3a4-310c-4d31-9932-23dd95e22e0d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e67cd4fb-2705-ba86-f550-699ae079a2b6" executionId="08d21b1e-8460-4f7e-9582-c644edc3e91e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5fee29a3-664b-6067-26ff-9f54bbe7090e" executionId="8f69084a-48ff-4403-9891-f8a09fe4fe72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ee6f6197-8d67-150a-6767-af946a2ce1a4" executionId="3fdbb8b3-e1ac-449b-a8c2-ff076ad675a4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dc26e5ce-3411-c7c2-ecbc-fba46c19ac22" executionId="f82a53fa-227e-4e50-9bac-4a9c5d831bc1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6e56bd79-865d-64e1-19f0-a8f47910cbb7" executionId="07e16675-e398-4512-9753-734aef291532" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="443db2cd-c77d-3596-095d-d9bbfc4a7038" executionId="02003f17-deb0-4571-a140-def1f0a7f468" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="13" executed="13" passed="13" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="JERICK-DEBUG" outcome="Warning" timestamp="2015-09-20T03:38:03.3946954-07:00">
+        <Text>Warning: Test Run deployment issue: The assembly or module 'System.Web.WebPages' directly or indirectly referenced by the test container 'D:\src\Artifact2\bin\Debug.AnyCPU\BlobStore.Service.L0\MS.VS.Services.BlobStore.Server.L0.Tests\microsoft.visualstudio.services.blobstore.server.l0.tests.dll' was not found.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

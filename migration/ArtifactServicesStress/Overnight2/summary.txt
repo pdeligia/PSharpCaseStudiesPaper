@@ -1,0 +1,1073 @@
+LiveAzureBlobBlobStoreServiceTestsBug6
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug6.RacePutAndRemoveRef threw exception: 
+Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore+BlobMetadataContentionException: Could not cleanup metadata after 1000 attempts.
+    at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CleanupMetadataAsync>d__46.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 823
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CheckForDeleteAsync>d__45.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 771
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<RemoveReferencesAsync>d__44.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 756
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass23_1.<<RemoveReferences>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 193
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.RemoveReferences(IVssRequestContext requestContext, IDictionary`2 referenceIdsGroupedByBlobIds) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 210
+   at Microsoft.VisualStudio.Services.BlobStore.Server.Common.BlobStoreExtensions.RemoveReference(IBlobStore blobStore, IVssRequestContext requestContext, BlobIdentifier blobId, String referenceId) in D:\src\Artifact2\src\BlobStore\ServiceShared\Server.Common\BlobStoreExtensions.cs:line 32
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 651
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug5
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug5.RacePutAndRemoveRef threw exception: 
+System.ArgumentException: Delete requires an ETag (which may be the '*' wildcard).
+    at Microsoft.WindowsAzure.Storage.Table.TableOperation.Delete(ITableEntity entity)
+   at Migration.MigratingTable.TranslateOperationForNewTable(TableOperation op, MTableEntity existingEntity, Boolean leaveTombstones, TableOperation& newOp, Nullable`1& errorCode) in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 439
+   at Migration.MigratingTable.<ExecuteBatchOnNewTableAsync>d__23.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 541
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MigratingTable.<ExecuteBatchAsync>d__24.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 619
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<CreateTableWhileNotFoundExceptionAsync>d__15`1.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 304
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<RunBatchOperationAsync>d__19.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 511
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<RemoveReferencesAsync>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 266
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<RemoveReferencesAsync>d__44.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 755
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass23_1.<<RemoveReferences>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 193
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.RemoveReferences(IVssRequestContext requestContext, IDictionary`2 referenceIdsGroupedByBlobIds) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 210
+   at Microsoft.VisualStudio.Services.BlobStore.Server.Common.BlobStoreExtensions.RemoveReference(IBlobStore blobStore, IVssRequestContext requestContext, BlobIdentifier blobId, String referenceId) in D:\src\Artifact2\src\BlobStore\ServiceShared\Server.Common\BlobStoreExtensions.cs:line 32
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 651
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug0
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug0.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (412) Precondition Failed. ---> System.Net.WebException: The remote server returned an error: (412) Precondition Failed.
+    at Microsoft.WindowsAzure.Storage.Table.Protocol.TableOperationHttpResponseParsers.TableOperationPreProcess(TableResult result, TableOperation operation, HttpWebResponse resp, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Table.TableOperation.<>c__DisplayClass9.<DeleteImpl>b__8(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndExecuteAsync[T](IAsyncResult result)
+   at Microsoft.WindowsAzure.Storage.Table.CloudTable.EndExecute(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass1`1.<CreateCallback>b__0(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.AzureCloudTableAdapter.<AzurePerformanceCountDecoratorAsync>d__16`1.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\AzureCloudTableAdapter.cs:line 119
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MasterMigratingTable.<>c__DisplayClass6_0.<<CleanupAsync>b__1>d.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 234
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MasterMigratingTable.<>c__DisplayClass5_0.<<WalkTableInParallel>b__1>d.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 149
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<CleanupAsync>d__6.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 232
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 284
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug2
+Assert.IsNotNull failed. Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug2 TryRefSuccess:3 TryRefFail:5 Refs:1
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 646
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug3
+Assert.IsNotNull failed. Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug3 TryRefSuccess:5 TryRefFail:5 Refs:1
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 646
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug6
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug6.RacePutAndRemoveRef threw exception: 
+Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore+BlobMetadataContentionException: Could not cleanup metadata after 1000 attempts.
+    at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CleanupMetadataAsync>d__46.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 823
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CheckForDeleteAsync>d__45.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 771
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<RemoveReferencesAsync>d__44.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 756
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass23_1.<<RemoveReferences>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 193
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.RemoveReferences(IVssRequestContext requestContext, IDictionary`2 referenceIdsGroupedByBlobIds) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 210
+   at Microsoft.VisualStudio.Services.BlobStore.Server.Common.BlobStoreExtensions.RemoveReference(IBlobStore blobStore, IVssRequestContext requestContext, BlobIdentifier blobId, String referenceId) in D:\src\Artifact2\src\BlobStore\ServiceShared\Server.Common\BlobStoreExtensions.cs:line 32
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 651
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug11
+Assert.IsNotNull failed. Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug11 TryRefSuccess:7 TryRefFail:8 Refs:1
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 646
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug0
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug0.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (400) Bad Request. ---> System.Net.WebException: The remote server returned an error: (400) Bad Request.
+    at Microsoft.WindowsAzure.Storage.Shared.Protocol.HttpResponseParsers.ProcessExpectedStatusCodeNoException[T](HttpStatusCode expectedStatusCode, HttpStatusCode actualStatusCode, T retVal, StorageCommandBase`1 cmd, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.<>c__DisplayClass39.<PutBlobImpl>b__38(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Util.StorageAsyncResult`1.End()
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.EndUploadText(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass4.<CreateCallbackVoid>b__3(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ConfigurationService.<PushConfigurationAsync>d__13.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 300
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 275
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug11
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug11.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (412) Precondition Failed. ---> System.Net.WebException: The remote server returned an error: (412) Precondition Failed.
+    at Microsoft.WindowsAzure.Storage.Table.Protocol.TableOperationHttpResponseParsers.TableOperationPreProcess(TableResult result, TableOperation operation, HttpWebResponse resp, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Table.TableOperation.<>c__DisplayClass9.<DeleteImpl>b__8(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndExecuteAsync[T](IAsyncResult result)
+   at Microsoft.WindowsAzure.Storage.Table.CloudTable.EndExecute(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass1`1.<CreateCallback>b__0(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.AzureCloudTableAdapter.<AzurePerformanceCountDecoratorAsync>d__16`1.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\AzureCloudTableAdapter.cs:line 119
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MasterMigratingTable.<>c__DisplayClass6_0.<<CleanupAsync>b__1>d.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 234
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MasterMigratingTable.<>c__DisplayClass5_0.<<WalkTableInParallel>b__1>d.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 149
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<CleanupAsync>d__6.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 232
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 284
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug4
+Assert.IsNotNull failed. Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug4 TryRefSuccess:10 TryRefFail:5 Refs:9
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 646
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug3
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug3.RacePutAndRemoveRef threw exception: 
+Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore+BlobMetadataContentionException: Could not cleanup metadata after 1000 attempts.
+    at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CleanupMetadataAsync>d__46.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 823
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<PutSingleBlockBlobAndReferenceAsync>d__49.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 972
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass50_0.<<PutBlobAndReferenceAsync>b__0>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 1011
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.VsoHash.<>c__DisplayClass32_0.<<WalkSingleBlockBlobAsync>b__0>d.MoveNext() in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\VsoHash.cs:line 471
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.VsoHash.<ReadBlockAsync>d__27.MoveNext() in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\VsoHash.cs:line 296
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.VsoHash.<WalkBlocksAsync>d__20.MoveNext() in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\VsoHash.cs:line 117
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<PutBlobAndReferenceAsync>d__50.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 1006
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.PutBlobAndReference(IVssRequestContext requestContext, BlobIdentifier blobId, Stream blob, String referenceId) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 335
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.PutTestContent(Stream blobStream, BlobIdentifier blobId, String refId) in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 675
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 636
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug1
+Assert.IsNotNull failed. Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug1 TryRefSuccess:4 TryRefFail:5 Refs:2
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 646
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug11
+Assert.IsNotNull failed. Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug11 TryRefSuccess:1 TryRefFail:7 Refs:1
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 646
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug0
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug0.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (412) Precondition Failed. ---> System.Net.WebException: The remote server returned an error: (412) Precondition Failed.
+    at Microsoft.WindowsAzure.Storage.Table.Protocol.TableOperationHttpResponseParsers.TableOperationPreProcess(TableResult result, TableOperation operation, HttpWebResponse resp, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Table.TableOperation.<>c__DisplayClass9.<DeleteImpl>b__8(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndExecuteAsync[T](IAsyncResult result)
+   at Microsoft.WindowsAzure.Storage.Table.CloudTable.EndExecute(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass1`1.<CreateCallback>b__0(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.AzureCloudTableAdapter.<AzurePerformanceCountDecoratorAsync>d__16`1.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\AzureCloudTableAdapter.cs:line 119
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MasterMigratingTable.<>c__DisplayClass6_0.<<CleanupAsync>b__1>d.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 234
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MasterMigratingTable.<>c__DisplayClass5_0.<<WalkTableInParallel>b__1>d.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 149
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<CleanupAsync>d__6.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 232
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 284
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug1
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug1.RacePutAndRemoveRef threw exception: 
+Microsoft.WindowsAzure.Storage.StorageException: Unexpected exception on ChainTable internal operation ---> Microsoft.WindowsAzure.Storage.ChainTableInterface.ChainTableBatchException: 0: 0:The specified resource does not exist.
+RequestId:f3088811-0002-0079-40ba-f3d389000000
+Time:2015-09-20T15:40:37.4749262Z
+    at Microsoft.VisualStudio.Services.Content.Server.Azure.TableAdapter.<ExecuteBatchAsync>d__5.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 62
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MigratingTable.<EnsurePartitionSwitchedAsync>d__13.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 239
+ --- End of inner exception stack trace ---
+    at Migration.MigratingTable.<EnsurePartitionSwitchedAsync>d__13.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 247
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MigratingTable.<ExecuteBatchOnNewTableAsync>d__23.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 519
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MigratingTable.<ExecuteBatchAsync>d__24.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 619
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<CreateTableWhileNotFoundExceptionAsync>d__15`1.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 323
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<RunBatchOperationAsync>d__19.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 522
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<TryReferenceAsyncInternal>d__17.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 412
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass24_1.<<TryReference>b__2>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 249
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.TryReference(IVssRequestContext requestContext, IDictionary`2 referenceIdsGroupedByBlobIds) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 271
+   at Microsoft.VisualStudio.Services.BlobStore.Server.Common.BlobStoreExtensions.TryReference(IBlobStore blobStore, IVssRequestContext requestContext, BlobIdentifier blobId, String referenceId) in D:\src\Artifact2\src\BlobStore\ServiceShared\Server.Common\BlobStoreExtensions.cs:line 12
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 627
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug11
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug11.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (400) Bad Request. ---> System.Net.WebException: The remote server returned an error: (400) Bad Request.
+    at Microsoft.WindowsAzure.Storage.Shared.Protocol.HttpResponseParsers.ProcessExpectedStatusCodeNoException[T](HttpStatusCode expectedStatusCode, HttpStatusCode actualStatusCode, T retVal, StorageCommandBase`1 cmd, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.<>c__DisplayClass39.<PutBlobImpl>b__38(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Util.StorageAsyncResult`1.End()
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.EndUploadText(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass4.<CreateCallbackVoid>b__3(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ConfigurationService.<PushConfigurationAsync>d__13.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 300
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 258
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug6
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug6.RacePutAndRemoveRef threw exception: 
+Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore+BlobMetadataContentionException: Could not cleanup metadata after 1000 attempts.
+    at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CleanupMetadataAsync>d__46.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 823
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<PutSingleBlockBlobAndReferenceAsync>d__49.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 972
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass50_0.<<PutBlobAndReferenceAsync>b__0>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 1011
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.VsoHash.<>c__DisplayClass32_0.<<WalkSingleBlockBlobAsync>b__0>d.MoveNext() in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\VsoHash.cs:line 471
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.VsoHash.<ReadBlockAsync>d__27.MoveNext() in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\VsoHash.cs:line 296
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.VsoHash.<WalkBlocksAsync>d__20.MoveNext() in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\VsoHash.cs:line 117
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<PutBlobAndReferenceAsync>d__50.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 1006
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.PutBlobAndReference(IVssRequestContext requestContext, BlobIdentifier blobId, Stream blob, String referenceId) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 335
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.PutTestContent(Stream blobStream, BlobIdentifier blobId, String refId) in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 675
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 636
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug0
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug0.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (400) Bad Request. ---> System.Net.WebException: The remote server returned an error: (400) Bad Request.
+    at Microsoft.WindowsAzure.Storage.Shared.Protocol.HttpResponseParsers.ProcessExpectedStatusCodeNoException[T](HttpStatusCode expectedStatusCode, HttpStatusCode actualStatusCode, T retVal, StorageCommandBase`1 cmd, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.<>c__DisplayClass39.<PutBlobImpl>b__38(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Util.StorageAsyncResult`1.End()
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.EndUploadText(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass4.<CreateCallbackVoid>b__3(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ConfigurationService.<PushConfigurationAsync>d__13.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 300
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 275
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTests
+Assert.IsNotNull failed. Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests TryRefSuccess:11 TryRefFail:5 Refs:10
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 646
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug11
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug11.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (400) Bad Request. ---> System.Net.WebException: The remote server returned an error: (400) Bad Request.
+    at Microsoft.WindowsAzure.Storage.Shared.Protocol.HttpResponseParsers.ProcessExpectedStatusCodeNoException[T](HttpStatusCode expectedStatusCode, HttpStatusCode actualStatusCode, T retVal, StorageCommandBase`1 cmd, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.<>c__DisplayClass39.<PutBlobImpl>b__38(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Util.StorageAsyncResult`1.End()
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.EndUploadText(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass4.<CreateCallbackVoid>b__3(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ConfigurationService.<PushConfigurationAsync>d__13.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 300
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 275
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug5
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug5.RacePutAndRemoveRef threw exception: 
+System.ArgumentException: Delete requires an ETag (which may be the '*' wildcard).
+    at Microsoft.WindowsAzure.Storage.Table.TableOperation.Delete(ITableEntity entity)
+   at Migration.MigratingTable.TranslateOperationForNewTable(TableOperation op, MTableEntity existingEntity, Boolean leaveTombstones, TableOperation& newOp, Nullable`1& errorCode) in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 439
+   at Migration.MigratingTable.<ExecuteBatchOnNewTableAsync>d__23.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 541
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MigratingTable.<ExecuteBatchAsync>d__24.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 619
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<CreateTableWhileNotFoundExceptionAsync>d__15`1.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 304
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<RunBatchOperationAsync>d__19.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 511
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<RemoveReferencesAsync>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 266
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<RemoveReferencesAsync>d__44.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 755
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass23_1.<<RemoveReferences>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 193
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.RemoveReferences(IVssRequestContext requestContext, IDictionary`2 referenceIdsGroupedByBlobIds) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 210
+   at Microsoft.VisualStudio.Services.BlobStore.Server.Common.BlobStoreExtensions.RemoveReference(IBlobStore blobStore, IVssRequestContext requestContext, BlobIdentifier blobId, String referenceId) in D:\src\Artifact2\src\BlobStore\ServiceShared\Server.Common\BlobStoreExtensions.cs:line 32
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 651
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug4
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug4.RacePutAndRemoveRef threw exception: 
+Microsoft.WindowsAzure.Storage.StorageException: Unexpected exception on ChainTable internal operation ---> Microsoft.WindowsAzure.Storage.ChainTableInterface.ChainTableBatchException: 0: 0:The specified resource does not exist.
+RequestId:039377bb-0002-0044-7ded-f366af000000
+Time:2015-09-20T21:45:31.7310625Z
+    at Microsoft.VisualStudio.Services.Content.Server.Azure.TableAdapter.<ExecuteBatchAsync>d__5.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 62
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MigratingTable.<EnsurePartitionSwitchedAsync>d__13.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 239
+ --- End of inner exception stack trace ---
+    at Migration.MigratingTable.<EnsurePartitionSwitchedAsync>d__13.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 247
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MigratingTable.<ExecuteBatchOnNewTableAsync>d__23.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 519
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MigratingTable.<ExecuteBatchAsync>d__24.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MigratingTable.cs:line 619
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<CreateTableWhileNotFoundExceptionAsync>d__15`1.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 323
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<RunBatchOperationAsync>d__19.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 522
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.AzureStorage.AzureTableBlobMetadataProvider.<TryReferenceAsyncInternal>d__17.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Storage\AzureTableBlobMetadataProvider.cs:line 412
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass24_1.<<TryReference>b__2>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 249
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.TryReference(IVssRequestContext requestContext, IDictionary`2 referenceIdsGroupedByBlobIds) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 271
+   at Microsoft.VisualStudio.Services.BlobStore.Server.Common.BlobStoreExtensions.TryReference(IBlobStore blobStore, IVssRequestContext requestContext, BlobIdentifier blobId, String referenceId) in D:\src\Artifact2\src\BlobStore\ServiceShared\Server.Common\BlobStoreExtensions.cs:line 12
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 627
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug2
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug2.RacePutAndRemoveRef threw exception: 
+Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore+BlobMetadataContentionException: Could not cleanup metadata after 1000 attempts.
+    at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CleanupMetadataAsync>d__46.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 823
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CheckForDeleteAsync>d__45.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 771
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<RemoveReferencesAsync>d__44.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 756
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass23_1.<<RemoveReferences>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 193
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.RemoveReferences(IVssRequestContext requestContext, IDictionary`2 referenceIdsGroupedByBlobIds) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 210
+   at Microsoft.VisualStudio.Services.BlobStore.Server.Common.BlobStoreExtensions.RemoveReference(IBlobStore blobStore, IVssRequestContext requestContext, BlobIdentifier blobId, String referenceId) in D:\src\Artifact2\src\BlobStore\ServiceShared\Server.Common\BlobStoreExtensions.cs:line 32
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 651
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug8
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug8.RacePutAndRemoveRef threw exception: 
+Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore+BlobMetadataContentionException: Could not cleanup metadata after 1000 attempts.
+    at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CleanupMetadataAsync>d__46.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 823
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<CheckForDeleteAsync>d__45.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 771
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<RemoveReferencesAsync>d__44.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 756
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.<>c__DisplayClass23_1.<<RemoveReferences>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 193
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Common.TaskSafety.SyncResultOnThreadPool(Func`1 taskFunc) in D:\src\Artifact2\src\ArtifactServices\Shared\BlobStore.Common\TaskExtensions.cs:line 14
+   at Microsoft.VisualStudio.Services.BlobStore.Server.PlatformBlobStore.RemoveReferences(IVssRequestContext requestContext, IDictionary`2 referenceIdsGroupedByBlobIds) in D:\src\Artifact2\src\BlobStore\Service\Server\PlatformBlobStore.cs:line 210
+   at Microsoft.VisualStudio.Services.BlobStore.Server.Common.BlobStoreExtensions.RemoveReference(IBlobStore blobStore, IVssRequestContext requestContext, BlobIdentifier blobId, String referenceId) in D:\src\Artifact2\src\BlobStore\ServiceShared\Server.Common\BlobStoreExtensions.cs:line 32
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<>c__DisplayClass24_1.<<RacePutAndRemoveRefIteration>b__3>d.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 651
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRefIteration>d__24.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 660
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 486
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTests
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (412) Precondition Failed. ---> System.Net.WebException: The remote server returned an error: (412) Precondition Failed.
+    at Microsoft.WindowsAzure.Storage.Table.Protocol.TableOperationHttpResponseParsers.TableOperationPreProcess(TableResult result, TableOperation operation, HttpWebResponse resp, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Table.TableOperation.<>c__DisplayClass9.<DeleteImpl>b__8(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndExecuteAsync[T](IAsyncResult result)
+   at Microsoft.WindowsAzure.Storage.Table.CloudTable.EndExecute(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass1`1.<CreateCallback>b__0(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.AzureCloudTableAdapter.<AzurePerformanceCountDecoratorAsync>d__16`1.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\AzureCloudTableAdapter.cs:line 119
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MasterMigratingTable.<>c__DisplayClass6_0.<<CleanupAsync>b__1>d.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 234
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Migration.MasterMigratingTable.<>c__DisplayClass5_0.<<WalkTableInParallel>b__1>d.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 149
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<CleanupAsync>d__6.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 232
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 284
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug4
+Test method Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTestsBug4.RacePutAndRemoveRef threw exception: 
+System.AggregateException: One or more errors occurred. ---> Microsoft.WindowsAzure.Storage.StorageException: The remote server returned an error: (400) Bad Request. ---> System.Net.WebException: The remote server returned an error: (400) Bad Request.
+    at Microsoft.WindowsAzure.Storage.Shared.Protocol.HttpResponseParsers.ProcessExpectedStatusCodeNoException[T](HttpStatusCode expectedStatusCode, HttpStatusCode actualStatusCode, T retVal, StorageCommandBase`1 cmd, Exception ex)
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.<>c__DisplayClass39.<PutBlobImpl>b__38(RESTCommand`1 cmd, HttpWebResponse resp, Exception ex, OperationContext ctx)
+   at Microsoft.WindowsAzure.Storage.Core.Executor.Executor.EndGetResponse[T](IAsyncResult getResponseResult)
+ --- End of inner exception stack trace ---
+    at Microsoft.WindowsAzure.Storage.Core.Util.StorageAsyncResult`1.End()
+   at Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob.EndUploadText(IAsyncResult asyncResult)
+   at Microsoft.WindowsAzure.Storage.Core.Util.AsyncExtensions.<>c__DisplayClass4.<CreateCallbackVoid>b__3(IAsyncResult ar)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ConfigurationService.<PushConfigurationAsync>d__13.MoveNext() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 300
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at Migration.MasterMigratingTable.<MigrateAsync>d__7.MoveNext() in D:\src\Artifact2\src\Kiwi\library\Migration\MasterMigratingTable.cs:line 275
+ --- End of inner exception stack trace ---
+    at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks, Int32 millisecondsTimeout)
+   at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+   at Microsoft.VisualStudio.Services.Content.Server.Azure.ShardingAzureCloudTableClientFactory.WorkOnRebalance() in D:\src\Artifact2\src\ArtifactServices\ServiceShared\Server.Azure\ShardingAzureCloudTableClientFactory.cs:line 708
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.LiveAzureBlobBlobStoreServiceTests.<MigrateAsync>b__8_0() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 346
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.Execute()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult()
+   at Microsoft.VisualStudio.Services.BlobStore.Server.L0.Tests.BlobStoreServiceTests`1.<RacePutAndRemoveRef>d__13.MoveNext() in D:\src\Artifact2\src\BlobStore\Service\Server.L0.Tests\BlobStoreServiceTests.cs:line 487
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+
+LiveAzureBlobBlobStoreServiceTestsBug1: 600 2 
+LiveAzureBlobBlobStoreServiceTestsBug7: 602 0 
+LiveAzureBlobBlobStoreServiceTestsBug4: 599 3 
+LiveAzureBlobBlobStoreServiceTestsBug9: 602 0 
+LiveAzureBlobBlobStoreServiceTests: 600 2 
+LiveAzureBlobBlobStoreServiceTestsBug3: 600 2 
+LiveAzureBlobBlobStoreServiceTestsBug8: 601 1 
+LiveAzureBlobBlobStoreServiceTestsBug6: 599 3 
+LiveAzureBlobBlobStoreServiceTestsBug0: 598 4 
+LiveAzureBlobBlobStoreServiceTestsBug10: 602 0 
+LiveAzureBlobBlobStoreServiceTestsBug11: 597 5 
+LiveAzureBlobBlobStoreServiceTestsBug2: 600 2 
+LiveAzureBlobBlobStoreServiceTestsBug5: 600 2 
