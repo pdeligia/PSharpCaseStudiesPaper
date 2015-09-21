@@ -1,4 +1,4 @@
-To uncover the elusive extent repair bug in Azure Storage vNext, its developers wrote a test harness using \psharp. The developers expected that it was more likely for the bug to occur in the ExtMgr logic, rather than in the EN logic. Hence, the developers focused on testing the real ExtMgr using modeled ENs. The test harness for vNext consists of the following \psharp machines (as shown in Figure~\ref{fig:azurestoremodel}):
+To uncover the elusive extent repair bug in Azure Storage vNext, its developers wrote a test harness using \psharp. The developers expected that it was more likely for the bug to occur in the ExtMgr logic, rather than in the EN logic. Hence, they focused on testing the real ExtMgr using modeled ENs. The test harness for vNext consists of the following \psharp machines (as shown in Figure~\ref{fig:azurestoremodel}):
 \begin{description}
 \item[ExtentManager] acts as a thin wrapper machine for the real ExtMgr component in vNext (see \S\ref{sec:method:wrap_target}).
 
@@ -65,7 +65,7 @@ The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the 
 \end{figure*}
 
 \textbf{Internals of the real Extent Manager}.
-The real ExtMgr (see Figure~\ref{fig:extentmanager}) contains two data structures related to extent replication and repair: \texttt{ExtentCenter} and \texttt{ExtentNodeMap}. The \texttt{ExtentCenter} data structure maintains the mapping records from extents to their hosting ENs. It is updated upon the periodic sync reports from the ENs. Recall that the sync report from a particular EN lists all the extents stored at the EN. Its purpose is to update ExtMgr's possible out-of-date view of the EN with the ground truth. \texttt{ExtentNodeMap} records the latest heartbeat time from every EN.
+The real ExtMgr (see Figure~\ref{fig:extentmanager}) contains two data structures related to extent replication and repair: \texttt{ExtentCenter} and \texttt{ExtentNodeMap}. The \texttt{ExtentCenter} data structure maintains the records that map from extents to their hosting ENs. It is updated upon receiving the periodic sync reports from the ENs. Recall that the sync report from a particular EN lists all the extents stored at the EN. Its purpose is to update ExtMgr's possible out-of-date view of the EN with the ground truth. \texttt{ExtentNodeMap} records the latest heartbeat time from every EN.
 
 The ExtMgr runs internally a periodic \emph{EN expiration loop} that is responsible for removing ENs that have been missing heartbeats for an extended period of time, as well as cleaning up the corresponding extent records in \texttt{ExtentCenter}. In addition, the ExtMgr runs a periodic \emph{extent repair loop} that examines all the \texttt{ExtentCenter} records, identifies extents with missing replicas, schedules extent repair tasks and sends them to the ENs.
 
