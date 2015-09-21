@@ -7,14 +7,11 @@ A \psharp program consists of multiple \emph{state machines} that communicate wi
 Our approach of using \psharp to test distributed systems, implemented in .NET, requires the developer to perform the following three key modeling tasks. These tasks are illustrated in \S\ref{sec:method} for the Azure Storage vNext system.
 
 \begin{enumerate}
-\item
-The computation model underlying \psharp is communicating state machines. The environment of the system-under-test must be modeled using the \psharp APIs, while the real components of the system must be wrapped inside \psharp machines. We call this modeled environment the \psharp test harness.
+\item The real components of a distributed system must be wrapped inside \psharp machines. In addition, the environment of the system must be modeled using \psharp, so all external nondeterminism can be captured. We collectively refer to the environment model of a system and its wrapped components as the \psharp \emph{test harness}. This test harness can be used by \psharp to drive the system towards interesting behaviors.
 
-\item
-All the asynchrony due to message passing between system components must become explicit and be modeled using the \psharp event-sending APIs. Similarly, all other sources of nondeterminism (e.g. failures and timer expiration) must be modeled using appropriate \psharp APIs. This step allows the \psharp runtime to systematically explore all asynchronous event handler interleavings and all other sources of nondeterminism during testing.
+\item The criteria for correctness of an execution must be specified. Specifications in \psharp can encode either \emph{safety} or \emph{liveness}~\cite{lamport1977proving} properties (see \S\ref{sec:bg:bugs}). Safety specifications generalize the notion of source code assertions; a safety violation is a finite trace leading to an erroneous state. Liveness specifications generalize nontermination; a liveness violation is an infinite trace that exhibits lack of progress.
 
-\item
-The criteria for correctness of an execution must be specified. Specifications in \psharp can encode either \emph{safety} or \emph{liveness}~\cite{lamport1977proving} properties. Safety specifications generalize the notion of source code assertions; a safety violation is a finite trace leading to an erroneous state. Liveness specifications generalize nontermination; a liveness violation is an infinite trace that exhibits lack of progress.
+\item All the asynchrony due to message passing in the system must be modeled using the \psharp event-sending APIs. Likewise, all other sources of nondeterminism, such as failures and timer expiration, must be modeled using appropriate \psharp APIs. This step allows \psharp to systematically explore all asynchronous event handler interleavings and all other sources of nondeterminism during testing (see \S\ref{sec:psharp:testing}).
 \end{enumerate}
 
 \noindent
