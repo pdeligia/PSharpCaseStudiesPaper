@@ -70,7 +70,7 @@ The real ExtMgr (see Figure~\ref{fig:extentmanager}) contains two data structure
 ExtMgr internally runs a periodic \emph{EN expiration loop} that is responsible for removing ENs that have been missing heartbeats for an extended period of time, as well as cleaning up the corresponding extent records in \texttt{ExtentCenter}. In addition, ExtMgr runs a periodic \emph{extent repair loop} that examines all the \texttt{ExtentCenter} records, identifies extents with missing replicas, schedules extent repair tasks and sends them to the ENs.
 
 \textbf{Intercepting network messages}.
-The real ExtMgr uses a network engine to asynchronously send messages to the ENs. The \psharp test harness mocks the original network engine in vNext by overriding its interface. This enables the mocked network engine (we use the terms \textit{mocked} and \textit{modeled} interchangeably) to intercept all outbound messages and relay them to the \texttt{TestingDriver} machine, which is responsible for dispatching the messages to the corresponding \texttt{ExtentNode} machines. As shown in Figure~\ref{fig:enginecode}, the mocked network engine intercepts the outbound messages from the ExtMgr and invokes \texttt{PSharpRuntime.Send(...)} to asynchronously relay the messages to \texttt{TestingDriver}. This mocked network engine replaces the real network engine in the wrapped ExtMgr, as shown in Figure~\ref{fig:wrap_target}.
+The real ExtMgr uses a network engine to asynchronously send messages to the ENs. The \psharp test harness mocks the original network engine in vNext by overriding its interface. This enables the mocked network engine (we use the terms \textit{mocked} and \textit{modeled} interchangeably) to intercept all outbound messages and relay them to the \texttt{TestingDriver} machine, which is responsible for dispatching the messages to the corresponding \texttt{ExtentNode} machines. As shown in Figure~\ref{fig:enginecode}, the mocked network engine intercepts the outbound messages from the ExtMgr and invokes \texttt{PSharp.Send(...)} to asynchronously relay the messages to \texttt{TestingDriver}. This mocked network engine replaces the real network engine in the wrapped ExtMgr, as shown in Figure~\ref{fig:wrap_target}.
 
 \begin{figure}[t]
 \begin{lstlisting}
@@ -83,8 +83,7 @@ class NetworkEngine {
 class MockedNetEngine : NetworkEngine {
   public override void SendMessage(Socket s, Message msg) {
     // intercept and relay Extent Manager messages
-    PSharpRuntime.Send(TestingDriver,
-      new ExtentManagerMsgEvent(), s, msg);
+    PSharp.Send(TestingDriver, new ExtMgrMsgEvent(), s, msg);
   }
 }
 \end{lstlisting}
@@ -123,18 +122,16 @@ class ExtentNodeMachine : Machine {
   [OnEvent(TimerTickEvent, ProcessExtentNodeSync)]
   void ProcessExtentNodeSync() {
     var sync = ExtCtr.GetSyncReport(); // prepare sync report
-    this.Send(ExtentManagerMachine, new ENMsgEvent(), sync);
+    PSharp.Send(ExtentManagerMachine, 
+      new ENMsgEvent(), sync);
   }
   
   // extent node failure logic
-  [OnEvent(FailEvent, ProcessFailure)]
+  [OnEvent(FailureEvent, ProcessFailure)]
   void ProcessFailure() {
-    // notifies the Extent Manager that this EN failed
-    this.Send(ExtentManagerMachine, new ENMsgEvent(),
-      new ExtentNodeDeletion(ExtentId));
     // notifies the monitor that this EN failed
-    this.Monitor<RepairMonitor>(new ENFailedEvent(), this);
-    this.Halt(); // terminate this P# machine
+    PSharp.Monitor<RepairMonitor>(new ENFailedEvent(), this);
+    PSharp.Halt(); // terminate this P# machine
   }
 }
 \end{lstlisting}
@@ -148,7 +145,7 @@ The \texttt{ExtentNode} machine is a simplified version of the original EN. The 
 
 The \psharp test harness leverages components of the real vNext system whenever it is appropriate. For example, \texttt{ExtentNode} re-uses the \texttt{ExtentCenter} data structure, which is used inside a real EN for extent bookkeeping. In the modeled extent repair logic, \texttt{ExtentNode} takes action upon receiving an extent repair request from the \texttt{ExtentManager} machine. It sends a copy request to a source \texttt{ExtentNode} machine where a replica is stored. After receiving an \texttt{ExtentCopyRespEvent} event from the source machine, it updates the \texttt{ExtentCenter}, as illustrated in Figure~\ref{fig:mocked_en}. 
 
-In the modeled EN sync logic, the machine is driven by an external timer modeled in \psharp (see \S\ref{sec:method:timer}). It prepares a sync report with \texttt{extCtr.GetSyncReport(...)}, and then asynchronously sends the report to \texttt{ExtentManager} using \texttt{PSharpRuntime.Send(...)}. The \texttt{ExtentNode} machine also includes failure-related logic, which is discussed in detail in \S\ref{sec:method:driver}.
+In the modeled EN sync logic, the machine is driven by an external timer modeled in \psharp (see \S\ref{sec:method:timer}). It prepares a sync report with \texttt{extCtr.GetSyncReport(...)}, and then asynchronously sends the report to \texttt{ExtentManager} using \texttt{PSharp.Send(...)}. The \texttt{ExtentNode} machine also includes failure-related logic, which is discussed in detail in \S\ref{sec:method:driver}.
 
 \subsection{The Timer machine}
 \label{sec:method:timer}
@@ -157,14 +154,14 @@ In the modeled EN sync logic, the machine is driven by an external timer modeled
 \begin{lstlisting}
 // modeling timer expiration in P#
 class Timer : Machine {
-  MachineId Target; // target machine
+  Machine Target; // target machine
 
-  [OnEvent(RepeatEvent, GenerateTimeTick)]
-  void GenerateTimeTick() {
+  [OnEvent(RepeatedEvent, GenerateTimerTick)]
+  void GenerateTimerTick() {
     // nondeterministic choice controlled by P#
-    if (this.Nondet())
-      this.Send(this.Target, new TimerTickEvent());
-    this.Send(this, new RepeatEvent()); // loop
+    if (PSharp.Nondet())
+      PSharp.Send(Target, new TimerTickEvent());
+    PSharp.Send(this, new RepeatedEvent()); // loop
   }
 }
 \end{lstlisting}
@@ -174,9 +171,11 @@ class Timer : Machine {
 \vspace{-2mm}
 \end{figure}
 
-System correctness should \emph{not} hinge on the frequency of any individual timer. Instead, all nondeterminism due to timing-related events must be delegated to \psharp. To achieve this, all timers inside ExtMgr are disabled (see Figure~\ref{fig:wrap_target}), and the EN expiration loop and the extent repair loop are driven instead by timers modeled in \psharp, an approach also used in previous work~\cite{desai2015building}. Similarly, the timers in all \texttt{ExtentNode} machines are disabled and replaced by \psharp models.
+System correctness should \emph{not} hinge on the frequency of any individual timer. Hence, it makes sense to delegate all nondeterminism due to timing-related events to \psharp. To achieve this, all the timers inside ExtMgr are disabled (see Figure~\ref{fig:wrap_target}), and the EN expiration loop and the extent repair loop are driven instead by timers modeled in \psharp.
+%, an approach also used in previous work~\cite{desai2015building}.
+Similarly, \texttt{ExtentNode} machines do {\em not} have internal timers either. Their periodic heartbeats and sync reports are also driven by timers modeled in \psharp.
 
-Figure~\ref{fig:mocked_timer} shows the \texttt{Timer} machine of vNext. \texttt{Timer} invokes the \psharp method \texttt{Nondet()} which generates a nondeterministic choice that is controlled by the \psharp runtime. Using \texttt{Nondet()} allows the machine to nondeterministically send a timeout event to a target machine. The \psharp testing engine has the freedom to schedule arbitrary interleavings between these timeout events and all other regular system events.
+Figure~\ref{fig:mocked_timer} shows the \texttt{Timer} machine in the test harness. \texttt{Timer} invokes the \psharp method \texttt{Nondet()} which generates a nondeterministic choice controlled by the \psharp runtime. Using \texttt{Nondet()} allows the machine to nondeterministically send a timeout event to its target (the \texttt{ExtentManager} or \texttt{ExtentNode} machines). The \psharp testing engine has the freedom to schedule arbitrary interleavings between these timeout events and all other regular system events.
 
 \subsection{The TestingDriver machine}
 \label{sec:method:driver}
@@ -187,12 +186,12 @@ Figure~\ref{fig:mocked_timer} shows the \texttt{Timer} machine of vNext. \texttt
 class TestingDriver : Machine {
   private HashSet<MachineId> ExtentNodes; // EN machines
   
-  // other test harness driving logic
+  // other test harness logic
   ...
   void InjectNodeFailure() {
     // nondeterministically choose an EN using P#
-    var node = (MachineId)this.Nondet(ExtentNodes);    
-    this.Send(node, new FailEvent()); // fail the chosen EN
+    var node = (Machine)PSharp.Nondet(ExtentNodes);    
+    PSharp.Send(node, new FailureEvent()); // fail chosen EN
   }
 }
 \end{lstlisting}
@@ -202,9 +201,11 @@ class TestingDriver : Machine {
 \vspace{-2mm}
 \end{figure}
 
-The \texttt{TestingDriver} machine drives two testing scenarios. In the first scenario, \texttt{TestingDriver} launches one \texttt{ExtentManager} and three \texttt{ExtentNode} machines, with a single extent on one of the ENs. \texttt{TestingDriver} then waits for the extent to be replicated at the remaining ENs. In the second testing scenario, \texttt{TestingDriver} fails one of the \texttt{ExtentNode} machines and launches a new one. \texttt{TestingDriver} then waits for the extent to be repaired on the newly launched \texttt{ExtentNode} machine.
+The \texttt{TestingDriver} machine drives two testing scenarios. In the first scenario, \texttt{TestingDriver} launches one \texttt{ExtentManager} and three \texttt{ExtentNode} machines, with a single extent on one of the ENs. It then waits for the extent to be replicated at the remaining ENs. In the second testing scenario, \texttt{TestingDriver} fails one of the \texttt{ExtentNode} machines and launches a new one. It then waits for the extent to be repaired on the newly launched \texttt{ExtentNode} machine.
 
-Figure~\ref{fig:testing_driver} illustrates how \psharp can be used for injecting nondeterministic failures. The \texttt{TestingDriver} machine uses \texttt{Nondet()} to nondeterministically choose an \texttt{ExtentNode} from the set of all available \texttt{ExtentNode} machines. If \texttt{n} is the chosen machine, \texttt{TestingDriver} emulates a failure by sending a \texttt{FailEvent} event to \texttt{n}. Machine \texttt{n} handles this event by wrapping the \texttt{ExtentNodeDeletion} message, which is a failure notification, to the \texttt{ENMsgEvent} and sending it to the \texttt{ExtentManager} machine (see Figure~\ref{fig:mocked_en}). \texttt{ExtentNodeDeletion} is the same message that is used by the real vNext for simulating failures in its unit tests; we simply re-use this functionality. Next, \texttt{n} notifies the liveness monitor that it has failed. Finally, machine \texttt{n} calls the \psharp method \texttt{Halt()}, which causes \texttt{n} to terminate. \psharp not only enumerates interleavings of asynchronous event handlers, but also the values returned by calls to \texttt{Nondet()}, thus enumerating different failure scenarios.
+Figure~\ref{fig:testing_driver} illustrates how \texttt{TestingDriver} leverages \psharp to inject nondeterministic failures. It uses \texttt{Nondet()} to nondeterministically choose an \texttt{ExtentNode} machine and sends a \texttt{FailureEvent} to the chosen machine to emulate EN failure. As shown in the earlier Figure~\ref{fig:mocked_en}, the chosen \texttt{ExtentNode} machine processes the \texttt{FailureEvent},
+%and instructs \texttt{ExtentManager} to expire itself by sending a \texttt{ExtentNodeDeletion} message.\texttt{ExtentNodeDeletion} is the same message that is used by the real \texttt{ExtMgr} to expire an EN. At the same time, \texttt{ExtentNode}
+notifies the liveness monitor of its failure and terminates itself by invoking \texttt{PSharp.Halt()}. \psharp not only enumerates interleavings of asynchronous event handlers, but also the values returned by calls to \texttt{Nondet()}, thus enumerating different failure scenarios.
 
 \subsection{The RepairMonitor liveness monitor}
 \label{sec:method:monitor}
@@ -216,16 +217,16 @@ In the extent repair testing scenarios, \texttt{RepairMonitor} checks that it sh
 \begin{figure}[t]
 \begin{lstlisting}
 class RepairMonitor : Monitor {
-  // true: EN has replica, false: EN has no replica
-  private Dictionary<Machine, bool> ExtentNode2Replica;
+  private HashSet<Machine> ExtentNodesWithReplica;
 
   // cold state: repaired
   [OnEvent(ENFailedEvent, ProcessExtentNodeFailure)]
   cold state Repaired {
     void ProcessExtentNodeFailure() {
         var node = GetExtentNode(this.Payload);
-        ExtentNode2Replica.Remove(node);
-        goto Repairing;
+        ExtentNodesWithReplica.Remove(node);
+        if (ReplicaCount < Harness.REPLICA_COUNT_TARGET)				
+          goto Repairing;
     }
   }
 
@@ -234,7 +235,7 @@ class RepairMonitor : Monitor {
   hot state Repairing {
     void ProcessExtentRepaired() {
       var node = GetExtentNode(this.Payload);
-      ExtentNode2Replica[node] = true;
+      ExtentNodesWithReplica.Add(node);
       if (ReplicaCount == Harness.REPLICA_COUNT_TARGET)
         goto Repaired;
     }
