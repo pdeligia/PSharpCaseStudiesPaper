@@ -7,14 +7,17 @@ A \psharp program consists of multiple \emph{state machines} that communicate wi
 Our approach of using \psharp to test distributed systems, implemented in .NET, requires the developer to perform the following three key modeling tasks. These tasks are illustrated in \S\ref{sec:method} for the Azure Storage vNext system.
 
 \begin{enumerate}
-\item The real components of a distributed system must be wrapped inside \psharp machines. In addition, the environment of the system must be modeled using \psharp, so all external nondeterminism can be captured. We collectively refer to the environment model of a system and its wrapped components as the \psharp \emph{test harness}. This test harness can be used by \psharp to drive the system towards interesting behaviors.
+\item The real components of a distributed system must be wrapped inside \psharp machines. In addition, all the asynchrony due to message passing in the system must be modeled using the \psharp event-sending APIs. 
+
+\item The environment of the system must be modeled using \psharp. \psharp offers APIs for obtaining non-deterministically chosen values, which can be used to simulate failures, timers, etc. (see \S\ref{sec:method:driver}). This step captures external sources of nondeterminism. \psharp's testing engine can then systematically explore all choices, enumerating different asynchronous event interleavings, possible points of failures, timers firing, etc. (see \S\ref{sec:psharp:testing}).
 
 \item The criteria for correctness of an execution must be specified. Specifications in \psharp can encode either \emph{safety} or \emph{liveness}~\cite{lamport1977proving} properties (see \S\ref{sec:bg:bugs}). Safety specifications generalize the notion of source code assertions; a safety violation is a finite trace leading to an erroneous state. Liveness specifications generalize nontermination; a liveness violation is an infinite trace that exhibits lack of progress.
 
-\item All the asynchrony due to message passing in the system must be modeled using the \psharp event-sending APIs. Likewise, all other sources of nondeterminism, such as failures and timer expiration, must be modeled using appropriate \psharp APIs. This step allows \psharp to systematically explore all asynchronous event handler interleavings and all other sources of nondeterminism during testing (see \S\ref{sec:psharp:testing}).
+%\item Likewise, all other sources of nondeterminism, such as failures and timer expiration, must be modeled using appropriate \psharp APIs. This step allows \psharp to systematically explore all asynchronous event handler interleavings and all other sources of nondeterminism during testing (see \S\ref{sec:psharp:testing}).
 \end{enumerate}
 
 \noindent
+We collectively refer to the environment model of a system and its wrapped components as the \psharp \emph{test harness}. This test harness can be used by \psharp to drive the system towards interesting behaviors.
 \psharp uses modern object-oriented language features such as \emph{interfaces} and \emph{virtual method dispatch} to connect the real code with the modeled code. Programmers in industry are used to working with such features, and heavily use them in production for testing purposes. In our experience, this significantly lowers the bar for product teams inside Microsoft to embrace \psharp for testing.
 
 In principle, our modeling methodology is \emph{not specific} to \psharp and the .NET framework, and can be used in combination with any other programming framework that has equivalent capabilities. We also argue that our approach is \emph{flexible} since it allows the user to model \emph{as much} or \emph{as little} of the environment as required to achieve the desired level of testing.

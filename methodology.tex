@@ -1,16 +1,13 @@
 To uncover the elusive extent repair bug in Azure Storage vNext, its developers wrote a testing harness in \psharp. The developers of vNext expected that it was more likely for the bug to occur in the ExtMgr logic, rather than the EN logic. Hence, the testing harness focuses on the real ExtMgr using mocked ENs.
 
 The testing harness consists of the following \psharp machines (as shown in Figure~\ref{fig:azurestoremodel}):
-%\begin{enumerate}
 \begin{description}
 \item[ExtentManager] acts as a thin wrapper machine for the real ExtMgr component in vNext.
-
-\item[ExtentNode] represents a simplified mocked EN.
-
+\item[ExtentNode] represents a simplified mocked EN. (In this paper, we use the terms ``mocked'' and ``modeled'' interchangeably.)
 \item[TestingDriver] communicates with all other machines, relays messages between the \texttt{ExtentManager} and the \texttt{ExtentNode} machines, and is responsible for driving testing scenarios.
-
 \item[RepairMonitor] collects states from all \texttt{ExtentNode} machines in the testing harness and checks desired properties, such as that an extent is replicated or repaired at the expected ENs.
 \end{description}
+
 
 \begin{figure}[t]
 \centering
