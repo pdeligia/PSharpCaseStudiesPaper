@@ -132,7 +132,7 @@
 			<key>Points</key>
 			<array>
 				<string>{467.64056338873428, 207.17594152604772}</string>
-				<string>{345, 269.17594152604772}</string>
+				<string>{373, 286.17594152604772}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -172,8 +172,8 @@
 			<integer>653</integer>
 			<key>Points</key>
 			<array>
-				<string>{431.64056338873428, 131.17594152604772}</string>
-				<string>{330, 273.17594152604772}</string>
+				<string>{431.64056338873428, 129.17594152604772}</string>
+				<string>{350, 270.17594152604772}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -214,7 +214,7 @@
 			<key>Points</key>
 			<array>
 				<string>{344.82028903570694, 116.17594152604772}</string>
-				<string>{320.17972564697266, 269.17594152604772}</string>
+				<string>{330.17972564697266, 269.17594152604772}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -592,7 +592,7 @@
 			<integer>637</integer>
 			<key>Points</key>
 			<array>
-				<string>{263, 142.17594152604772}</string>
+				<string>{307, 165.17594152604772}</string>
 				<string>{335.64056338873428, 117.17594152604772}</string>
 			</array>
 			<key>Style</key>
@@ -622,7 +622,7 @@
 			<integer>636</integer>
 			<key>Points</key>
 			<array>
-				<string>{307.36190981873665, 177.38340518711226}</string>
+				<string>{307.36190981873665, 182.38340518711226}</string>
 				<string>{433.26360074103025, 116.76514625549316}</string>
 			</array>
 			<key>Style</key>
@@ -819,8 +819,8 @@
 			<integer>645</integer>
 			<key>Points</key>
 			<array>
-				<string>{151.25784672270723, 186.97943350075315}</string>
-				<string>{181.0000001147923, 186.97019932113514}</string>
+				<string>{151.25784678090068, 186.99038970721961}</string>
+				<string>{180.99999999643589, 186.98607476922038}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1066,7 +1066,7 @@ Driver}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-09-21 16:30:42 +0000</string>
+	<string>2015-09-21 16:38:25 +0000</string>
 	<key>Modifier</key>
 	<string>Pantazis Deligiannis</string>
 	<key>NotesVisible</key>
@@ -1097,7 +1097,7 @@ Driver}</string>
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>79DFE2E2-A5FE-4F4A-BF97-4995472713AD</string>
+			<string>62140497-69C1-4246-A062-0E4C3956C66A</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
