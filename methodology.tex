@@ -130,7 +130,7 @@ class ExtentNodeMachine : Machine {
   [OnEvent(FailureEvent, ProcessFailure)]
   void ProcessFailure() {
     // notifies the monitor that this EN failed
-    PSharp.Monitor<RepairMonitor>(new ENFailedEvent(), this);
+    PSharp.Notify<RepairMonitor>(new ENFailedEvent(), this);
     PSharp.Halt(); // terminate this P# machine
   }
 }
@@ -184,7 +184,7 @@ Figure~\ref{fig:mocked_timer} shows the \texttt{Timer} machine in the test harne
 \begin{lstlisting}
 // machine for driving testing scenarios in vNext
 class TestingDriver : Machine {
-  private HashSet<MachineId> ExtentNodes; // EN machines
+  private HashSet<Machine> ExtentNodes; // EN machines
   
   // other test harness logic
   ...
@@ -203,9 +203,7 @@ class TestingDriver : Machine {
 
 The \texttt{TestingDriver} machine drives two testing scenarios. In the first scenario, \texttt{TestingDriver} launches one \texttt{ExtentManager} and three \texttt{ExtentNode} machines, with a single extent on one of the ENs. It then waits for the extent to be replicated at the remaining ENs. In the second testing scenario, \texttt{TestingDriver} fails one of the \texttt{ExtentNode} machines and launches a new one. It then waits for the extent to be repaired on the newly launched \texttt{ExtentNode} machine.
 
-Figure~\ref{fig:testing_driver} illustrates how \texttt{TestingDriver} leverages \psharp to inject nondeterministic failures. It uses \texttt{Nondet()} to nondeterministically choose an \texttt{ExtentNode} machine and sends a \texttt{FailureEvent} to the chosen machine to emulate EN failure. As shown in the earlier Figure~\ref{fig:mocked_en}, the chosen \texttt{ExtentNode} machine processes the \texttt{FailureEvent},
-%and instructs \texttt{ExtentManager} to expire itself by sending a \texttt{ExtentNodeDeletion} message.\texttt{ExtentNodeDeletion} is the same message that is used by the real \texttt{ExtMgr} to expire an EN. At the same time, \texttt{ExtentNode}
-notifies the liveness monitor of its failure and terminates itself by invoking \texttt{PSharp.Halt()}. \psharp not only enumerates interleavings of asynchronous event handlers, but also the values returned by calls to \texttt{Nondet()}, thus enumerating different failure scenarios.
+Figure~\ref{fig:testing_driver} illustrates how \texttt{TestingDriver} leverages \psharp to inject nondeterministic failures. It uses \texttt{Nondet()} to nondeterministically choose an \texttt{ExtentNode} machine, and then sends a \texttt{FailureEvent} to the chosen machine to emulate an EN failure. As shown in the earlier Figure~\ref{fig:mocked_en}, the chosen \texttt{ExtentNode} machine processes the \texttt{FailureEvent}, notifies the liveness monitor of its failure (see \S\ref{sec:method:monitor}) and terminates itself by invoking the \psharp method \texttt{Halt()}. \psharp not only enumerates interleavings of asynchronous event handlers, but also the values returned by calls to \texttt{Nondet()}, thus enumerating different failure scenarios.
 
 \subsection{The RepairMonitor liveness monitor}
 \label{sec:method:monitor}
