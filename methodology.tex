@@ -175,7 +175,7 @@ System correctness should \emph{not} hinge on the frequency of any individual ti
 %, an approach also used in previous work~\cite{desai2015building}.
 Similarly, \texttt{ExtentNode} machines do {\em not} have internal timers either. Their periodic heartbeats and sync reports are also driven by timers modeled in \psharp.
 
-Figure~\ref{fig:mocked_timer} shows the \texttt{Timer} machine in the test harness. \texttt{Timer} invokes the \psharp method \texttt{Nondet()} which generates a nondeterministic choice controlled by the \psharp runtime. Using \texttt{Nondet()} allows the machine to nondeterministically send a timeout event to its target (the \texttt{ExtentManager} or \texttt{ExtentNode} machines). The \psharp testing engine has the freedom to schedule arbitrary interleavings between these timeout events and all other regular system events.
+Figure~\ref{fig:mocked_timer} shows the \texttt{Timer} machine in the test harness. \texttt{Timer} invokes the \psharp method \texttt{Nondet()}, which generates a nondeterministic choice controlled by the \psharp runtime. Using \texttt{Nondet()} allows the machine to nondeterministically send a timeout event to its target (the \texttt{ExtentManager} or \texttt{ExtentNode} machines). The \psharp testing engine has the freedom to schedule arbitrary interleavings between these timeout events and all other regular system events.
 
 \subsection{The TestingDriver machine}
 \label{sec:method:driver}
