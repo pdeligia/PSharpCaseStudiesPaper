@@ -30,13 +30,12 @@ class ExtentManagerMachine : Machine {
 
   void Init() {
     ExtMgr = new ExtentManager();
-    ExtMgr.netEngine = new MockedNetEngine(); // mock network
-    ExtMgr.isMockingTimer = true;	 // disable internal timer
+    ExtMgr.NetEngine = new MockedNetEngine(); // mock network
+    ExtMgr.IsMockingTimer = true;	 // disable internal timer
   }
 
-  [OnEvent(ENMsgEvent, DeliverExtentNodeMessage)]
-  void DeliverExtentNodeMessage() {
-    var msg = (ExtentNodeMessage)this.Payload;
+  [OnEvent(ExtentNodeMessageEvent, DeliverMessage)]
+  void DeliverMessage(ExtentNodeMessage msg) {
     // relay messages from Extent Node to Extent Manager
     ExtMgr.ProcessMessage(msg);
   }
@@ -109,11 +108,11 @@ class ExtentNodeMachine : Machine {
 
   // extent repair logic
   ...
-  [OnEvent(ExtentCopyRespEvent, ProcessExtentCopyResponse)]
-  void ProcessExtentCopyResponse() {
+  [OnEvent(ExtentCopyResponseEvent, ProcessCopyResponse)]
+  void ProcessCopyResponse(ExtentCopyResponse response) {
     // extent copy response from source replica
-    if (IsCopySucceeded(this.Payload)) {
-      var rec = GetExtentRecord(this.Payload);
+    if (IsCopySucceeded(response)) {
+      var rec = GetExtentRecord(response);
       ExtCtr.AddOrUpdate(rec); // update ExtentCenter
     }
   }
@@ -123,7 +122,7 @@ class ExtentNodeMachine : Machine {
   void ProcessExtentNodeSync() {
     var sync = ExtCtr.GetSyncReport(); // prepare sync report
     PSharp.Send(ExtentManagerMachine, 
-      new ENMsgEvent(), sync);
+      new ExtentNodeMessageEvent(), sync);
   }
   
   // extent node failure logic
@@ -218,24 +217,22 @@ class RepairMonitor : Monitor {
   private HashSet<Machine> ExtentNodesWithReplica;
 
   // cold state: repaired
-  [OnEvent(ENFailedEvent, ProcessExtentNodeFailure)]
   cold state Repaired {
-    void ProcessExtentNodeFailure() {
-        var node = GetExtentNode(this.Payload);
-        ExtentNodesWithReplica.Remove(node);
+    [OnEvent(ENFailedEvent, ProcessENFailure)]
+    void ProcessENFailure(ExtentNodeMachine en) {
+        ExtentNodesWithReplica.Remove(en);
         if (ReplicaCount < Harness.REPLICA_COUNT_TARGET)				
-          goto Repairing;
+          jumpto Repairing;
     }
   }
 
   // hot state: repairing
-  [OnEvent(ExtentRepairedEvent, ProcessExtentRepaired)]
   hot state Repairing {
-    void ProcessExtentRepaired() {
-      var node = GetExtentNode(this.Payload);
-      ExtentNodesWithReplica.Add(node);
+    [OnEvent(ExtentRepairedEvent, ProcessRepairCompletion)]
+    void ProcessRepairCompletion(ExtentNodeMachine en) {
+      ExtentNodesWithReplica.Add(en);
       if (ReplicaCount == Harness.REPLICA_COUNT_TARGET)
-        goto Repaired;
+        jumpto Repaired;
     }
   }
 }
