@@ -20,12 +20,22 @@ The paper's approach seems reasonable and the results are good. Finding bugs in 
 
 Some comments:
 
-* Section 3.2 on systematic testing: How do you choose the path for various non-deterministic decisions? I.e., given the choice for re-ordering messages, returning random values, etc, how is the state space systematically explored. the paper says that the system implementer provides the limit in terms of iterations or time - what do those iterations means and/or how does he/she have a sense of time limit?
+* Section 3.2 on systematic testing: How do you choose the path for various non-deterministic decisions? I.e., given the choice for re-ordering messages, returning random values, etc, how is the state space systematically explored.
+
+COMMENT: This is explained 2 paragraphs down, but I made a small change *might* help make it clearer.
+
+the paper says that the system implementer provides the limit in terms of iterations or time - what do those iterations means and/or how does he/she have a sense of time limit?
+
+COMMENT: We use `iteration` and `execution` inconsistently. I haved changed all to execution. No need to address what a time limit is? :)
 
 * Section 4.1: I did not understand the sentence "Messages coming from the Extend node  do not go through the mocked network engine". Why not? Is it harmful? I think that I am missing something here.
 
+COMMENT: We could just remove or give less emphasis to this point. I added a comment.
+
 * Section 5.1's presentation can be improved substantially. There are way too many "table" types and it is not clear what is going on. For example, where is SpecTable in Figure 10?
 Also, the linearization point discussion is confusing - I did not understand how things are kept in sync, why and how such a point be issued, etc.
+
+COMMENT: I somewhat agree. I have added some comments and made some changes.
 
 * Migrating Table is a small piece of code (2267 LOC) - it might be worthwhile explaining its interface and why the developers wanted to try it out with the paper's systems. Perhaps it relatively subtle (it seems it is - and the paper found some bugs during the development).
 
