@@ -1,0 +1,245 @@
+===========================================================================
+                          FAST '16 Review #127A
+---------------------------------------------------------------------------
+Paper #127: Uncovering Bugs in Distributed Storage Systems during Testing
+           (not in Production!)
+---------------------------------------------------------------------------
+
+                     Overall merit: 4. Accept
+                Reviewer expertise: 3. Knowledgeable
+
+                        ===== Paper summary =====
+
+This paper presents an approach to find bugs in distributed systems for C# programs by having the programmer use an extension of C# called P#. This extension allows programmers to model the non-determinism in their execution environment and express a safety/liveness specification for correctness. Then using a test suite, the paper's system can explore various system states by running the tests many times with different re-orderings/non-deterministic decisions and find a variety of bugs such as logical race conditions.
+
+Their results show that they were able to find bugs in several systems including one where the engineers could not find the bug for months whereas the paper's system found it in minutes.
+
+                     ===== Comments for author =====
+
+The paper's approach seems reasonable and the results are good. Finding bugs in real systems is hard - the paper's approach is practical and is well-described.
+
+Some comments:
+
+* Section 3.2 on systematic testing: How do you choose the path for various non-deterministic decisions? I.e., given the choice for re-ordering messages, returning random values, etc, how is the state space systematically explored.
+
+COMMENT: This is explained 2 paragraphs down, but I made a small change *might* help make it clearer.
+
+the paper says that the system implementer provides the limit in terms of iterations or time - what do those iterations means and/or how does he/she have a sense of time limit?
+
+COMMENT: We use `iteration` and `execution` inconsistently. I haved changed all to execution. No need to address what a time limit is? :)
+
+* Section 4.1: I did not understand the sentence "Messages coming from the Extend node  do not go through the mocked network engine". Why not? Is it harmful? I think that I am missing something here.
+
+COMMENT: We could just remove or give less emphasis to this point. I added a comment.
+
+* Section 5.1's presentation can be improved substantially. There are way too many "table" types and it is not clear what is going on. For example, where is SpecTable in Figure 10?
+Also, the linearization point discussion is confusing - I did not understand how things are kept in sync, why and how such a point be issued, etc.
+
+COMMENT: I somewhat agree. I have added some comments and made some changes.
+
+* Migrating Table is a small piece of code (2267 LOC) - it might be worthwhile explaining its interface and why the developers wanted to try it out with the paper's systems. Perhaps it relatively subtle (it seems it is - and the paper found some bugs during the development).
+
+* The paper refers to PCT - it might be worthwhile describing its key properties in the paper in a few sentences.
+
+===========================================================================
+                          FAST '16 Review #127B
+---------------------------------------------------------------------------
+Paper #127: Uncovering Bugs in Distributed Storage Systems during Testing
+           (not in Production!)
+---------------------------------------------------------------------------
+
+                     Overall merit: 4. Accept
+                Reviewer expertise: 4. Expert
+
+                        ===== Paper summary =====
+
+The paper presents a testing framework based on P# that has been integrated into three large in-production systems.  One of the target systems serve 60 trillion objects in exabytes of data.  The authors were able to reproduce many old non-deterministic bugs.  The framework is very fast, able to uncover heisenbugs in a small duration of testing time.
+
+                     ===== Comments for author =====
+
+This is an important piece of work.  As our data lives in cloud storage, the reliability distributed storage systems is very important.  There is not much work on testing distributed systems as it is arguably much harder than testing non-distributed software.  We need more work in this space, and I think this is a good exposure to FAST community.  With this, I recommend an accept. 
+
+This paper is not just a merely academic paper.  The authors really integrate this to real storage systems, and I suspect this is from a big giant tech company.  So the story is very real and the impact can be big. 
+
+The title is intriguing, but it does not describe the contribution and it's a common sense that we want to find bugs in testing.  
+
+I feel the organization of the paper can be improved.  The storyline  is mainly something like "there is one hard bug in vNext and here's what we do to integrate vNext".  So everything evolves around this one bug and vNext.  The bug wasn't even described until the very end and the bug was not that complex comparing to bugs that have been described in MoDist, DeMeter, SAMC, etc. 
+
+I think a better storyline is: "here's a technique X and how X differs from other techniques, and how X is easy to integrate to real distributed storage systems".  I'd prefer to see a sample illustration of small integration rather than jumping to vNext.  DeMeter is a perfect example; this paper illustrates the contribution with a very simple example. 
+
+To me, the key technique is in the environment modeling in Section 4.2 (e.g. modeled EN in Figure 2).  I think this is interesting and can speed up the testing, as opposed to using real ENs.  I'd like to hear more philosophical discussions on why environment modeling is easier than other approaches. For example, I could have used real ENs (your evaluation only shows that we need to only run modeled 5 ENs, which is manageable if we run real ENs). 
+
+As I believe Section 4.2 is the core contribution, the section is too short.  I believe the FAST audience, especially developers of distributed storage who want to adopt this technique, would love to see more on the modeling part.  The evaluation says it can take days to weeks to build the model.  So, this is not as easy as it sounds, considering model size is small (e.g. 100s of LOC).  Thus, again more discussions are needed.  
+
+Since you submit this to FAST, the audience might want to hear what kind of specifications one should write for storage systems.  The paper does not show much detail on this. 
+
+P# is event-driven based.  Is there any limitation to integrate this to thread-based systems?  In event-based systems, we can just schedule event processing, but in thread-based, the schedules might be more complex? 
+
+Why do you use PCT [4]?  What was the rationale?  What are the pros/cons of applying PCT to storage systems? 
+
+Please be up front on the diff between this paper and [7].  For example, it seems the hot-cold liveness specification is new.  The integration to three real systems seems to be also new. 
+
+Although P# is useful in reproducing bugs and showing the detailed traces, it would be great to hear more comments from your developers on whether P# can be really integrated into their testing methodologies.  For example, if they adopt P#, how many test suites they can throw away because the test suites are not as complete as P#? 
+
+Please add bug IDs in Table 2 (e.g. 2A, 2B, 2C) so you can refer to them easily in the text. 
+
+For QueryStreamedLock, why it takes 2000+ seconds to explore 181 scheduling steps?  Overall, why similar scheduling steps can have significantly different durations to find the bugs? 
+
+"uncover bugs" --> I assume these are old bugs? Do you find new bugs?
+
+-----
+
+
+Additional review: 
+
+Delta of the PLDI paper and this submission: 
+
+- FAST: Integrate C# systems with P#.  Environment modeling (e.g. wrap the critical node such as node manager with P# code).  The environment also includes fault-injections, timeouts, safety and liveness checks, etc. More exploration strategies are added.  
+
+- PLDI: focuses on the language, didn't include fault-injections and liveness checks.   
+
+Regarding the environment modeling: It helps speed things up.  They can catch the bugs very fast (in tens or hundreds of microseconds, as opposed to minutes/hours).  For example, the extent node model only implements the necessary logic enough to test the extent manager, such that the model does not execute heavy-weight computation.  The other factor that helps the speed-up is timer machine (section 4.3), which is included in environment model. The timer machine controls global clock and let the system "fast forward" (e.g., for testing timeout, we do not need to wait for real time to elapse).
+
+===========================================================================
+                          FAST '16 Review #127C
+---------------------------------------------------------------------------
+Paper #127: Uncovering Bugs in Distributed Storage Systems during Testing
+           (not in Production!)
+---------------------------------------------------------------------------
+
+                     Overall merit: 4. Accept
+                Reviewer expertise: 2. Some familiarity
+
+                        ===== Paper summary =====
+
+The paper describes experiences using the P# test framework to find bugs in three distributed systems.
+
+                     ===== Comments for author =====
+
+The paper should clearly list the contributions of this paper in the intro.  In other words, what is the new contribution on top of prior work on P# such as the cited PLDI paper.  My impression is that the previous paper focused on race detection, and this paper focuses on safety, liveness, and correctness properties of storage systems.
+
+The paper is also missing related work in file-system model checking (FiSC, Explode, etc.)   These are definitely related, though they focus on local file systems.
+
+Accepting the distributed storage aspect as novel, there is a real contribution in this work.  The paper clearly describes how P# is applied to real storage systems, and it lays out interesting methods for checking safety and liveness.  The paper has one of the best evaluations of the cost and benefits of using this type of tool that I've read in papers in this area.  This may help developers understand whether to apply such a tool in their environment.
+
+One downside is that the paper is tied so closely to P# that it is not always clear how I would generalize this to
+other systems (e.g., to check code not written in C#).
+
+The checker makes assumptions about scheduling fairness to determine liveness.  Why doesn't this notion need to be extended to all forms of non-determinism (random values, inputs, and so on)?  Surely non-fair values from any non-deterministic source could often lead to liveness violations/cycles/etc?
+
+The desription of await/async is a bit impenetrable to someone who has not programmed in C#.
+
+spelling: "debuggin"
+
+===========================================================================
+                          FAST '16 Review #127D
+---------------------------------------------------------------------------
+Paper #127: Uncovering Bugs in Distributed Storage Systems during Testing
+           (not in Production!)
+---------------------------------------------------------------------------
+
+                     Overall merit: 2. Weak reject
+                Reviewer expertise: 3. Knowledgeable
+
+                        ===== Paper summary =====
+
+This paper reports on the experience of applying systematic testing on portions of a large distributed storage system, controlling ordering at message passing and timer events, when the bulk of the distributed storage system is replaced by a model (written specifically by the testers to reduce the state space that systematic testing must explore).  These techniques are well covered in prior papers, however, this is done on a distributed storage system developed for production use by a large company, so its “reality” is higher than most academic papers.  In this sense the critical numbers are on page 10: lines of code written to implement a test were 3%, 100% and 20% of the number of lines in the system under test, and the person weeks of test development were 2, 5 and 20, respectively.  The result was 1, 11, and 1 (still being verified) bugs found.  Of these bugs 8 were considered serious.
+
+Finally, reinserting the 12 verified bugs one at a time and running the systematic tester with two state space exploration schedulers, random and probabilistic concurrency testing (PCT), taken from prior work, the system is used to show that except for a liveness violation, the probabilistic concurrency testing scheduler is generally superior to a random state space scheduler, a result consistent with the earlier paper.
+
+                     ===== Comments for author =====
+
+While I like to see real world employment of sophisticated testing techniques, I’m not sure that there is sufficient novelty in this paper.  Ten years ago demonstrating a model checking tester that anecdotally found bugs in real world code was sufficient reason for publishing a paper; it is not clear that anecdotally finding real world bugs by applying techniques described in the last decade of research is still a sufficient reason for publication.
+
+I suspect that if published I will reference it as a negative result in the sense that in order to find 12-13 bugs, whose test time to find the bugs given in Table 2 was about 400 seconds, the authors and application developers spent 27 person weeks developing tester models.
+
+Of course, it is likely that the company was spending tens of millions of dollars per year on the code development, so this tester model development cost was probably only a few percent of a year’s R&D costs, and perhaps these bugs would have delayed deployment or caused the service to fail for initial customers.  In this sense the 27 weeks of tester model development may have been well spent.
+
+The comparison between random and PCT state space schedulers feels like an after thought — it was not well motivated, is not well explained in the last subsection of the evaluation and doesn’t appear in the introduction’s list of contributions.
+
+In section 3.2, you say ”Runtime is aware of nondeterminism due to the interleaving of event
+handlers on different machines.” This is an important explanation that I would highlight in your abstract and/or intro as well, since it's the primary attraction of the technique for folks that are familiar with systematic testing. Something like: "While prior systematic testing
+tools [cite CHESS] are limited to thread-switch nondeterminism driven by timer interrupts, we..."
+
+Does P# use any state-space reduction techniques such as DPOR? If so, talk about how equivalences are identified between event handler interleavings across different machines. If not, talk somewhere in future/related work about how equivalences could be identified in future work.
+
+In section 4.6, the paper describes testing 100,000 executions to confirm the absence of the bug, with emphasis on it taking "only" tens of minutes.  Why didn't you run it for several hours?  After all, you spent half a person year writing the tester model code. How strongly can you justify that testing 100,000 executions is enough to confirm that the bug was fixed, and not just hidden by the repair in an interleaving even rarer still? 
+
+In section 5.1, the paragraph about a “small scope hypothesis” is very unclear. What is positive probability? Do you maybe mean, "each SUBSEQUENT iteration of P# would have a CUMULATIVELY positive probability"? Otherwise I'm lost.
+
+The related work in this paper could be much stronger.  Here are a few comments on it:
+
+The rest of the paper calls the testing technique "systematic testing", then in this section you switch to "Model checking". Clarify somewhere that they are the same thing.
+
+The correct citation for DPOR is http://dl.acm.org/citation.cfm?id=1040315. Other supplemental
+papers on DPOR are (I would cite all of them at once):
+http://dl.acm.org/citation.cfm?id=2535845
+http://dl.acm.org/citation.cfm?id=2509556
+http://dl.acm.org/citation.cfm?id=2737956
+
+Also, the second one of those (BPOR) has another heuristic for finding infinite loops (called "fair bounded search") which is relevant to your liveness heuristic.
+
+The paragraph about compositional testing needs to compare explicitly against Dynamic Interface Reduction (that's the DeMeter paper). DeMeter is already mentioned in the next paragraph, but only in passing. Dynamic interface reduction is not obviously complementary/orthogonal as you claim, because its reduction is based on the same compositional testing concept.
+
+DPOR is also not 100% orthogonal, as it requires a shared memory analysis to identify equivalent interleavings. Can you say a few words on how independence could be identified for event handler transitions in your setting?
+
+I also encourage you to read the paper from this year’s OOPSLA on stateless model checking of event-driven applications. They even adapt DPOR to the setting.
+http://dl.acm.org/citation.cfm?id=2814282
+
+===========================================================================
+                          FAST '16 Review #127E
+---------------------------------------------------------------------------
+Paper #127: Uncovering Bugs in Distributed Storage Systems during Testing
+           (not in Production!)
+---------------------------------------------------------------------------
+
+                     Overall merit: 2. Weak reject
+                Reviewer expertise: 2. Some familiarity
+
+                        ===== Paper summary =====
+
+This paper presents a methodology and experience testing distributed
+systems code using P#. It explains how the tool was applied to three
+bodies of code, and demonstrates deep bugs found with the tool.
+
+                     ===== Comments for author =====
+
+This paper demonstrates an important new technique for testing
+complicated systems code by specifying its behavior in P# and then
+testing randomized schedules for violations.
+
+I applaud the use of formal methods for testing production code, and
+the results demonstrate that the methodology seems to have value.
+
+However, the paper does not have much of a contribution: the
+description of P# and how schedule exploration is done was previously
+published, and the description in this paper is too terse to be of
+much use. For example, section 3 describes P# a bit but has no
+examples of it and no real discussion of what it is and how it works;
+that is all left to the P# paper.
+
+The paper mostly describes experiences using P#, which can be
+interesting in and of themselves. However, the information provided is
+very high level and a bit vague -- it may be difficult for others to
+learn from the expereinces about what properties a system needs to
+have to be testable in this way. The paper mentions only one code
+style (async/await) that is difficult to test, but even there doesn't
+go into much detail on why or what the impact is of their solution.  
+
+For example, the paper talks about testing liveness conditions and
+using effectively timeouts for doing this plus a cache mechanism; it
+does not explain why the cache mechanism works to detect liveness
+properties. 
+
+The paper also says very little about a significant cost of using P#,
+which is developing appropriate environment models. There is a bit of
+discussion, but again not much talk of what must be included, what can
+be left out, the impact of inaccuracies, etc.
+
+The application of P# to the service fabric was very interesting, in
+that it hopefully applies to many applications using the
+fabric. However, the discussion didn't show that it could apply
+unchanged to many services; the text describes extensions needed for
+testing CScale (modeling RPCs). Having more example applications, to
+show that the P# model can be reused, would help make this point a lot
+stronger.
