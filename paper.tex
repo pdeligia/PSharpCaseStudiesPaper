@@ -87,7 +87,6 @@ columns=fullflexible
 
 %make title bold and 14 pt font (Latex default is non-bold, 16 pt)
 \title{\Large \bf Uncovering Bugs in Distributed Storage Systems\\during Testing (not in Production!)}
-%\title{\Large \bf Uncovering Distributed Storage System Bugs during\\Testing (not in Production!)}
 
 %for single author (just remove % characters)
 \author{
@@ -105,7 +104,7 @@ $^\dagger$Imperial College London, $^\diamond$Massachusetts Institute of Technol
 \thispagestyle{empty}
 
 \subsection*{Abstract}
-Testing distributed storage systems is challenging due to multiple sources of nondeterminism. Conventional testing techniques, such as unit and stress testing, are ineffective in preventing serious but subtle bugs from reaching production. Formal techniques, such as TLA+, can only verify high-level specifications of systems at the level of logic-based models, and fall short of checking the actual executable code. In this paper, we present a new methodology for testing distributed storage systems. Our approach applies advanced systematic testing techniques to thoroughly check that the executable code adheres to its high-level specifications, which significantly improves coverage of important system behaviors.
+Testing distributed systems is challenging due to multiple sources of nondeterminism. Conventional testing techniques, such as unit, integration and stress testing, are ineffective in preventing serious but subtle bugs from reaching production. Formal techniques, such as TLA+, can only verify high-level specifications of systems at the level of logic-based models, and fall short of checking the actual executable code. In this paper, we present a new methodology for testing distributed systems. Our approach applies advanced systematic testing techniques to thoroughly check that the executable code adheres to its high-level specifications, which significantly improves coverage of important system behaviors.
 
 Our methodology has been applied to three distributed storage systems in the \Microsoft \Azure cloud computing platform. In the process, numerous bugs were identified, reproduced, confirmed and fixed. These bugs required a subtle combination of concurrency and failures, making them extremely difficult to find with conventional testing techniques. An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace, which dramatically increases the productivity of debugging.
 
@@ -119,7 +118,8 @@ Our methodology has been applied to three distributed storage systems in the \Mi
 
 \input{motivation}
 
-\section{Our Approach to Testing Distributed Systems}
+\section{Overview of our Approach}
+%\section{Our Approach to Testing Distributed Systems}
 \label{sec:overview}
 
 \input{overview}
