@@ -55,13 +55,13 @@ class ExtentManagerMachine : Machine {
 
 The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the \texttt{ExtentManager} machine, as illustrated in the code snippet of Figure~\ref{fig:wrap_target}.
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\includegraphics[width=.9\linewidth]{img/extent_manager}
-\caption{Internal components of the real Extent Manager in \Azure Storage vNext.}
+\includegraphics[width=.95\linewidth]{img/extent_manager}
+\caption{Internal components of the real Extent Manager in \Microsoft \Azure Storage vNext.}
 \label{fig:extentmanager}
 \vspace{-5mm}
-\end{figure*}
+\end{figure}
 
 \textbf{Internals of the real Extent Manager}.
 The real ExtMgr (see Figure~\ref{fig:extentmanager}) contains two data structures related to extent replication and repair: \texttt{ExtentCenter} and \texttt{ExtentNodeMap}. The \texttt{ExtentCenter} data structure maintains the records that map from extents to their hosting ENs. It is updated upon receiving the periodic sync reports from the ENs. Recall that the sync report from a particular EN lists all the extents stored at the EN. Its purpose is to update ExtMgr's possible out-of-date view of the EN with the ground truth. \texttt{ExtentNodeMap} records the latest heartbeat time from every EN.
