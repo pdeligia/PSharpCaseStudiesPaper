@@ -52,7 +52,7 @@ Table~\ref{tab:testing} presents the results from running the \psharp systematic
 
 
 
-
+\PDComment{TODO:}
 We have implemented two different schedulers that are responsible for making scheduling and other non-deterministic choices: a \emph{random} scheduler that makes each nondeterministic choice randomly, and a \emph{probabilistic concurrency testing}~\cite{burckhardt2010pct} (PCT) scheduler. It is straightforward to create a new scheduler by implementing the \texttt{ISchedulingStrategy} interface~\cite{desai2015systematic} exposed by the \psharp libraries. The interface exposes callbacks that are invoked by the \psharp testing engine for taking decisions regarding which machine to schedule next, and can be used for developing both generic and application-specific schedulers.
 
 
