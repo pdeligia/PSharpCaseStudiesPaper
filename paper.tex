@@ -106,33 +106,39 @@ $^\dagger$Imperial College London, $^\diamond$Massachusetts Institute of Technol
 \subsection*{Abstract}
 Testing distributed systems is challenging due to multiple sources of nondeterminism. Conventional testing techniques, such as unit, integration and stress testing, are ineffective in preventing serious but subtle bugs from reaching production. Formal techniques, such as TLA+, can only verify high-level specifications of systems at the level of logic-based models, and fall short of checking the actual executable code. In this paper, we present a new methodology for testing distributed systems. Our approach applies advanced systematic testing techniques to thoroughly check that the executable code adheres to its high-level specifications, which significantly improves coverage of important system behaviors.
 
-Our methodology has been applied to three distributed storage systems in the \Microsoft \Azure cloud computing platform. In the process, numerous bugs were identified, reproduced, confirmed and fixed. These bugs required a subtle combination of concurrency and failures, making them extremely difficult to find with conventional testing techniques. An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace, which dramatically increases the productivity of debugging.
+Our methodology has been applied to three distributed storage systems in the Microsoft Azure cloud computing platform. In the process, numerous bugs were identified, reproduced, confirmed and fixed. These bugs required a subtle combination of concurrency and failures, making them extremely difficult to find with conventional testing techniques. An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace, which dramatically increases the productivity of debugging.
 
+\vspace{-1mm}
 \section{Introduction}
 \label{sec:intro}
+\vspace{-1mm}
 
 \input{intro}
 
-\section{Motivating Example}
-\label{sec:motivation}
+%\section{Motivating Example}
+%\label{sec:motivation}
+%
+%\input{motivation}
 
-\input{motivation}
-
-\section{Overview of our Approach}
-%\section{Our Approach to Testing Distributed Systems}
+\section{Testing Distributed Systems with \psharp}
 \label{sec:overview}
 
 \input{overview}
 
-\section{Testing \Azure Storage vNext with \psharp}
-\label{sec:method}
+\section{Case Study: Azure Storage vNext}
+\label{sec:vnext}
 
-\input{methodology}
+\input{vnext}
 
-\section{Additional Case Studies}
-\label{sec:cases}
+\section{Case Study: Live Table Migration}
+\label{sec:migrating}
 
-\input{experience}
+\input{migrating}
+
+\section{Case Study: Azure Service Fabric}
+\label{sec:fabric}
+
+\input{fabric}
 
 \section{Quantifying the Cost of Using \psharp}
 \label{sec:eval}
@@ -149,9 +155,9 @@ Our methodology has been applied to three distributed storage systems in the \Mi
 
 \input{conclusion}
 
-%\section{Acknowledgments}
+\section{Acknowledgments}
 
-%Draft.
+We thank our shepherd Haryadi Gunawi for his valuable guidance, and the reviewers for their constructive comments. We also thank Ankush Desai from UC Berkeley, and Rich Draves, David Goebel, David Nichols and SW Worth from Microsoft, for their valuable feedback and discussions on various stages of this work. This research was partially supported by a gift from Intel Corporation.
 
 % Balances the bibliography in the last page
 \balance
