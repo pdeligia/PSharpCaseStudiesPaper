@@ -1,10 +1,10 @@
 Azure Service Fabric
 %\footnote{\url{azure.microsoft.com/campaigns/service-fabric/}}
 (or Fabric for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
-%The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
+The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
 In order to make the user-written service \emph{reliable}, Fabric launches several \emph{replicas} (copies) of the service, where each replica runs as a separate process on a different node in the cluster.
 %\PTComment{Cut: description of primary and secondaries, and electing a new primary.}
-One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary replicates state changes to the secondaries 
+One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary forwards state-changing operations to the secondaries 
 %by sending them \emph{replication requests}.
 so that all replicas eventually have the same state. 
 If the primary fails,
@@ -21,16 +21,16 @@ User-written Fabric services are complex asynchronous and distributed applicatio
 Our primary goal was to create a \psharp{} model of Fabric to allow
 thorough testing of services, where Fabric's asynchrony is controlled 
 by the \psharp{} runtime.
-The model is written once
+The model was written once
 to include all behaviours of Fabric, including simulating failures and recovery,
 so that it can be reused repeatedly to test multiple Fabric services.
 This was the largest modeling exercise among the case studies but the cost
-was amortized across testing multiple servies. This is analogous to the work
+was amortized across testing multiple services. This is analogous to the work
 on driver verification \cite{ball2011slam} where the cost of developing a model
 of the Windows kernel was amortized across testing multiple device drivers.
 Note that we model the lowest Fabric API layer (\texttt{Fabric.dll})
-which is currently not documented for use externally.
-We target internally-developed services that invoke the lowest layer. 
+which is currently not documented for use externally;
+we target internally-developed services that use this API. 
 
 Using \psharp was very helpful in debugging the model itself.
 % Without systematic testing, we feel even catching bugs in the model 
@@ -42,20 +42,20 @@ that runs on our Fabric model.
 % and executed it on the Fabric model,
 % thus yielding a pure \psharp{} system.
 We tested a scenario where the primary replica
-fails at some non-deterministic point
-within the execution.
+fails at some non-deterministic point.
 One such bug that we found
 involved
-the primary replica
+the primary
 failing
-when a secondary replica
+when a new secondary 
 was about to receive a copy of the state;
 the secondary was then elected to be the new primary
 and yet, because the secondary stopped waiting for
 a copy of the state, it was
-also promoted to be an \emph{active} secondary
+then ``promoted'' to be an \emph{active} secondary
 (one that has caught up with the other secondaries).
-This caused an assertion failure in our model
+This caused an assertion failure in our model,
+as only a secondary can be promoted to an active secondary, 
 allowing us to detect and fix this incorrect behaviour.
 
 
@@ -236,15 +236,15 @@ Supporting CScale required significant additions to the model, making it much mo
 feature-complete.
 CScale chains multiple Fabric services, which communicate via remote procedure calls (RPCs).
 To close the system, we modeled RPCs 
-as \psharp{} events.
-This was enough to converted a distributed system
+using \psharp{} events.
+Thus, we converted a distributed system
 that uses both Fabric and its own
 network communication protocol
 % that runs on the Fabric platform
 % and 
 % uses network communication
 into 
-a closed single process system. 
+a closed, single-process system. 
 % that uses multiple threads,
 % contains
 % the Fabric model
