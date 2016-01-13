@@ -42,12 +42,12 @@ that runs on our Fabric model.
 % and executed it on the Fabric model,
 % thus yielding a pure \psharp{} system.
 We tested a scenario where the primary replica
-fails at some non-deterministic point.
+fails at some nondeterministic point.
 One such bug that we found
-involved
+occurred when
 the primary
-failing
-when a new secondary 
+failed
+as a new secondary 
 was about to receive a copy of the state;
 the secondary was then elected to be the new primary
 and yet, because the secondary stopped waiting for
