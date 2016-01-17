@@ -19,13 +19,6 @@ of \texttt{IChainTable} for the combined \emph{input history}, as if
 all the operations were performed on a single table. The goal of
 using \psharp was to systematically test this property.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{img/modeled_migration}
-\caption{The \psharp test harness of MigratingTable (each box with a dotted line represents one \psharp machine).}
-\label{fig:mockedmigration}
-\end{figure}
-
 There are two main challenges behind testing MigratingTable: (i) the system is highly concurrent; and (ii) the input operations accept many parameters that affect the behavior in different ways. The developers could have chosen specific input histories to test, but they were not confident that they would cover the combinations of parameters that might trigger bugs. Instead, the developers used the \psharp nondeterministic choice generation APIs to sample from a distribution over input histories that they defined, which allowed all of the relevant parameters to vary within certain limits. They created a reference implementation of the \texttt{IChainTable} specification, called \texttt{SpecTable}, and compared the output of MigratingTable on the chosen input history to that of a \texttt{SpecTable} instance called the \emph{reference table}. The \texttt{SpecTable} implementation was reused for the BTs of MigratingTable.
 % I'm removing the claim that each bug is caught with positive probability per
 % run because it's too awkward to explain here and it's nothing specific to
@@ -33,6 +26,15 @@ There are two main challenges behind testing MigratingTable: (i) the system is h
 % its original form because I hand-picked which parameters to vary and what
 % limits to use.  The value of the input generator should be clear enough from
 % the above. ~ Matt 2015-12-31
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{img/modeled_migration}
+\vspace{-6mm}
+\caption{The \psharp test harness of MigratingTable (each box with a dotted line represents one \psharp machine).}
+\label{fig:mockedmigration}
+\vspace{-2mm}
+\end{figure}
 
 Figure~\ref{fig:mockedmigration} shows the \psharp test harness of MigratingTable. The test harness consists of a \texttt{Tables} machine, which contains the BTs and the reference table, and serializes all operations on these tables; a set of \texttt{Service} machines that contain identically configured instances of MigratingTable; and a \texttt{Migrator} machine that performs the background migration. Each \texttt{Service} machine issues a random sequence of input operations to its MigratingTable, which sends the necessary operations to the BTs via \psharp events. The developers instrumented MigratingTable to report the \emph{linearization point} of each input operation, i.e., the time at which it takes effect on the single VT, so the test harness could perform the operation on the reference table at the same time. More precisely, after processing each backend operation, the \texttt{Tables} machine enters a \psharp state that blocks all further work until MigratingTable reports whether the backend operation was the linearization point and, if so, the input operation has been completed on the reference table. This way, the rest of the system never observes the reference table to be out of sync with the VT.
 % Note: If the tables were observed to be out of sync, it could cause both false

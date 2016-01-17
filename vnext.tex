@@ -79,9 +79,10 @@ class ExtentManagerMachine : Machine {
   }
 }
 \end{lstlisting}
-\vspace{-2mm}
+\vspace{-3mm}
 \caption{The real Extent Manager is wrapped inside the \texttt{ExtentManager} \psharp machine.}
 \label{fig:wrap_target}
+\vspace{-1mm}
 \end{figure}
 
 The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the \texttt{ExtentManager} machine, as illustrated in the code snippet of Figure~\ref{fig:wrap_target}.
@@ -92,6 +93,7 @@ The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the 
 \vspace{-2mm}
 \caption{Internal components of the real Extent Manager in Microsoft Azure Storage vNext.}
 \label{fig:extentmanager}
+\vspace{-2mm}
 \end{figure}
 
 \textbf{Real Extent Manager}.
@@ -120,7 +122,7 @@ class ModelNetEngine : NetworkEngine {
 \vspace{-4mm}
 \caption{Modeled vNext network engine.}
 \label{fig:enginecode}
-\vspace{-3mm}
+\vspace{-2mm}
 \end{figure}
 
 Intercepting all network messages and dispatching them through \psharp is important for two reasons. First, it allows \psharp to systematically explore the interleavings between asynchronous event handlers in the system. Second, the modeled network engine could leverage the support for controlled nondeterministic choices in \psharp, and choose to drop the messages in a non-deterministic fashion, in case emulating message loss is desirable (not shown in this example).
@@ -163,10 +165,10 @@ class ExtentNodeMachine : Machine {
   }
 }
 \end{lstlisting}
-\vspace{-4mm}
+\vspace{-5mm}
 \caption{Code snippet of the modeled EN.}
 \label{fig:modeled_en}
-\vspace{-2mm}
+\vspace{-4mm}
 \end{figure}
 
 The \texttt{ExtentNode} machine is a simplified version of the original EN. The machine omits most of the complex details of a real EN, and only models the necessary logic for testing. This modeled logic includes: repairing an extent from its replica, and sending sync reports and heartbeat messages periodically to \texttt{ExtentManager}. 
@@ -193,7 +195,7 @@ class Timer : Machine {
   }
 }
 \end{lstlisting}
-\vspace{-4mm}
+\vspace{-5mm}
 \caption{Modeling timer expiration using \psharp.}
 \label{fig:modeled_timer}
 \vspace{-2mm}
@@ -223,7 +225,7 @@ class TestingDriver : Machine {
 \vspace{-4mm}
 \caption{Code snippet of the TestingDriver machine.}
 \label{fig:testing_driver}
-\vspace{-2mm}
+\vspace{-4mm}
 \end{figure}
 
 The \texttt{TestingDriver} machine drives two testing scenarios. In the first scenario, \texttt{TestingDriver} launches one \texttt{ExtentManager} and three \texttt{ExtentNode} machines, with a single extent on one of the ENs. It then waits for the extent to be replicated at the remaining ENs. In the second testing scenario, \texttt{TestingDriver} fails one of the \texttt{ExtentNode} machines and launches a new one. It then waits for the extent to be repaired on the newly launched \texttt{ExtentNode} machine.
@@ -263,7 +265,7 @@ class RepairMonitor : Monitor {
   }
 }
 \end{lstlisting}
-\vspace{-4mm}
+\vspace{-5mm}
 \caption{The RepairMonitor liveness monitor.}
 \label{fig:monitor}
 \vspace{-2mm}
