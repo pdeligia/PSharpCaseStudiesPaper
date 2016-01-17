@@ -24,11 +24,11 @@ by the \psharp{} runtime.
 The model was written once
 to include all behaviours of Fabric, including simulating failures and recovery,
 so that it can be reused repeatedly to test multiple Fabric services.
-This was the largest modeling exercise among the case studies but the cost
-was amortized across testing multiple services. This is analogous to the work
-on driver verification \cite{ball2011slam} where the cost of developing a model
+This was the largest modeling exercise among the case studies, but the cost
+was amortized across testing multiple services. This is analogous to prior work
+on driver verification \cite{ball2011slam}, where the cost of developing a model
 of the Windows kernel was amortized across testing multiple device drivers.
-Note that we model the lowest Fabric API layer (\texttt{Fabric.dll})
+Note that we model the lowest Fabric API layer (\texttt{Fabric.dll}),
 which is currently not documented for use externally;
 we target internally-developed services that use this API. 
 

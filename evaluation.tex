@@ -34,7 +34,7 @@ Modeling Fabric required approximately five person months, an effort undertaken 
 \subsection{Cost of systematic testing}
 \label{sec:eval:machine_cost}
 
-\setlength{\tabcolsep}{.72em}
+\setlength{\tabcolsep}{.68em}
 \begin{table*}[t]
 \small
 \centering
@@ -42,25 +42,19 @@ Modeling Fabric required approximately five person months, an effort undertaken 
 \centering
 \input{experiments/tables/results.tex}
 \end{tabular}
-\caption{Results from running the \psharp random and PCT systematic testing schedulers for 100,000 executions. We report: time in seconds to find a bug (Time to Bug); number of scheduling steps when a bug was found (\#SS); and if a bug was found with a particular scheduler (BF?).}
+\caption{Results from running the \psharp random and priority-based systematic testing schedulers for 100,000 executions. We report: time in seconds to find a bug (Time to Bug); number of nondeterministic choices made when a bug was found (\#NDC); and if a bug was found with a particular scheduler (BF?).}
 \label{tab:testing}
 \end{table*}
 
-Using \psharp we managed to uncover 8 serious bugs in our case studies. As discussed earlier in the paper, these bugs were hard to find with traditional testing techniques, but \psharp managed to uncover them and reproduce them in a small setting. According to the developers, the traces of \psharp were useful, as it allowed them to understand the source of the bug and fix it in a timely manner. After the developers fixed all the discovered bugs, we added flags to allow them to be individually reintroduced, for purposes of evaluation.
+Using \psharp we managed to uncover 8 serious bugs in our case studies. As discussed earlier in the paper, these bugs were hard to find with traditional testing techniques, but \psharp managed to uncover and reproduce them in a small setting. According to the developers, the \psharp traces were useful, as it allowed them to understand the bugs and fix them in a timely manner. After all the discovered bugs were fixed, we added flags to allow them to be individually reintroduced, for purposes of evaluation.
 
-Table~\ref{tab:testing} presents the results from running the \psharp systematic testing engine on each case study with a re-introduced bug using the random and PCT schedulers. We chose to use controlled random scheduling, because it has proven to be efficient for finding concurrency bugs~\cite{thomson2014sct, deligiannis2015psharp}. The CS column shows which case study corresponds to each bug: ``1'' is for the Azure Storage vNext; and ``2'' is for MigratingTable. We do not include the Fabric case study, as we are awaiting confirmation of the found bug (see \S\ref{sec:fabric}).
+We have implemented two different schedulers that are responsible for choosing the next \psharp machine to execute in each scheduling point: a \emph{random} scheduler, which randomly chooses a machine from a list of enabled\footnote{A \psharp machine is considered enabled when it has at least one event in its queue waiting to be dequeued and handled.} machines; and a \emph{randomized priority-based}~\cite{burckhardt2010pct} scheduler, which always schedules the highest priority enabled machine (these priorities change at random points during execution, based on a random distribution). We decided to only use random scheduling, because it has proven to be efficient for finding concurrency bugs~\cite{thomson2014sct, deligiannis2015psharp}.
 
+Table~\ref{tab:testing} presents the results from running the \psharp systematic testing engine on each case study with a re-introduced bug using our two randomized schedulers. The CS column shows which case study corresponds to each bug: ``1'' is for the Azure Storage vNext; and ``2'' is for MigratingTable. We do not include Fabric, as we are awaiting confirmation of the found bug (see \S\ref{sec:fabric}).
 
+We performed all experiments on a 2.50GHz Intel Core i5-4300U CPU with 8GB RAM running Windows 10 Pro 64-bit. We configured the \psharp testing engine to perform 100,000 executions. The random seed for both schedulers was generated using the current time. The priority-based scheduler was further configured with a bug depth of 2 and a maximum number of nondeterministic choices of 500. All reported times are in seconds.
 
-\PDComment{TODO:}
-We have implemented two different schedulers that are responsible for making scheduling and other non-deterministic choices: a \emph{random} scheduler that makes each nondeterministic choice randomly, and a \emph{probabilistic concurrency testing}~\cite{burckhardt2010pct} (PCT) scheduler.
-
-
-
-
-We performed all experiments on a 2.50GHz Intel Core i5-4300U CPU with 8GB RAM running Windows 10 Pro 64-bit. We configured the \psharp testing engine to perform 100,000 executions. The random seed for both schedulers was generated using the current time. The PCT scheduler was further configured with a bug depth of 2 and a maximum number of scheduling steps of 500. All reported times are in seconds.
-
-For the vNext case study, the random scheduler was able to reproduce the ExtentNodeLivenessViolation bug within 10 seconds. The reason that the number of scheduling steps to find the bug is much higher than the rest of the bugs in the table is that this bug is a liveness violation: as discussed in \S\ref{sec:overview:liveness} we leave the program to run for a long time before checking if the liveness property holds. The PCT scheduler was unable to find the bug using the bug depth of 2, which suggests that the bug requires a larger bug depth bound to be found.
+For the vNext case study, the random scheduler was able to reproduce the ExtentNodeLivenessViolation bug within 10 seconds. The reason that the number of nondeterministic choices to find the bug is much higher than the rest of the bugs in the table is that this bug is a liveness violation: as discussed in \S\ref{sec:overview:liveness} we leave the program to run for a long time before checking if the liveness property holds. The priority-based scheduler was unable to find the bug using the bug depth of 2, which suggests that the bug requires a larger bug depth bound to be found.
 
 For the MigratingTable case study, we evaluated the \psharp test harness of \S\ref{sec:migrating} on eleven buggy versions of the system, including eight \emph{organic} bugs that actually occurred in development and three \emph{notional} bugs (denoted by $*$), which are other code changes that we deemed interesting ways of making the system incorrect. The test found seven of the organic bugs, which are listed first in Table~\ref{tab:testing}. The remaining four bugs (denoted by $\diamond$) were not caught with our default test harness in the 100,000 executions (a process that required less than 30 minutes). We believe this is because the inputs and schedules that trigger them are too rare in our distribution. To confirm this, we wrote a custom test case for each bug with a specific input that triggers it and were able to quickly reproduce the bugs;
 % Be a little bit more transparent about the fact that the $\diamond$ rows do not
