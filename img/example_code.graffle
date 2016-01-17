@@ -90,8 +90,8 @@
 			<integer>706</integer>
 			<key>Points</key>
 			<array>
-				<string>{1337.3097343444824, 146}</string>
-				<string>{1068.6482391357422, 146}</string>
+				<string>{1334, 169.01173400878906}</string>
+				<string>{1007, 169.01173400878906}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -124,8 +124,8 @@
 			<integer>705</integer>
 			<key>Points</key>
 			<array>
-				<string>{1064.9479312896729, 6.7402195930480957}</string>
-				<string>{1064.9479312896729, 310.7400681972685}</string>
+				<string>{996.9999885559082, 6.7402348518371582}</string>
+				<string>{996.9999885559082, 310.74008345605756}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -146,7 +146,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{374.37255859375, 32.328731536865234}, {328, 275}}</string>
+			<string>{{361, 32.328731536865234}, {337, 275}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -188,19 +188,19 @@
 }
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural
 
-\f0\b\fs40 \cf0 doSync (\cf2 Node\cf0  node, \cf2 Log\cf0  log) \{\
+\f0\b\fs40 \cf0 doSync (\cf2 Node\cf0  sn, \cf2 Log\cf0  log) \{\
     
-\f1\i \cf3 // If storage log is not\
+\f1\i \cf3 // If the storage log is not\
 
 \f0\i0 \cf0     
 \f1\i \cf3 // up-to-date, replicate
 \f0\i0 \cf0 \
     \cf2 if\cf0  (!isUpToDate(log))\
-      send(node, \cf4 ReplReq\cf0 , Data);\
+      sn.send(\cf4 ReplReq\cf0 , \cf2 this\cf0 .Data);\
     \cf2 else\cf0  \{\
-      NumReplicas++;\
-      \cf2 if\cf0  (NumReplicas == 3)\
-        send(Client, \cf4 Ack\cf0 );\
+      \cf2 this\cf0 .NumReplicas++;\
+      \cf2 if\cf0  (\cf2 this\cf0 .NumReplicas == 3)\
+        \cf2 this\cf0 .Client.send(\cf4 Ack\cf0 );\
     \}\
 \}}</string>
 				<key>VerticalPad</key>
@@ -211,7 +211,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{1078.4730072021484, 188.66545677185059}, {240, 98}}</string>
+			<string>{{1016.8247680664062, 209.67719078063965}, {314, 98}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -253,11 +253,11 @@
 }
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural
 
-\f0\i\b\fs40 \cf2 // Send timeout when\
+\f0\i\b\fs40 \cf2 // Send timeout to node when \
 // countdown reaches 0
 \f1\i0 \cf3 \
-if\cf0  (Countdown == 0)\
-  send(Node, \cf4 Timeout\cf0 );}</string>
+if\cf0  (\cf3 this\cf0 .Countdown == 0)\
+  \cf3 this\cf0 .SN.send(\cf4 Timeout\cf0 );}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -266,7 +266,7 @@ if\cf0  (Countdown == 0)\
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{1078.4730224609375, 32.328731536865234}, {256, 98}}</string>
+			<string>{{1016.8247833251953, 32.328731536865234}, {315, 125}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -303,16 +303,18 @@ if\cf0  (Countdown == 0)\
 				<integer>0</integer>
 				<key>Text</key>
 				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
-\cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-BoldItalic;\f1\fnil\fcharset0 CMUSerif-Bold;}
-{\colortbl;\red255\green255\blue255;\red64\green128\blue0;\red0\green64\blue128;\red128\green0\blue0;
+\cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;\f1\fnil\fcharset0 CMUSerif-BoldItalic;}
+{\colortbl;\red255\green255\blue255;\red0\green64\blue128;\red128\green0\blue0;\red64\green128\blue0;
 }
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural
 
-\f0\i\b\fs40 \cf2 // Send request to server\
-// and wait for ack
-\f1\i0 \cf3 \
-\cf0 send(S, \cf4 ClientReq\cf0 , Val);\
-receive(\cf4 Ack\cf0 );}</string>
+\f0\b\fs40 \cf2 while\cf0  (hasNextRequest()) \{\
+\cf2   this\cf0 .Server.send(\cf3 ClientReq\cf0 ,\
+    \cf2 this\cf0 .DataToReplicate);\
+  receive(\cf3 Ack\cf0 ); 
+\f1\i \cf4 // Wait for ack\
+
+\f0\i0 \cf0 \}}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -321,7 +323,7 @@ receive(\cf4 Ack\cf0 );}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{9.14691162109375, 32.328731536865234}, {353, 283}}</string>
+			<string>{{9.14691162109375, 32.328731536865234}, {337, 283}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -365,18 +367,18 @@ receive(\cf4 Ack\cf0 );}</string>
 
 \f0\b\fs40 \cf2 receive\cf0  \cf3 msg\cf0  \{\
   \cf2 case\cf0  \cf3 ClientReq\cf0 :\
-    Data = (msg \cf2 as\cf0  \cf3 ClientReq\cf0 ).Val;\
+    \cf2 this\cf0 .Data = message.Val;\
     
 \f1\i \cf4 // Replicate data to all nodes
 \f0\i0 \cf0 \
-    \cf2 foreach\cf0  (node \cf2 in\cf0  nodes)\
-      send(node, \cf3 ReplReq\cf0 , Data);\
+    \cf2 foreach\cf0  (sn \cf2 in\cf0  \cf2 this\cf0 .Nodes)\
+      sn.send(\cf3 ReplReq\cf0 , \cf2 this\cf0 .Data);\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-420\pardirnatural
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural
 \cf0   \cf2 case\cf0  \cf3 Sync\cf0 :\
-    \cf2 var\cf0  node = (msg \cf2 as\cf0  \cf3 Sync\cf0 ).Id;\
-    \cf2 var\cf0  log = (msg \cf2 as\cf0  \cf3 Sync\cf0 ).Log;\
+    \cf2 Node\cf0  node = message.Id;\
+    \cf2 Log\cf0  log = message.Log;\
     doSync(node, log);\
 \}}</string>
 				<key>VerticalPad</key>
@@ -387,7 +389,7 @@ receive(\cf4 Ack\cf0 );}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{1182.9569931030273, 152.66545677185059}, {68, 28}}</string>
+			<string>{{1139.2685928344727, 170.01173400878906}, {68, 28}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -447,7 +449,7 @@ receive(\cf4 Ack\cf0 );}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{818.76140975952148, -3.8484039306640625}, {151, 28}}</string>
+			<string>{{777.00000381469727, -3.8484039306640625}, {151, 28}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -507,7 +509,7 @@ receive(\cf4 Ack\cf0 );}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{334.80548095703125, -3.8484039306640625}, {71, 28}}</string>
+			<string>{{314, -3.8484039306640625}, {71, 28}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -567,7 +569,7 @@ receive(\cf4 Ack\cf0 );}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{1179.4729614257812, -3.8484039306640625}, {68, 28}}</string>
+			<string>{{1139.2685699462891, -3.8484039306640625}, {68, 28}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -627,7 +629,7 @@ receive(\cf4 Ack\cf0 );}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{728.42279815673828, 32.328731536865234}, {324, 233}}</string>
+			<string>{{725, 32.328731536865234}, {255, 258}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -672,20 +674,21 @@ receive(\cf4 Ack\cf0 );}</string>
 \f0\b\fs40 \cf2 receive\cf0  \cf3 msg\cf0  \{\
   \cf2 case\cf0  \cf3 ReplReq\cf0 :\
     
-\f1\i \cf4 // Store received data locally
+\f1\i \cf4 // Store received data
 \f0\i0 \cf0 \
-    store((msg \cf2 as\cf0  \cf3 ReplReq\cf0 ).Val);\
+    store(message.Val);\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-420\pardirnatural
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural
 \cf0   \cf2 case\cf0  \cf3 Timeout\cf0 :\
     
-\f1\i \cf4 // Send server the storage\
+\f1\i \cf4 // Send server the log\
 
 \f0\i0 \cf0     
-\f1\i \cf4 // log upon timeout
+\f1\i \cf4 // upon timeout
 \f0\i0 \cf0 \
-    send(S, \cf3 Sync\cf0 , Id, Log);\
+    \cf2 this\cf0 .Server.send(\cf3 Sync\cf0 ,\
+      \cf2 this\cf0 .Id, \cf2 this\cf0 .Log);\
 \}}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
@@ -707,8 +710,8 @@ receive(\cf4 Ack\cf0 );}</string>
 			<integer>707</integer>
 			<key>Points</key>
 			<array>
-				<string>{714.89767646789551, 6.7402195930480957}</string>
-				<string>{714.89767646789551, 310.74006402494501}</string>
+				<string>{710.50002861022949, 6.7402348518371582}</string>
+				<string>{710.50002861022949, 310.74007928373408}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -775,7 +778,7 @@ receive(\cf4 Ack\cf0 );}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-12-25 00:19:13 +0000</string>
+	<string>2016-01-17 12:20:50 +0000</string>
 	<key>Modifier</key>
 	<string>Pantazis Deligiannis</string>
 	<key>NotesVisible</key>
@@ -806,7 +809,7 @@ receive(\cf4 Ack\cf0 );}</string>
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>125212FE-E8C8-4601-89ED-97DCB9C186F5</string>
+			<string>1934E9C6-601B-438F-B9A9-E8C042D89DE1</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
@@ -875,7 +878,7 @@ receive(\cf4 Ack\cf0 );}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{347, -167}, {999, 648}}</string>
+		<string>{{0, -167}, {999, 648}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>

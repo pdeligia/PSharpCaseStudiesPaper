@@ -77,172 +77,8 @@
 	<key>GraphicsList</key>
 	<array>
 		<dict>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>FontInfo</key>
-			<dict>
-				<key>Font</key>
-				<string>CMUSerif-Roman</string>
-				<key>Size</key>
-				<real>20</real>
-			</dict>
-			<key>ID</key>
-			<integer>655</integer>
-			<key>Points</key>
-			<array>
-				<string>{153.00001468267959, 223.73361593400671}</string>
-				<string>{256.35945129394531, 292.73361593400671}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>Color</key>
-					<dict>
-						<key>b</key>
-						<string>0.0901961</string>
-						<key>g</key>
-						<string>0.0901961</string>
-						<key>r</key>
-						<string>0.505882</string>
-					</dict>
-					<key>HeadArrow</key>
-					<string>0</string>
-					<key>Legacy</key>
-					<true/>
-					<key>Pattern</key>
-					<integer>1</integer>
-					<key>TailArrow</key>
-					<string>SharpArrow</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>FontInfo</key>
-			<dict>
-				<key>Font</key>
-				<string>CMUSerif-Roman</string>
-				<key>Size</key>
-				<real>20</real>
-			</dict>
-			<key>ID</key>
-			<integer>654</integer>
-			<key>Points</key>
-			<array>
-				<string>{467.64056338873428, 207.17594152604772}</string>
-				<string>{373, 286.17594152604772}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>Color</key>
-					<dict>
-						<key>b</key>
-						<string>0.0901961</string>
-						<key>g</key>
-						<string>0.0901961</string>
-						<key>r</key>
-						<string>0.505882</string>
-					</dict>
-					<key>HeadArrow</key>
-					<string>0</string>
-					<key>Legacy</key>
-					<true/>
-					<key>Pattern</key>
-					<integer>1</integer>
-					<key>TailArrow</key>
-					<string>SharpArrow</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>FontInfo</key>
-			<dict>
-				<key>Font</key>
-				<string>CMUSerif-Roman</string>
-				<key>Size</key>
-				<real>20</real>
-			</dict>
-			<key>ID</key>
-			<integer>653</integer>
-			<key>Points</key>
-			<array>
-				<string>{431.64056338873428, 129.17594152604772}</string>
-				<string>{350, 270.17594152604772}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>Color</key>
-					<dict>
-						<key>b</key>
-						<string>0.0901961</string>
-						<key>g</key>
-						<string>0.0901961</string>
-						<key>r</key>
-						<string>0.505882</string>
-					</dict>
-					<key>HeadArrow</key>
-					<string>0</string>
-					<key>Legacy</key>
-					<true/>
-					<key>Pattern</key>
-					<integer>1</integer>
-					<key>TailArrow</key>
-					<string>SharpArrow</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Class</key>
-			<string>LineGraphic</string>
-			<key>FontInfo</key>
-			<dict>
-				<key>Font</key>
-				<string>CMUSerif-Roman</string>
-				<key>Size</key>
-				<real>20</real>
-			</dict>
-			<key>ID</key>
-			<integer>652</integer>
-			<key>Points</key>
-			<array>
-				<string>{344.82028903570694, 116.17594152604772}</string>
-				<string>{330.17972564697266, 269.17594152604772}</string>
-			</array>
-			<key>Style</key>
-			<dict>
-				<key>stroke</key>
-				<dict>
-					<key>Color</key>
-					<dict>
-						<key>b</key>
-						<string>0.0901961</string>
-						<key>g</key>
-						<string>0.0901961</string>
-						<key>r</key>
-						<string>0.505882</string>
-					</dict>
-					<key>HeadArrow</key>
-					<string>0</string>
-					<key>Legacy</key>
-					<true/>
-					<key>Pattern</key>
-					<integer>1</integer>
-					<key>TailArrow</key>
-					<string>SharpArrow</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
 			<key>Bounds</key>
-			<string>{{260.00000330022328, 274.73362350463867}, {109.90168762207031, 42.618258931619124}}</string>
+			<string>{{260.00000330022328, 268.46724700927734}, {109.90168762207031, 55.618259429931641}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -286,8 +122,6 @@
 						<key>r</key>
 						<string>0.501961</string>
 					</dict>
-					<key>Pattern</key>
-					<integer>1</integer>
 					<key>Width</key>
 					<real>2</real>
 				</dict>
@@ -295,14 +129,170 @@
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
 
-\f0\b\fs40 \cf0 Timer}</string>
+\f0\b\fs40 \cf0 Modeled Timer}</string>
 				<key>VerticalPad</key>
 				<integer>4</integer>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
+			<key>ID</key>
+			<integer>655</integer>
+			<key>Points</key>
+			<array>
+				<string>{153.00001468267959, 223.73361593400671}</string>
+				<string>{262.35945129394531, 294.73361593400671}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>b</key>
+						<string>0.0901961</string>
+						<key>g</key>
+						<string>0.0901961</string>
+						<key>r</key>
+						<string>0.505882</string>
+					</dict>
+					<key>HeadArrow</key>
+					<string>0</string>
+					<key>Legacy</key>
+					<true/>
+					<key>TailArrow</key>
+					<string>SharpArrow</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
+			<key>ID</key>
+			<integer>654</integer>
+			<key>Points</key>
+			<array>
+				<string>{467.64056338873428, 207.17594152604772}</string>
+				<string>{367, 289.17594152604772}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>b</key>
+						<string>0.0901961</string>
+						<key>g</key>
+						<string>0.0901961</string>
+						<key>r</key>
+						<string>0.505882</string>
+					</dict>
+					<key>HeadArrow</key>
+					<string>0</string>
+					<key>Legacy</key>
+					<true/>
+					<key>TailArrow</key>
+					<string>SharpArrow</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
+			<key>ID</key>
+			<integer>653</integer>
+			<key>Points</key>
+			<array>
+				<string>{431.64056338873428, 129.17594152604772}</string>
+				<string>{346, 280.17594152604772}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>b</key>
+						<string>0.0901961</string>
+						<key>g</key>
+						<string>0.0901961</string>
+						<key>r</key>
+						<string>0.505882</string>
+					</dict>
+					<key>HeadArrow</key>
+					<string>0</string>
+					<key>Legacy</key>
+					<true/>
+					<key>TailArrow</key>
+					<string>SharpArrow</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>CMUSerif-Roman</string>
+				<key>Size</key>
+				<real>20</real>
+			</dict>
+			<key>ID</key>
+			<integer>652</integer>
+			<key>Points</key>
+			<array>
+				<string>{344.82028903570694, 116.17594152604772}</string>
+				<string>{330.17972564697266, 283.17594152604772}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>Color</key>
+					<dict>
+						<key>b</key>
+						<string>0.0901961</string>
+						<key>g</key>
+						<string>0.0901961</string>
+						<key>r</key>
+						<string>0.505882</string>
+					</dict>
+					<key>HeadArrow</key>
+					<string>0</string>
+					<key>Legacy</key>
+					<true/>
+					<key>TailArrow</key>
+					<string>SharpArrow</string>
+				</dict>
 			</dict>
 		</dict>
 		<dict>
@@ -513,7 +503,7 @@
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
@@ -566,7 +556,7 @@
 				<key>Pad</key>
 				<integer>0</integer>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
@@ -682,7 +672,7 @@
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
@@ -736,7 +726,7 @@
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
@@ -790,7 +780,7 @@
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
@@ -819,8 +809,8 @@
 			<integer>645</integer>
 			<key>Points</key>
 			<array>
-				<string>{151.25784678090068, 186.99038970721961}</string>
-				<string>{180.99999999643589, 186.98607476922038}</string>
+				<string>{152.25784678263147, 186.9997688664335}</string>
+				<string>{180.99999999833085, 186.99967007013251}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -895,7 +885,7 @@
 				<key>Pad</key>
 				<integer>0</integer>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
@@ -952,7 +942,7 @@ Driver}</string>
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc
@@ -1001,14 +991,16 @@ Driver}</string>
 				</dict>
 				<key>stroke</key>
 				<dict>
+					<key>CornerRadius</key>
+					<real>10</real>
 					<key>Width</key>
-					<real>2</real>
+					<real>4</real>
 				</dict>
 			</dict>
 			<key>Text</key>
 			<dict>
 				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
 \cocoascreenfonts1{\fonttbl\f0\fnil\fcharset0 CMUSerif-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading-100\pardirnatural\qc
@@ -1066,7 +1058,7 @@ Driver}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2015-09-21 16:38:25 +0000</string>
+	<string>2016-01-17 12:50:00 +0000</string>
 	<key>Modifier</key>
 	<string>Pantazis Deligiannis</string>
 	<key>NotesVisible</key>
@@ -1097,7 +1089,7 @@ Driver}</string>
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>62140497-69C1-4246-A062-0E4C3956C66A</string>
+			<string>F2077303-1231-4F38-A47C-9E8C2FE3D60F</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
