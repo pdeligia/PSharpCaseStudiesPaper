@@ -92,17 +92,19 @@ columns=fullflexible
 %for single author (just remove % characters)
 \author{
 %{\rm Submission ID: \#127}} % end author
-{\rm Pantazis Deligiannis$^\dagger$, Matt McCutchen$^{\diamond}$, Paul Thomson$^\dagger$, Shuo Chen$^\star$}\\
+{\rm Pantazis Deligiannis$^{\dagger1}$, Matt McCutchen$^{\diamond1}$, Paul Thomson$^\dagger$, Shuo Chen$^\star$}\\
 {\rm Alastair F. Donaldson$^\dagger$, John Erickson$^\star$, Cheng Huang$^\star$, Akash Lal$^\star$}\\
 {\rm Rashmi Mudduluru$^\star$, Shaz Qadeer$^\star$, Wolfram Schulte$^\star$}\\\\
 $^\dagger$Imperial College London, $^\diamond$Massachusetts Institute of Technology, $^\star$Microsoft\\
 } % end author
-
 \maketitle
 
 % Use the following at camera-ready time to suppress page numbers.
 % Comment it out when you first submit the paper for review.
 \thispagestyle{empty}
+
+\stepcounter{footnote}
+\footnotetext{Part of the work of these authors was done while they interned at Microsoft.}
 
 \subsection*{Abstract}
 Testing distributed systems is challenging due to multiple sources of nondeterminism. Conventional testing techniques, such as unit, integration and stress testing, are ineffective in preventing serious but subtle bugs from reaching production. Formal techniques, such as TLA+, can only verify high-level specifications of systems at the level of logic-based models, and fall short of checking the actual executable code. In this paper, we present a new methodology for testing distributed systems. Our approach applies advanced systematic testing techniques to thoroughly check that the executable code adheres to its high-level specifications, which significantly improves coverage of important system behaviors.
