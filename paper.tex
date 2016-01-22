@@ -50,17 +50,16 @@
 
 \newcommand{\cmark}{\ding{51}}
 \newcommand{\xmark}{\ding{55}}
-\newcommand{\smark}{\ding{72}}
 
 \usepackage{color}
 \definecolor{light-gray}{gray}{0.40}
 \definecolor{orange}{rgb}{1,0.5,0}
 %\newcommand{\SQComment}[1]{\textcolor{red}{Shaz: #1}}
-\newcommand{\PDComment}[1]{\textcolor{blue}{Pantazis: #1}}
+%\newcommand{\PDComment}[1]{\textcolor{blue}{Pantazis: #1}}
 %\newcommand{\MMComment}[1]{\textcolor{cyan}{Matt: #1}}
 %\newcommand{\SCComment}[1]{\textcolor{magenta}{Shuo: #1}}
 %\newcommand{\CHComment}[1]{\textcolor{blue}{Cheng: #1}}
-\newcommand{\PTComment}[1]{\textcolor{orange}{Paul: #1}}
+%\newcommand{\PTComment}[1]{\textcolor{orange}{Paul: #1}}
 
 \definecolor{bluekeywords}{rgb}{0.13,0.13,1}
 \definecolor{greencomments}{rgb}{0,0.5,0}
@@ -92,7 +91,7 @@ columns=fullflexible
 %for single author (just remove % characters)
 \author{
 %{\rm Submission ID: \#127}} % end author
-{\rm Pantazis Deligiannis$^{\dagger1}$, Matt McCutchen$^{\diamond1}$, Paul Thomson$^\dagger$, Shuo Chen$^\star$}\\
+{\rm Pantazis Deligiannis$^{\dagger1}$, Matt McCutchen$^{\diamond1}$, Paul Thomson$^{\dagger1}$, Shuo Chen$^\star$}\\
 {\rm Alastair F. Donaldson$^\dagger$, John Erickson$^\star$, Cheng Huang$^\star$, Akash Lal$^\star$}\\
 {\rm Rashmi Mudduluru$^\star$, Shaz Qadeer$^\star$, Wolfram Schulte$^\star$}\\\\
 $^\dagger$Imperial College London, $^\diamond$Massachusetts Institute of Technology, $^\star$Microsoft\\
@@ -104,17 +103,17 @@ $^\dagger$Imperial College London, $^\diamond$Massachusetts Institute of Technol
 \thispagestyle{empty}
 
 \stepcounter{footnote}
-\footnotetext{Part of the work of these authors was done while they interned at Microsoft.}
+\footnotetext{Part of the work was done while interning at Microsoft.}
 
 \subsection*{Abstract}
 Testing distributed systems is challenging due to multiple sources of nondeterminism. Conventional testing techniques, such as unit, integration and stress testing, are ineffective in preventing serious but subtle bugs from reaching production. Formal techniques, such as TLA+, can only verify high-level specifications of systems at the level of logic-based models, and fall short of checking the actual executable code. In this paper, we present a new methodology for testing distributed systems. Our approach applies advanced systematic testing techniques to thoroughly check that the executable code adheres to its high-level specifications, which significantly improves coverage of important system behaviors.
 
 Our methodology has been applied to three distributed storage systems in the Microsoft Azure cloud computing platform. In the process, numerous bugs were identified, reproduced, confirmed and fixed. These bugs required a subtle combination of concurrency and failures, making them extremely difficult to find with conventional testing techniques. An important advantage of our approach is that a bug is uncovered in a small setting and witnessed by a full system trace, which dramatically increases the productivity of debugging.
 
-\vspace{-1mm}
+%\vspace{-4mm}
 \section{Introduction}
 \label{sec:intro}
-\vspace{-1mm}
+%\vspace{-1mm}
 
 \input{intro}
 
