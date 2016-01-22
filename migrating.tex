@@ -2,24 +2,14 @@
 % imagining you were trying to emphasize what's interesting about the problem,
 % but I think suggesting that this idea is new to the reader is insulting.
 % ~ Matt 2015-12-31
-Live Table Migration (MigratingTable) is a library designed to transparently migrate a data set between tables in the Azure storage service while an application is accessing this data set. This case study is particularly interesting because MigratingTable was \emph{co-developed} with its \psharp test harness. This co-development process resulted in the discovery of several tricky bugs before the system went into production (see \S\ref{sec:eval}). The MigratingTable testing effort differs from the vNext case study: the vNext developers focused on a single liveness property, while the MigratingTable test harness checks complete compliance with an interface (safety) specification.
+%
+% Delete ``safety'': the MigratingTable harness does have a crude liveness
+% check. ~ Matt 2016-01-20
+Live Table Migration (MigratingTable) is a library designed to transparently migrate a key-value data set between two Microsoft Azure tables~\cite{azure-table} (called the \emph{old} table and the \emph{new} table, or collectively the \emph{backend} tables) while an application is accessing this data set. The MigratingTable testing effort differs from the vNext effort in two significant ways: the \psharp test harness was developed along with the system rather than later, and it checks complete compliance with an interface specification rather than just a single liveness property. Indeed, the \psharp test caught bugs throughout the development process (see \S\ref{sec:eval}), and the developers did not bother with any other correctness tests.
 
-MigratingTable provides a \emph{virtual table} (VT) that has a similar interface
-to an ordinary Azure table. This interface is
-named \texttt{IChainTable}. Each VT is backed by a pair
-of \emph{old} and \emph{new} \emph{backend} tables (BTs), both of which
-implement \texttt{IChainTable}. A \emph{migrator} job is responsible
-for moving all data from the old table to the new table in the
-background. Meanwhile, each \emph{input} read and write operation
-issued to the VT is implemented via a sequence
-of reads and writes on the BTs according to a protocol,
-which intends to guarantee that when multiple applications issue input
-operations to different MigratingTable instances with the same BTs, the output of these operations complies with the specification
-of \texttt{IChainTable} for the combined \emph{input history}, as if
-all the operations were performed on a single table. The goal of
-using \psharp was to systematically test this property.
+During a migration, each application process creates its own MigratingTable instance (MT) referring to the same backend tables (BTs) and performs all data access via the MT. (The MT provides an interface named \texttt{IChainTable} similar to that of an Azure table, and it assumes the BTs provide the same interface via an adapter.) A \emph{migrator} job moves the data in the background. In the meantime, each \emph{logical} read or write operation issued to an MT is implemented via a sequence of \emph{backend} operations on the BTs according to a custom protocol. The protocol is designed to guarantee that the output of the logical operations complies with the \texttt{IChainTable} specification as if all the operations were performed on a single \emph{virtual table} (VT). The goal of using \psharp was to systematically test this property.
 
-There are two main challenges behind testing MigratingTable: (i) the system is highly concurrent; and (ii) the input operations accept many parameters that affect the behavior in different ways. The developers could have chosen specific input histories to test, but they were not confident that they would cover the combinations of parameters that might trigger bugs. Instead, the developers used the \psharp nondeterministic choice generation APIs to sample from a distribution over input histories that they defined, which allowed all of the relevant parameters to vary within certain limits. They created a reference implementation of the \texttt{IChainTable} specification, called \texttt{SpecTable}, and compared the output of MigratingTable on the chosen input history to that of a \texttt{SpecTable} instance called the \emph{reference table}. The \texttt{SpecTable} implementation was reused for the BTs of MigratingTable.
+There are two main challenges behind testing MigratingTable: (i) the system is highly concurrent; and (ii) the logical operations accept many parameters that affect the behavior in different ways. The developers could have chosen specific input sequences, but they were not confident that these sequences would cover the combinations of parameters that might trigger bugs. Instead, they used the \psharp nondeterministic choice API to choose all of the parameters independently within certain limits. They issued the same operations to the MTs and to a \emph{reference table} (RT) running a reference implementation of the \texttt{IChainTable} specification, and compared the output. This reference implementation was reused for the BTs, since the goal was not to test the real Azure tables.
 % I'm removing the claim that each bug is caught with positive probability per
 % run because it's too awkward to explain here and it's nothing specific to
 % MigratingTable.  Also, we can't quite appeal to the small scope hypothesis in
@@ -31,16 +21,18 @@ There are two main challenges behind testing MigratingTable: (i) the system is h
 \centering
 \includegraphics[width=\linewidth]{img/modeled_migration}
 \vspace{-6mm}
-\caption{The \psharp test harness of MigratingTable (each box with a dotted line represents one \psharp machine).}
+\caption{The \psharp test environment of MigratingTable (each box with a dotted line represents one \psharp machine).}
 \label{fig:mockedmigration}
 \vspace{-2mm}
 \end{figure}
 
-Figure~\ref{fig:mockedmigration} shows the \psharp test harness of MigratingTable. The test harness consists of a \texttt{Tables} machine, which contains the BTs and the reference table, and serializes all operations on these tables; a set of \texttt{Service} machines that contain identically configured instances of MigratingTable; and a \texttt{Migrator} machine that performs the background migration. Each \texttt{Service} machine issues a random sequence of input operations to its MigratingTable, which sends the necessary operations to the BTs via \psharp events. The developers instrumented MigratingTable to report the \emph{linearization point} of each input operation, i.e., the time at which it takes effect on the single VT, so the test harness could perform the operation on the reference table at the same time. More precisely, after processing each backend operation, the \texttt{Tables} machine enters a \psharp state that blocks all further work until MigratingTable reports whether the backend operation was the linearization point and, if so, the input operation has been completed on the reference table. This way, the rest of the system never observes the reference table to be out of sync with the VT.
+The complete test environment is shown in Figure~\ref{fig:mockedmigration}. It consists of a \texttt{Tables} machine, which contains the BTs and RT, and serializes all operations on these tables; a set of \texttt{Service} machines that contain identically configured MTs; and a \texttt{Migrator} machine that performs the background migration. Each \texttt{Service} machine issues a random sequence of logical operations to its MT, which performs the backend operations on the BTs via \psharp events. The developers instrumented the MTs to report the \emph{linearization point} of each logical operation, i.e., the time at which it takes effect on the VT, so the test harness could perform the operation on the RT at the same time. (More precisely, after processing each backend operation, the \texttt{Tables} machine enters a \psharp state that blocks all further work until the MT reports whether the backend operation was the linearization point and, if so, the logical operation has been completed on the RT. This way, the rest of the system never observes the RT to be out of sync with the VT.)
+% In my reading, the parentheses make it clear that we're amending the previous
+% sentence; without them, it looks more like a contradiction. ~ Matt 2016-01-21
 % Note: If the tables were observed to be out of sync, it could cause both false
 % positives and false negatives. ~ Matt 2015-12-31
-
-For further information about this case study, we refer the reader to the source code repository~\cite{migratingtable-src}.
+% Join paragraphs to save space
+For further implementation details of MigratingTable and its test harness, we refer the reader to the source code repository~\cite{migratingtable-src}.
 
 %\begin{figure}[t]
 %\centering
