@@ -22,7 +22,7 @@ Our primary goal was to create a \psharp{} model of Fabric to allow
 thorough testing of services, where Fabric's asynchrony is controlled 
 by the \psharp{} runtime.
 The model was written once
-to include all behaviours of Fabric, including simulating failures and recovery,
+to include all behaviors of Fabric, including simulating failures and recovery,
 so that it can be reused repeatedly to test multiple Fabric services.
 This was the largest modeling exercise among the case studies, but the cost
 was amortized across testing multiple services. This is analogous to prior work
@@ -43,7 +43,7 @@ that runs on our Fabric model.
 % thus yielding a pure \psharp{} system.
 We tested a scenario where the primary replica
 fails at some nondeterministic point.
-One such bug that we found
+One bug that we found
 occurred when
 the primary
 failed
@@ -55,8 +55,8 @@ a copy of the state, it was
 then ``promoted'' to be an \emph{active} secondary
 (one that has caught up with the other secondaries).
 This caused an assertion failure in our model,
-as only a secondary can be promoted to an active secondary, 
-allowing us to detect and fix this incorrect behaviour.
+because only a secondary can be promoted to an active secondary, 
+which allowed us to detect and fix this incorrect behavior.
 
 
 %\PTComment{Cut: prior work created a Fabric model\ldots}
