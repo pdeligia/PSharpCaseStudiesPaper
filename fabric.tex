@@ -1,32 +1,30 @@
 Azure Service Fabric
 %\footnote{\url{azure.microsoft.com/campaigns/service-fabric/}}
 (or Fabric for short) is a platform and API for creating reliable services that execute on a cluster of machines. 
-The developer writes a service that receives requests (e.g.\ from some client program via HTTP requests) and mutates its state based on these requests. 
-In order to make the user-written service \emph{reliable}, Fabric launches several \emph{replicas} (copies) of the service, where each replica runs as a separate process on a different node in the cluster.
+The developer writes a service that receives requests (e.g.\ HTTP requests from a client) and mutates its state based on these requests. 
+To make a user service reliable, Fabric launches several replicas of the service, where each replica runs as a separate process on a different node in the cluster.
 %\PTComment{Cut: description of primary and secondaries, and electing a new primary.}
-One replica is selected to be the \emph{primary} which serves client requests; the rest are \emph{secondaries}. The primary forwards state-changing operations to the secondaries 
+One replica is selected to be the \emph{primary} which serves client requests; the remaining replicas are \emph{secondaries}. The primary forwards state-mutating operations to the secondaries 
 %by sending them \emph{replication requests}.
 so that all replicas eventually have the same state. 
 If the primary fails,
 % (e.g.\ if the node on which the primary is running crashes), 
-Fabric elects one of the secondaries to be the new primary and launches another secondary; the new secondary will receive 
+Fabric elects one of the secondaries to be the new primary, and then launches a new secondary, which will receive 
 %a full or partial copy (depending on whether persistent storage is used) 
 a copy
 of the state of the new primary in order to ``catch up'' with the other secondaries. 
 %Fabric provides a name-resolution service so that clients can always find the current primary.
 %The state of the service is replicated from the \emph{primary} replica to the other \emph{secondary} replicas for redundancy.
-User-written Fabric services are complex asynchronous and distributed applications, and are thus challenging to test.
+Fabric services are complex asynchronous and distributed applications, and are thus challenging to test.
 % They are interesting targets for systematic testing with \psharp{}.
 
-Our primary goal was to create a \psharp{} model of Fabric to allow
-thorough testing of services, where Fabric's asynchrony is controlled 
-by the \psharp{} runtime.
+Our primary goal was to create a \psharp model of Fabric (where all the Fabric asynchrony is captured and controlled by the \psharp runtime) to allow thorough testing of Fabric services.
 The model was written once
 to include all behaviors of Fabric, including simulating failures and recovery,
-so that it can be reused repeatedly to test multiple Fabric services.
+so that it can be reused repeatedly to test many Fabric services.
 This was the largest modeling exercise among the case studies, but the cost
 was amortized across testing multiple services. This is analogous to prior work
-on driver verification \cite{ball2011slam}, where the cost of developing a model
+on device driver verification \cite{ball2011slam}, where the cost of developing a model
 of the Windows kernel was amortized across testing multiple device drivers.
 Note that we model the lowest Fabric API layer (\texttt{Fabric.dll}),
 which is currently not documented for use externally;
@@ -36,8 +34,8 @@ Using \psharp was very helpful in debugging the model itself.
 % Without systematic testing, we feel even catching bugs in the model 
 % would have been difficult.
 To systematically test the model,
-we wrote a simple service in \psharp{}
-that runs on our Fabric model.
+we wrote a simple service in \psharp
+that runs on our \psharp Fabric model.
 %made up of a single machine
 % and executed it on the Fabric model,
 % thus yielding a pure \psharp{} system.
@@ -228,7 +226,7 @@ which allowed us to detect and fix this incorrect behavior.
 
 % \subsubsection{CScale}
 
-The main system that we tested is \emph{CScale}~\cite{faleiro2012},
+The main system that we tested using our \psharp Fabric model is \emph{CScale}~\cite{faleiro2012},
 a big data stream processing system.
 %In prior work~\cite{deligiannis2015psharp}, 
 %we used an earlier version of the Fabric model and reported bugs in sample services.
@@ -236,7 +234,7 @@ Supporting CScale required significant additions to the model, making it much mo
 feature-complete.
 CScale chains multiple Fabric services, which communicate via remote procedure calls (RPCs).
 To close the system, we modeled RPCs 
-using \psharp{} events.
+using \texttt{PSharp.Send(...)}.
 Thus, we converted a distributed system
 that uses both Fabric and its own
 network communication protocol
@@ -256,10 +254,8 @@ a closed, single-process system.
 % as these were inadvertently
 % being shared between services
 % after making the system a single process.
-A key challenge in our work
-was to test CScale despite the fact that it
-uses various synchronous and asynchronous APIs
-other than \psharp{}.
+A key challenge in our work was to thoroughly test CScale despite the fact that it
+uses various synchronous and asynchronous APIs besides RPCs.
 This work is still in-progress.
 However, we were able to find a \texttt{NullReferenceException}
 bug in CScale by running it against our Fabric model. The bug has been

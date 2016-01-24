@@ -96,7 +96,7 @@ The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the 
 \end{figure}
 
 \textbf{Real Extent Manager}.
-The real ExtMgr (see Figure~\ref{fig:extentmanager}) contains two data structures: \texttt{ExtentCenter} and \texttt{ExtentNodeMap}. The \texttt{ExtentCenter} maps extents to their hosting ENs. It is updated upon receiving a periodic sync report from an EN. Recall that a sync report from a particular EN lists all the extents stored at the EN. Its purpose is to update the ExtMgr's possible out-of-date view of the EN with the ground truth. The \texttt{ExtentNodeMap} maps ENs to their latest heartbeat times.
+The real ExtMgr (see Figure~\ref{fig:extentmanager}) contains two data structures: \texttt{ExtentCenter} and \texttt{ExtentNodeMap}. The \texttt{ExtentCenter} maps extents to their hosting ENs. It is updated upon receiving a periodic sync report from an EN. Recall that a sync report from a particular EN lists all the extents stored at the EN. Its purpose is to update the ExtMgr's possibly out-of-date view of the EN with the ground truth. The \texttt{ExtentNodeMap} maps ENs to their latest heartbeat times.
 
 ExtMgr internally runs a periodic \emph{EN expiration loop} that is responsible for removing ENs that have been missing heartbeats for an extended period of time, as well as cleaning up the corresponding extent records in \texttt{ExtentCenter}. In addition, ExtMgr runs a periodic \emph{extent repair loop} that examines all the \texttt{ExtentCenter} records, identifies extents with missing replicas, schedules extent repair tasks and sends them to the ENs.
 
@@ -124,7 +124,7 @@ class ModelNetEngine : NetworkEngine {
 \vspace{-3mm}
 \end{figure}
 
-Intercepting all network messages and dispatching them through \psharp is important for two reasons. First, it allows \psharp to systematically explore the interleavings between asynchronous event handlers in the system. Second, the modeled network engine could leverage the support for controlled nondeterministic choices in \psharp, and choose to drop the messages in a non-deterministic fashion, in case emulating message loss is desirable (not shown in this example).
+Intercepting all network messages and dispatching them through \psharp is important for two reasons. First, it allows \psharp to systematically explore the interleavings between asynchronous event handlers in the system. Second, the modeled network engine could leverage the support for controlled nondeterministic choices in \psharp, and choose to drop the messages in a nondeterministic fashion, in case emulating message loss is desirable (not shown in this example).
 
 Messages coming from \texttt{ExtentNode} machines do \emph{not} go through the modeled network engine; they are instead delivered to the \texttt{ExtentManager} machine and trigger an action that invokes the messages on the wrapped ExtMgr with \texttt{ExtMgr.ProcessMessage} (see Figure~\ref{fig:wrap_target}). The benefit of this approach is that the real ExtMgr can be tested without modifying the original communication-related code; the ExtMgr is simply unaware of the \psharp test harness and behaves as if it is running in a real distributed environment and communicating with real ENs.
 
