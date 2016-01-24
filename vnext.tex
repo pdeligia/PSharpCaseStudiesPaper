@@ -5,7 +5,7 @@ Azure Storage vNext is the next generation storage system currently being develo
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{img/azurestore}
-\vspace{-5mm}
+\vspace{-6mm}
 \caption{Top-level components for extent management in Microsoft Azure Storage vNext.}
 \label{fig:vnext}
 \vspace{-2mm}
@@ -26,12 +26,11 @@ To ensure correctness, the developers of vNext have instrumented extensive, mult
 Despite the extensive testing efforts, the vNext developers were plagued for months by an elusive bug in the ExtMgr logic. All the unit test suites and integration test suites successfully passed on each test run. However, the stress test suite failed \emph{from time to time} after very long executions; in these cases, certain replicas of some extents failed without subsequently being repaired.
 
 This bug proved difficult to identify, reproduce and troubleshoot. First, an extent never being repaired is \emph{not} a property that can be easily checked. Second, the bug appeared to manifest only in very long executions. Finally, by the time that the bug did manifest, very long execution traces had been collected, which made manual inspection tedious and ineffective.
-%To uncover this bug, as well as many other tricky bugs, the vNext developers are in constant search of a generic and systematic approach for testing distributed systems.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{img/modeled_vnext}
-\vspace{-5mm}
+\vspace{-6mm}
 \caption{Real Extent Manager with its \psharp test harness (each box represents one \psharp machine).}
 \label{fig:azurestoremodel}
 \vspace{-2mm}
@@ -82,7 +81,7 @@ class ExtentManagerMachine : Machine {
 \vspace{-3mm}
 \caption{The real Extent Manager is wrapped inside the \texttt{ExtentManager} \psharp machine.}
 \label{fig:wrap_target}
-\vspace{-1mm}
+\vspace{-3mm}
 \end{figure}
 
 The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the \texttt{ExtentManager} machine, as illustrated in the code snippet of Figure~\ref{fig:wrap_target}.
@@ -90,10 +89,10 @@ The real ExtMgr in vNext, which is our system-under-test, is wrapped inside the 
 \begin{figure}[t]
 \centering
 \includegraphics[width=.95\linewidth]{img/extent_manager}
-\vspace{-2mm}
+\vspace{-3mm}
 \caption{Internal components of the real Extent Manager in Microsoft Azure Storage vNext.}
 \label{fig:extentmanager}
-\vspace{-2mm}
+\vspace{-3mm}
 \end{figure}
 
 \textbf{Real Extent Manager}.
@@ -119,10 +118,10 @@ class ModelNetEngine : NetworkEngine {
   }
 }
 \end{lstlisting}
-\vspace{-4mm}
+\vspace{-5mm}
 \caption{Modeled vNext network engine.}
 \label{fig:enginecode}
-\vspace{-2mm}
+\vspace{-3mm}
 \end{figure}
 
 Intercepting all network messages and dispatching them through \psharp is important for two reasons. First, it allows \psharp to systematically explore the interleavings between asynchronous event handlers in the system. Second, the modeled network engine could leverage the support for controlled nondeterministic choices in \psharp, and choose to drop the messages in a non-deterministic fashion, in case emulating message loss is desirable (not shown in this example).
@@ -217,15 +216,16 @@ class TestingDriver : Machine {
 
   void InjectNodeFailure() {
     // nondeterministically choose an EN using P#
-    var node = (Machine)PSharp.Nondet(ExtentNodes);    
-    PSharp.Send(node, new FailureEvent()); // fail chosen EN
+    var node = (Machine)PSharp.Nondet(ExtentNodes);
+    // fail chosen EN
+    PSharp.Send(node, new FailureEvent());
   }
 }
 \end{lstlisting}
-\vspace{-4mm}
+\vspace{-3mm}
 \caption{Code snippet of the TestingDriver machine.}
 \label{fig:testing_driver}
-\vspace{-4mm}
+\vspace{-1mm}
 \end{figure}
 
 The \texttt{TestingDriver} machine drives two testing scenarios. In the first scenario, \texttt{TestingDriver} launches one \texttt{ExtentManager} and three \texttt{ExtentNode} machines, with a single extent on one of the ENs. It then waits for the extent to be replicated at the remaining ENs. In the second testing scenario, \texttt{TestingDriver} fails one of the \texttt{ExtentNode} machines and launches a new one. It then waits for the extent to be repaired on the newly launched \texttt{ExtentNode} machine.
@@ -265,7 +265,7 @@ class RepairMonitor : Monitor {
   }
 }
 \end{lstlisting}
-\vspace{-5mm}
+\vspace{-4mm}
 \caption{The RepairMonitor liveness monitor.}
 \label{fig:monitor}
 \vspace{-2mm}

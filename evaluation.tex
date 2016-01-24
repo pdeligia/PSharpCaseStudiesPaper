@@ -20,7 +20,6 @@ We report our experience of applying \psharp on the three case studies discussed
 \end{tabular}
 \caption{Statistics from modeling the environment of the three Microsoft Azure-based systems under test. The ($\star$) denotes ``awaiting confirmation''.}
 \label{tab:stats}
-\vspace{-2mm}
 \end{table}
 
 Environment modeling is a core activity of using \psharp. It is required for \emph{closing} a system to make it amenable to systematic testing. Table~\ref{tab:stats} presents program statistics for the three case studies. The columns under ``System'' refer to the real system-under-test, while the columns under ``\psharp Test Harness'' refer to the test harness written in \psharp. We report: lines of code for the system-under-test (\#LoC); number of bugs found in the system-under-test (\#B); lines of \psharp code for the test harness (\#LoC); number of machines (\#M); number of state transitions (\#ST); and number of action handlers (\#AH).
@@ -44,7 +43,6 @@ Modeling Fabric required approximately five person months, an effort undertaken 
 \end{tabular}
 \caption{Results from running the \psharp random and priority-based systematic testing schedulers for 100,000 executions. We report: whether the bug was found (BF?) (\cmark\xspace means it was found, $\diamond$\xspace means it was found only using a custom test case, and \xmark\xspace means it was not found); time in seconds to find the bug (Time to Bug); and number of nondeterministic choices made in the first execution that found the bug (\#NDC).}
 \label{tab:testing}
-%\vspace{-2mm}
 \end{table*}
 
 Using \psharp we managed to uncover 8 serious bugs in our case studies. As discussed earlier in the paper, these bugs were hard to find with traditional testing techniques, but \psharp managed to uncover and reproduce them in a small setting. According to the developers, the \psharp traces were useful, as it allowed them to understand the bugs and fix them in a timely manner. After all the discovered bugs were fixed, we added flags to allow them to be individually re-introduced, for purposes of evaluation.
